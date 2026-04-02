@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七宗遊園 - ひと手間の美味しい体験</title>
+    <meta name="description" content="国有林の秘密基地。親子の絆を深める「ひと手間」の美味しい体験を提供する七宗遊園（ひちそうゆうえん）の公式サイトです。">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main id="main-content">
+        <section class="hero-section">
+            <h2 class="font-mincho">国有林の秘密基地。<br>親子の絆を深める<br>「ひと手間」の美味しい体験</h2>
+            <p>※ページスクロールと追従ボタンのテスト用余白です。</p>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <div id="sticky-btn-container"></div>
+
+    <div id="reservation-modal" class="modal" aria-hidden="true">
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content">
+            <button class="modal-close-btn" data-modal-close aria-label="閉じる">×</button>
+            <h3 class="font-mincho modal-title">ご予約・料金シミュレーション</h3>
+            <p class="modal-desc">ご希望の体験を選択してください。<br>※金額は目安です。LINE送信時には金額情報は含まれません。</p>
+            
+            <div class="simulation-form-placeholder">
+                <p>（フォーム項目実装エリア）</p>
+            </div>
+
+            <button id="send-line-btn" class="btn-accent">LINEで予約リクエストを送る</button>
+        </div>
+    </div>
+
+    <script src="main.js" defer></script>
+</body>
+</html>
