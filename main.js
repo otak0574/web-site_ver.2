@@ -37,8 +37,8 @@ function renderGlobalComponents() {
                   <li><a href="/">トップページ</a></li>
                   <li><a href="fishing.html">釣り堀案内</a></li>
                   <li><a href="restaurant.html">レストラン</a></li>
-                  <li><a href="bbq.html">BBQ（プレミアム）</a></li>
-                  <li><a href="dogrun.html">ドッグラン</a></li>
+                  <li><a href="bbq.html">手ぶらでBBQ</a></li>
+                  <li><a href="dogrun.html">ひろびろドッグラン</a></li>
                   <li><a href="story.html">こだわりとストーリー</a></li>
               </ul>
           </nav>
