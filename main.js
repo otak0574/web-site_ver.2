@@ -277,7 +277,7 @@ function initStickyButtonToggle() {
     const currentPath = window.location.pathname;
 
     // 表示を隠すページ（トップページのみに設定し、ドッグランは表示させる）
-    const hiddenPages = ['index']; // restaurantなどは既に判定ロジックがあるはずですが、ここではdogrunを除外
+    const hiddenPages = ['index','restaurant','dogrun','story']; // restaurantなどは既に判定ロジックがあるはずですが、ここではdogrunを除外
     const hideReserveBtn = hiddenPages.some(page => currentPath.includes(page)) || 
                            currentPath === '/' || 
                            currentPath.endsWith('/');

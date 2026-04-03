@@ -1732,3 +1732,61 @@ body {
   .benefit-container { padding: 80px; }
   .benefit-container .accent-text { font-size: 2.2rem; }
 }
+
+/* ========================================
+   Story Page
+======================================== */
+.page-story { background-color: var(--color-bg, #F7F5F0); }
+
+/* Hero */
+.story-hero {
+    position: relative; height: 80vh; min-height: 500px;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.story-hero::after {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); z-index: 2;
+}
+.story-hero .hero-content {
+    position: relative; z-index: 3; color: #fff; text-align: center; padding: 0 20px;
+}
+.story-hero h2 { font-size: 1.8rem; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+/* Philosophy */
+.story-philosophy { padding: 80px 20px; text-align: center; }
+.story-philosophy .sub-title { display: block; color: var(--color-accent); letter-spacing: 2px; margin-bottom: 10px; }
+.philosophy-text { max-width: 700px; margin: 40px auto 0; text-align: left; line-height: 2; color: var(--color-text); }
+.philosophy-text p { margin-bottom: 24px; }
+
+/* Ingredients */
+.story-ingredients { padding: 80px 20px; background-color: #fff; }
+.ingredient-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 40px; }
+.ingredient-card img { width: 100%; border-radius: 8px; margin-bottom: 20px; }
+.ingredient-card h4 { color: var(--color-main); margin-bottom: 12px; font-size: 1.2rem; }
+
+/* Space */
+.story-space { padding: 80px 20px; }
+.space-flex { display: flex; flex-direction: column; gap: 40px; align-items: center; }
+.space-image img { width: 100%; border-radius: 12px; }
+.space-text h3 { margin-bottom: 20px; color: var(--color-main); font-size: 1.4rem; }
+
+/* Closing & CTA */
+.story-closing { padding: 100px 20px; background-color: var(--color-main); color: #fff; text-align: center; }
+.closing-message { font-size: 1.2rem; line-height: 1.8; margin-bottom: 50px; }
+.closing-plans { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 60px; }
+.plan-info { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; width: 100%; max-width: 400px; }
+.plan-info h4 { margin-bottom: 8px; }
+
+.btn-reservation-final {
+    background-color: var(--color-accent, #C85A17); color: #fff; border: none;
+    padding: 24px 40px; border-radius: 50px; font-size: 1.1rem; cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s; line-height: 1.5;
+}
+.btn-reservation-final span { font-size: 0.85rem; opacity: 0.9; font-weight: normal; }
+.btn-reservation-final:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+@media screen and (min-width: 768px) {
+    .story-hero h2 { font-size: 2.8rem; }
+    .space-flex { flex-direction: row; }
+    .space-image, .space-text { flex: 1; }
+}
