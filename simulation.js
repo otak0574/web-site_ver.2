@@ -403,9 +403,9 @@ const ReservationSystem = {
                         
                         <p style="font-size:0.85rem; color:#666; margin-top:16px; margin-bottom:8px;">ご希望の調理方法（お持ち帰り状態）を選択してください。</p>
                         <div class="sim-panel-grid" style="grid-template-columns: 1fr;">
-                            <div class="sim-panel ${this.state.simA.takeout.method === 'raw' ? 'is-active' : ''}" data-group="A_method" data-value="raw">生のまま持ち帰る<br><small>（400円/100g）</small></div>
-                            <div class="sim-panel ${this.state.simA.takeout.method === 'gut' ? 'is-active' : ''}" data-group="A_method" data-value="gut">お腹を出してもらう<br><small>（420円/100g）</small></div>
-                            <div class="sim-panel ${this.state.simA.takeout.method === 'grill' ? 'is-active' : ''}" data-group="A_method" data-value="grill">焼いて持ち帰る<br><small>（440円/100g）</small></div>
+                            <div class="sim-panel ${this.state.simA.takeout.method === 'raw' ? 'is-active' : ''}" data-group="A_method" data-value="raw">そのまま生で<br><small>（400円/100g）</small></div>
+                            <div class="sim-panel ${this.state.simA.takeout.method === 'gut' ? 'is-active' : ''}" data-group="A_method" data-value="gut">おなかの掃除<br><small>（420円/100g）</small></div>
+                            <div class="sim-panel ${this.state.simA.takeout.method === 'grill' ? 'is-active' : ''}" data-group="A_method" data-value="grill">焼きで持ちかえる<br><small>（440円/100g）</small></div>
                         </div>
                     `;
                 }

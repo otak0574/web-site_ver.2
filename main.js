@@ -36,7 +36,11 @@ function renderGlobalComponents() {
       <header class="global-header">
           <div class="header-inner">
               <h1 class="header-logo font-mincho">
-                  <a href="/">七宗遊園</a>
+                  <a href="index.html">七宗遊園
+                  <div class="header-logo-image">
+                      <img src="images/logo2.png" alt="七宗遊園" loading="lazy">
+                  </div>
+                  </a>
               </h1>
               <div class="header-actions">
                   ${headerReserveHTML}
