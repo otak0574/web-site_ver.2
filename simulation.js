@@ -58,22 +58,22 @@ const ReservationSystem = {
         const style = document.createElement('style');
         style.id = 'sim-styles';
         style.innerHTML = `
+            .simulation-form-placeholder * {overflow-x: hidden; width: 100%;}
             .sim-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px; }
-            /* パネルの基本スタイル（高さを確保して文字を中央配置） */
             .sim-panel { border: 2px solid #ddd; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fff; font-size: 0.95rem; line-height:1.4; display: flex; align-items: center; justify-content: center; min-height: 60px; }
             .sim-panel:hover { border-color: rgba(44, 66, 52, 0.5); }
-            /* ▼ 選択時のスタイルをブランドカラー（緑色）に変更 */
             .sim-panel.is-active { border-color: var(--color-main, #2C4234); background: rgba(44, 66, 52, 0.08); color: var(--color-main, #2C4234); font-weight: bold; box-shadow: 0 4px 10px rgba(44, 66, 52, 0.15); }
-            
             .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #eee; }
             .sim-counter-controls { display: flex; align-items: center; gap: 12px; }
-            .sim-btn-circle { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--color-main, #2C4234); background: #fff; color: var(--color-main, #2C4234); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+            .sim-btn-circle { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--color-main, #2C4234); background: #fff; color: var(--color-main, #2C4234); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; touch-action:manipulation; touch-action: none !important; user-select: none; -webkit-user-select: none;}
+            .sim-btn-circle::after {content: '';position: absolute; top: -15px; right: -15px; bottom: -15px; left: -15px;}
             .sim-btn-circle:active { background: #eee; }
             .sim-btn-circle.is-disabled { opacity: 0.3; pointer-events: none; }
             .sim-counter-val { font-size: 1.2rem; font-weight: bold; width: 30px; text-align: center; }
             .sim-error-msg { background: #fee; color: #c00; padding: 12px; border-radius: 4px; margin-bottom: 16px; font-size: 0.9rem; display: none; border-left: 4px solid #c00; }
-            .sim-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; margin-top: 8px; font-size: 1rem; }
-            .sim-btn-block { width: 100%; padding: 16px; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; margin-bottom: 12px; text-align: center; }
+            .sim-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; margin-top: 8px; font-size: 1rem; box-sizing: border-box !important; max-width: 100%; }            
+            input[type="date"].sim-input { -webkit-appearance: none; appearance: none; background-color: #fff; color: var(--color-text, #333); }
+            .sim-btn-block { width: 100%; padding: 16px; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; margin-bottom: 12px; text-align: center; box-sizing: border-box !important; max-width: 100%; }            
             .sim-btn-primary { background: var(--color-accent, #D96D2B); color: #fff; }
             .sim-btn-secondary { background: #fff; border: 2px solid var(--color-main, #2C4234); color: var(--color-main, #2C4234); }
             .sim-receipt { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 24px; border: 1px solid #ddd; }
@@ -610,26 +610,6 @@ const ReservationSystem = {
             const p = this.state.simA.people;
             details.push(`大人${p.adult}名/子供${p.child}名/幼児${p.infant}名`);
             
-            if (this.state.simA.purpose === 'eat_in') {
-                const m = this.state.simA.menus;
-                const f = this.state.simA.fish;
-                if(m.adultTeishoku > 0) details.push(`定食:${m.adultTeishoku}`);
-                if(m.adultTanpin > 0) details.push(`単品:${m.adultTanpin}`);
-                if(m.childKids > 0) details.push(`お子様:${m.childKids}`);
-                if(m.childCurry > 0) details.push(`カレー:${m.childCurry}`);
-                
-                // ★追加：店内飲食時のお魚情報をLINEへ
-                if(f.shioyaki > 0) details.push(`しお焼き:${f.shioyaki}`);
-                if(f.gyoden > 0) details.push(`ぎょでん:${f.gyoden}`);
-                if(f.karaage > 0) details.push(`からあげ:${f.karaage}`);
-
-            } else {
-                const t = this.state.simA.takeout;
-                let methodLabel = '';
-                if(t.method==='raw') methodLabel='生'; if(t.method==='gut') methodLabel='お腹出し'; if(t.method==='grill') methodLabel='焼き';
-                if(t.rods > 0) details.push(`竿:${t.rods}本`);
-                if(t.fish > 0) details.push(`魚予定:${t.fish}匹(${methodLabel})`);
-            }
         } else {
             const p = this.state.simB.people;
             details.push(`大人${p.adult}名/子供${p.child}名/幼児${p.infant}名/犬${p.dog}頭`);
@@ -637,7 +617,7 @@ const ReservationSystem = {
 
         const textMessage = `【七宗遊園 予約・お問い合わせ】\n以下の内容で予約を依頼します。\n■ ご利用施設：${planStr}\n■ ご予約日：${currentDate}\n■ 人数・内訳：${details.join('、')}\n■ 代表者名：${u.name} 様\n■ お電話番号：${u.phone}`;
         const encodedText = encodeURIComponent(textMessage);
-        const lineUrl = `https://line.me/R/oaMessage/@YOUR_LINE_ID/?${encodedText}`;
+        const lineUrl = `https://line.me/R/oaMessage/@543grrmg/?${encodedText}`;
         window.open(lineUrl, '_blank');
     }
 };

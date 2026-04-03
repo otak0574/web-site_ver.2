@@ -428,6 +428,22 @@ a {
   color: var(--color-main);
 }
 
+/* 白背景用のアウトラインボタン（緑色） */
+.btn-outline-main {
+  display: inline-block;
+  border: 1px solid var(--color-main); /* 枠線を緑色に */
+  color: var(--color-main); /* 文字を緑色に */
+  padding: 16px 32px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-main:hover {
+  background-color: var(--color-main); /* ホバー時は背景を緑に */
+  color: var(--color-white); /* ホバー時は文字を白に */
+}
+
 /* ========================================
  Animation Utility
 ======================================== */
@@ -1083,6 +1099,14 @@ body {
   padding: 20px 40px;
   box-shadow: 0 8px 20px rgba(217, 109, 43, 0.3);
 }
+/*レストランページCTA用*/
+.large-cta-btn-main {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 40px;
+  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.15);
+}
 
 .large-cta-btn .main-text {
   font-size: 1.4rem;
@@ -1153,3 +1177,259 @@ body {
   .page-hero h2 { font-size: 2rem; }
   .rules-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* ========================================
+   Restaurant Page
+======================================== */
+/* 1. Hero Section */
+.restaurant-hero {
+  /* TODO: images/restaurant-hero.webp を用意してください */
+  background-image: url('images/HP1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  background-color: rgba(0, 0, 0, 0.4); /* 暗くして文字を読みやすく */
+  flex-direction: column;
+}
+
+.restaurant-hero h2 {
+  color: var(--color-white);
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-badge {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: var(--color-main);
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border: 2px solid var(--color-accent);
+}
+
+/* 2. 癒やしの空間 */
+.restaurant-concept {
+  padding: 60px 20px;
+  background-color: var(--color-white);
+}
+
+.concept-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.concept-text p {
+  margin-bottom: 16px;
+}
+
+.concept-image img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* 3. プチ体験（エンタメ要素） */
+.restaurant-experience {
+  padding: 60px 20px;
+  background-color: var(--color-bg);
+}
+
+.experience-lead {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.experience-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.experience-card {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.exp-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.exp-content {
+  padding: 24px;
+}
+
+.exp-content h4 {
+  color: var(--color-main);
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed rgba(44, 66, 52, 0.3);
+  padding-bottom: 12px;
+}
+
+/* 4. 食材へのこだわり */
+.restaurant-ingredients {
+  padding: 60px 20px;
+  background-color: var(--color-white);
+}
+
+/* 5. メニュー */
+/* ========================================
+   メニュー紹介カード（レストランページ用）
+======================================== */
+.menu-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.menu-card {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-card-thumb {
+  margin: 0;
+  width: 100%;
+  height: 220px; /* 写真の高さを固定して揃える */
+  background-color: #eee;
+}
+
+.menu-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* 高さを揃えるための魔法 */
+}
+
+.menu-card-title {
+  color: var(--color-main);
+  font-size: 1.25rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed rgba(44, 66, 52, 0.3);
+  padding-bottom: 12px;
+}
+
+.menu-card-desc {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1; /* 説明文の長さが違っても下の金額エリアを揃える */
+}
+
+.menu-card-price {
+  color: var(--color-accent);
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: right;
+  margin: 0;
+}
+
+.menu-card-price .currency {
+  font-size: 1rem;
+  margin-left: 4px;
+}
+
+/* 単品・お子様メニュー用のリストデザイン */
+.menu-card-list {
+  margin: 0;
+  padding: 0;
+}
+
+.menu-list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px dotted #ccc;
+}
+
+.menu-list-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.menu-list-row dt {
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.menu-list-row dt small {
+  font-size: 0.8rem;
+  color: #888;
+  margin-left: 4px;
+}
+
+.menu-list-row dd {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--color-main);
+  margin: 0;
+}
+
+/* 既存の .menu-list などを流用しつつ調整 */
+.restaurant-menu .menu-list li {
+  padding: 12px 0;
+  font-size: 1.05rem;
+}
+
+.restaurant-menu .item-name small {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.menu-target-price {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px dashed var(--color-accent);
+  text-align: center;
+}
+
+.menu-target-price p {
+  color: var(--color-main);
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.menu-target-price strong {
+  color: var(--color-accent);
+  font-size: 1.4rem;
+}
+
+/* タブレット・PC向け調整 */
+@media screen and (min-width: 768px) {
+  .restaurant-hero h2 { font-size: 2rem; }
+  .concept-flex { flex-direction: row; align-items: center; }
+  .concept-text, .concept-image { flex: 1; }
+  .experience-grid { grid-template-columns: repeat(2, 1fr); }
+  .menu-card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+}
+}
+
