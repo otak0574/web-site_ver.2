@@ -213,10 +213,6 @@ a {
 /* ========================================
    Main Content Layout Adjustments
 ======================================== */
-#main-content {
-    padding-top: 60px; /* ヘッダー高さ分 */
-}
-
 .hero-section {
     min-height: 120vh; /* スクロール確認用 */
     padding: 40px 16px;
@@ -641,5 +637,5 @@ a {
 
 /* ヘッダー固定に伴うコンテンツの余白調整 */
 body {
-  padding-top: 64px; /* ヘッダーの高さ分だけメインコンテンツを下げる */
+  padding-top: 60px; /* ヘッダーの高さ分だけメインコンテンツを下げる */
 }
