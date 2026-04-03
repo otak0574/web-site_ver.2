@@ -228,3 +228,418 @@ a {
     line-height: 1.8;
     margin-bottom: 20px;
 }
+
+/* ========================================
+   Top Page Styles
+======================================== */
+/* 1. ファーストビュー（ヒーローエリア） */
+.top-hero {
+  position: relative;
+  width: 100%;
+  height: 85vh; /* スマホ画面に最適化した高さ */
+  min-height: 500px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* 文字の視認性を上げるためのオーバーレイ */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: 2;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: var(--color-white);
+  padding: 0 20px;
+}
+
+.hero-text h2 {
+  font-size: 1.5rem;
+  line-height: 2;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* 2. イントロダクション */
+.top-intro {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: var(--color-bg);
+}
+
+.intro-title {
+  color: var(--color-main);
+  font-size: 1.4rem;
+  margin-bottom: 24px;
+}
+
+.intro-text {
+  font-size: 0.95rem;
+  line-height: 2.2;
+  color: var(--color-text);
+}
+
+/* 3. 各施設への導線 */
+.top-facilities {
+  padding: 0 20px 60px;
+  background-color: var(--color-bg);
+}
+
+.facility-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* スマホは1カラム */
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.facility-card {
+  display: block;
+  background-color: var(--color-white);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.facility-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.card-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.card-img-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 10; /* 画像の比率を統一 */
+  overflow: hidden;
+}
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.facility-card:hover .card-img-wrapper img {
+  transform: scale(1.05);
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.card-title {
+  color: var(--color-main);
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(44, 66, 52, 0.2);
+  padding-bottom: 12px;
+}
+
+.card-desc {
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  color: var(--color-text);
+}
+
+.card-link-text {
+  display: inline-block;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: bold;
+  position: relative;
+}
+
+.card-link-text::after {
+  content: "→";
+  margin-left: 4px;
+  transition: margin-left 0.3s ease;
+}
+
+.facility-card:hover .card-link-text::after {
+  margin-left: 8px;
+}
+
+/* 4. こだわりへの入り口 */
+.top-commitment {
+  padding: 60px 20px;
+  background-color: var(--color-main);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.commitment-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.commitment-title {
+  font-size: 1.4rem;
+  margin-bottom: 24px;
+}
+
+.commitment-text {
+  font-size: 0.9rem;
+  line-height: 2;
+  margin-bottom: 32px;
+}
+
+.btn-outline {
+  display: inline-block;
+  border: 1px solid var(--color-white);
+  color: var(--color-white);
+  padding: 16px 32px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-white);
+  color: var(--color-main);
+}
+
+/* ========================================
+ Animation Utility
+======================================== */
+.fade-in-target {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-target.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* タブレット・PC向け調整 */
+@media screen and (min-width: 768px) {
+  .hero-text h2 { font-size: 2.5rem; }
+  .facility-grid { grid-template-columns: repeat(2, 1fr); } /* 2カラムに */
+}
+
+/* ========================================
+   Header & Navigation Styles
+======================================== */
+.global-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--color-bg, #F7F5F0); /* ベースカラー */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  z-index: 900; /* モーダルより低く、コンテンツより高く */
+}
+
+.header-inner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  height: 64px;
+}
+
+.header-logo a {
+  color: var(--color-main, #2C4234); /* メインカラー */
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 予約ボタン（ヘッダー右上） */
+.btn-reserve-header {
+  background-color: var(--color-accent, #C85A17); /* アンバー */
+  color: #FFFFFF;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-reserve-header:hover {
+  background-color: #a84b12; /* 少し濃いアンバー */
+}
+
+/* ハンバーガーボタン */
+.hamburger-btn {
+  width: 32px;
+  height: 24px;
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 902; /* ナビゲーションより上 */
+}
+
+.hamburger-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-main, #2C4234);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-line:nth-child(1) { top: 0; }
+.hamburger-line:nth-child(2) { top: 11px; }
+.hamburger-line:nth-child(3) { bottom: 0; }
+
+/* ハンバーガーボタン: アクティブ時（×印になる動き） */
+.hamburger-btn.is-active .hamburger-line:nth-child(1) {
+  transform: translateY(11px) rotate(45deg);
+}
+.hamburger-btn.is-active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-btn.is-active .hamburger-line:nth-child(3) {
+  transform: translateY(-11px) rotate(-45deg);
+}
+
+/* フルスクリーンナビゲーション */
+.global-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-bg, #F7F5F0);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  z-index: 901;
+}
+
+.global-nav.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.nav-list li {
+  margin-bottom: 24px;
+}
+
+.nav-list a {
+  color: var(--color-main, #2C4234);
+  font-size: 1.25rem;
+  text-decoration: none;
+  position: relative;
+}
+
+/* ========================================
+ Footer Styles
+======================================== */
+.global-footer {
+  background-color: var(--color-main, #2C4234); /* 深緑で引き締める */
+  color: #F7F5F0; /* ベースカラーのオフホワイトをテキストに使用 */
+  padding: 60px 20px 40px;
+  text-align: center;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  margin-bottom: 32px;
+  letter-spacing: 0.1em;
+}
+
+.footer-info {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.footer-info p {
+  margin-bottom: 16px;
+}
+
+.footer-tel a {
+  color: #F7F5F0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.footer-link {
+  margin-bottom: 40px;
+}
+
+/* アクセスボタン（フッター用アウトラインデザイン） */
+.btn-access {
+  display: inline-block;
+  border: 1px solid #F7F5F0;
+  color: #F7F5F0;
+  padding: 12px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-access:hover {
+  background-color: #F7F5F0;
+  color: var(--color-main, #2C4234);
+}
+
+.footer-copyright {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* ヘッダー固定に伴うコンテンツの余白調整 */
+body {
+  padding-top: 64px; /* ヘッダーの高さ分だけメインコンテンツを下げる */
+}
