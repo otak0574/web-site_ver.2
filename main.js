@@ -7,11 +7,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   renderGlobalComponents(); // ヘッダー・フッター・追従ボタンの生成
   initHamburgerMenu();      // メニューの開閉制御
-  initModalLogic();         // モーダルの制御
   initLineIntegration();    // LINE連携
   initScrollAnimation();    // フェードインアニメーション
   initFishingTabs();        // 釣り堀案内のタブ制御
   initStickyButtonToggle(); // 追従ボタンの表示・非表示制御
+  ReservationSystem.init(); // 予約システムの初期化
 });
 
 /**
@@ -121,8 +121,6 @@ function renderGlobalComponents() {
                   <div class="simulation-form-placeholder">
                       <p>（フォーム項目実装エリア）</p>
                   </div>
-
-                  <button id="send-line-btn" class="btn-accent">LINEで予約リクエストを送る</button>
               </div>
           </div>
       `;
@@ -159,31 +157,6 @@ function initHamburgerMenu() {
           globalNav.classList.remove('is-active');
           document.body.style.overflow = '';
       });
-  });
-}
-
-/**
-* 3. モーダルウィンドウの制御
-*/
-function initModalLogic() {
-  const modal = document.getElementById('reservation-modal');
-  if (!modal) return;
-
-  document.body.addEventListener('click', (e) => {
-      // 予約ボタンクリック時（モーダルを開く）
-      if (e.target.closest('#open-reservation-btn') || e.target.closest('#header-reserve-btn')) {
-          e.preventDefault(); // リンクのデフォルト動作を防ぐ
-          modal.classList.add('is-open');
-          modal.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden'; // 背面のスクロール防止
-      }
-      
-      // 閉じるボタンまたはオーバーレイクリック時（モーダルを閉じる）
-      if (e.target.closest('[data-modal-close]')) {
-          modal.classList.remove('is-open');
-          modal.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = ''; // スクロール再開
-      }
   });
 }
 

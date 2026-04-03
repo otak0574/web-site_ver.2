@@ -745,55 +745,197 @@ body {
 .pricing-card.pattern-a {
   border: 2px solid var(--color-accent);
 }
-
-.pattern-highlight {
-  background-color: rgba(217, 109, 43, 0.1);
-  padding: 16px;
+/* ========================================
+   Fishing Page - Premium Pricing UI
+======================================== */
+/* ハイライト部分（無料や竿代のアピール） */
+.premium-highlight {
+  background-color: rgba(217, 109, 43, 0.08);
+  border: 1px solid rgba(217, 109, 43, 0.2);
   border-radius: 8px;
+  padding: 20px;
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
-.highlight-text {
-  color: var(--color-accent);
-  font-size: 1.4rem;
-  font-weight: bold;
-  display: block;
+.premium-highlight.is-standard {
+  background-color: var(--color-bg);
+  border-color: rgba(44, 66, 52, 0.1);
 }
 
-.pattern-formula {
-  text-align: center;
-  font-size: 0.95rem;
-  padding-bottom: 24px;
-  border-bottom: 1px dashed #ccc;
-  margin-bottom: 24px;
-}
-
-.price-details dt {
-  font-weight: bold;
-  color: var(--color-main);
-  margin-top: 16px;
-  margin-bottom: 8px;
-}
-
-.price-details dd {
+.highlight-label {
   font-size: 0.9rem;
-  padding-left: 1em;
+  color: var(--color-text);
+}
+
+.highlight-main {
+  color: var(--color-accent);
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+
+.premium-highlight.is-standard .highlight-main {
+  color: var(--color-main);
+}
+
+.highlight-sub {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* 計算式の視覚化（図形ブロック） */
+.formula-area {
+  margin-bottom: 32px;
+  background-color: var(--color-bg);
+  padding: 20px 16px;
+  border-radius: 8px;
+}
+
+.formula-lead {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.formula-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.formula-box {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-main);
+  color: var(--color-main);
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  text-align: center;
+  flex: 1; /* 箱の幅を均等にする */
+  max-width: 200px;
+}
+
+.formula-sign {
+  color: var(--color-accent);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* カフェメニュー風の料金リスト */
+.price-menu-area {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.menu-block-title {
+  color: var(--color-main);
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(44, 66, 52, 0.2);
+  padding-bottom: 8px;
+}
+
+.menu-block-title small {
+  font-size: 0.8rem;
+  margin-left: 8px;
+  color: #666;
+}
+
+.menu-note {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-list li {
+  display: flex;
+  justify-content: space-between; /* 左右に文字を分ける */
+  align-items: baseline;
+  padding: 8px 0;
   margin-bottom: 4px;
   position: relative;
 }
 
-.price-details dd::before {
-  content: '・';
+/* 左右を点線で繋ぐための装飾 */
+.menu-list li::before {
+  content: "";
   position: absolute;
   left: 0;
+  right: 0;
+  bottom: 12px;
+  border-bottom: 1px dotted #ccc;
+  z-index: 1;
 }
 
-.price-details .note {
-  font-size: 0.85rem;
+.item-name, .item-price {
+  background-color: var(--color-white); /* 点線を隠すための背景 */
+  position: relative;
+  z-index: 2;
+}
+
+.item-name {
+  padding-right: 8px;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.item-price {
+  padding-left: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-main);
+}
+
+/* ========================================
+   Fishing Page - 大人・子供のメニュー分割
+======================================== */
+.menu-split-container {
+  display: grid;
+  grid-template-columns: 1fr; /* スマホでは縦並び */
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.menu-sub-title {
+  background-color: var(--color-bg);
+  color: var(--color-main);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+
+.item-name small {
+  font-size: 0.75rem;
   color: #666;
+  margin-left: 4px;
 }
 
+/* タブレット・PC向け調整（画面が広い場合は横並びにする） */
+@media screen and (min-width: 768px) {
+  .menu-split-container {
+      grid-template-columns: repeat(2, 1fr); /* 2カラムの横並びに */
+      gap: 32px;
+  }
+}
 /* ========================================
    Fishing Page - Appeal (新規追加)
 ======================================== */
