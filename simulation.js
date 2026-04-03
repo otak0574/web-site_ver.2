@@ -22,6 +22,7 @@ const ReservationSystem = {
         simB: {
             people: { adult: 0, child: 0, infant: 0, dog: 0 },
             plan: '', 
+            drink: '', // ★追加：'none', 'alcohol', 'soft'
             date: ''
         },
         
@@ -35,7 +36,10 @@ const ReservationSystem = {
             takeoutRods: 1000,
             methodRaw: 400, methodGut: 420, methodGrill: 440 
         },
-        B: { dogFee: 500 }
+        B: { dogFee: 500 ,
+            drinkAlcohol: 2000,
+            drinkSoftAdult: 1500,
+            drinkSoftChild: 750}
     },
 
     // 明日の日付を YYYY-MM-DD 形式で取得する（カレンダーの当日ブロック用）
@@ -58,12 +62,15 @@ const ReservationSystem = {
         const style = document.createElement('style');
         style.id = 'sim-styles';
         style.innerHTML = `
-            .simulation-form-placeholder * {overflow-x: hidden; width: 100%;}
+            .simulation-form-placeholder { overflow-x: hidden; width: 100%; box-sizing: border-box; overflow-y: auto; padding: 10px 5px;}
+            .simulation-form-placeholder h4 { margin-top: 5px; margin-bottom: 8px; font-size: 1rem; }
+            .simulation-form-placeholder p { margin-bottom: 10px; font-size: 0.8rem; }
+            .simulation-modal-container { max-height: 90vh; display: flex; flex-direction: column;}
             .sim-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px; }
-            .sim-panel { border: 2px solid #ddd; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fff; font-size: 0.95rem; line-height:1.4; display: flex; align-items: center; justify-content: center; min-height: 60px; }
+            .sim-panel { border: 2px solid #ddd; border-radius: 8px; padding: 8px 12px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fff; font-size: 0.9rem; line-height:1.4; display: flex; align-items: center; justify-content: center; min-height: 44px; margin-bottom: 0;}
             .sim-panel:hover { border-color: rgba(44, 66, 52, 0.5); }
             .sim-panel.is-active { border-color: var(--color-main, #2C4234); background: rgba(44, 66, 52, 0.08); color: var(--color-main, #2C4234); font-weight: bold; box-shadow: 0 4px 10px rgba(44, 66, 52, 0.15); }
-            .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #eee; }
+            .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #eee; }
             .sim-counter-controls { display: flex; align-items: center; gap: 12px; }
             .sim-btn-circle { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--color-main, #2C4234); background: #fff; color: var(--color-main, #2C4234); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; touch-action:manipulation; touch-action: none !important; user-select: none; -webkit-user-select: none;}
             .sim-btn-circle::after {content: '';position: absolute; top: -15px; right: -15px; bottom: -15px; left: -15px;}
@@ -71,13 +78,13 @@ const ReservationSystem = {
             .sim-btn-circle.is-disabled { opacity: 0.3; pointer-events: none; }
             .sim-counter-val { font-size: 1.2rem; font-weight: bold; width: 30px; text-align: center; }
             .sim-error-msg { background: #fee; color: #c00; padding: 12px; border-radius: 4px; margin-bottom: 16px; font-size: 0.9rem; display: none; border-left: 4px solid #c00; }
-            .sim-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; margin-top: 8px; font-size: 1rem; box-sizing: border-box !important; max-width: 100%; }            
+            .sim-input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; font-size: 0.9rem; box-sizing: border-box !important; max-width: 100%; }            
             input[type="date"].sim-input { -webkit-appearance: none; appearance: none; background-color: #fff; color: var(--color-text, #333); }
-            .sim-btn-block { width: 100%; padding: 16px; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; margin-bottom: 12px; text-align: center; box-sizing: border-box !important; max-width: 100%; }            
+            .sim-btn-block { width: 100%; padding: 12px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; margin-bottom: 8px; text-align: center; box-sizing: border-box !important; max-width: 100%; }            
             .sim-btn-primary { background: var(--color-accent, #D96D2B); color: #fff; }
             .sim-btn-secondary { background: #fff; border: 2px solid var(--color-main, #2C4234); color: var(--color-main, #2C4234); }
-            .sim-receipt { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 24px; border: 1px solid #ddd; }
-            .sim-receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
+            .sim-receipt { background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #ddd; }
+            .sim-receipt-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem; }
             .sim-receipt-total { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 2px solid #ccc; font-size: 1.2rem; font-weight: bold; color: var(--color-accent, #D96D2B); }
             .sim-indicator { background: var(--color-main, #2C4234); color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 0.85rem; text-align: center; margin-bottom: 16px; }
             .sim-indicator strong { font-size: 1.1rem; color: var(--color-accent, #D96D2B); }
@@ -90,7 +97,7 @@ const ReservationSystem = {
 
     bindEvents() {
         document.body.addEventListener('click', (e) => {
-            if (e.target.closest('#open-reservation-btn') || e.target.closest('#header-reserve-btn') || e.target.closest('#bottom-reservation-btn')) {
+            if (e.target.closest('#open-reservation-btn') || e.target.closest('#header-reserve-btn') || e.target.closest('#bottom-reservation-btn') || e.target.closest('#sticky-reservation-btn')) {
                 e.preventDefault();
                 const isBBQ = window.location.pathname.includes('bbq.html');
                 this.startSimulation(isBBQ ? 'B' : 'A');
@@ -137,6 +144,7 @@ const ReservationSystem = {
                     this.state.simA.takeout = { rods: 0, fish: 0, method: '' };
                 }
                 if (group === 'B_plan') this.state.simB.plan = val;
+                if (group === 'B_drink') this.state.simB.drink = val; // ★追加
                 if (group === 'A_method') this.state.simA.takeout.method = val;
             }
 
@@ -323,7 +331,7 @@ const ReservationSystem = {
             if (step === 1) {
                 html += `
                     <h4 style="margin-bottom:12px; color:var(--color-main);">ご利用目的を選択してください</h4>
-                    <div class="sim-panel-grid">
+                    <div class="sim-panel-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;">
                         <div class="sim-panel ${this.state.simA.purpose === 'takeout' ? 'is-active' : ''}" data-group="A_purpose" data-value="takeout">
                             釣ってお持ち帰り
                         </div>
@@ -337,16 +345,15 @@ const ReservationSystem = {
             else if (step === 2) {
                 html += `
                     <h4 style="margin-bottom:12px; color:var(--color-main);">人数のご入力</h4>
-                    ${this.createCounter('simA.people.adult', '大人（中学生以上）', this.state.simA.people.adult)}
-                    ${this.createCounter('simA.people.child', '子供（小学生）', this.state.simA.people.child)}
+                    ${this.createCounter('simA.people.adult', '大人(中学生以上)', this.state.simA.people.adult)}
+                    ${this.createCounter('simA.people.child', '子供(小学生)', this.state.simA.people.child)}
                     ${this.createCounter('simA.people.infant', '幼児', this.state.simA.people.infant)}
                     
                     <h5 style="margin-top:24px; margin-bottom:8px;">ご希望日 <small style="font-weight:normal; color:#666;">※後からでも入力可能です</small></h5>
-                    <div style="background:#fff3cd; color:#856404; padding:8px 12px; border-radius:4px; font-size:0.85rem; margin-bottom:8px; border-left:4px solid #ffeeba; line-height:1.4;">
-                        ※当日のご予約はWEBからは受け付けておりません。<br>お手数ですがお電話にてお問い合わせください。
-                    </div>
                     <input type="date" id="sim-date" class="sim-input" value="${this.state.simA.date}" min="${this.getTomorrowDateString()}">
-                    
+                    <div style="background:#fff3cd; color:#856404; padding:8px 12px; border-radius:4px; font-size:0.85rem; margin-bottom:8px; border-left:4px solid #ffeeba; line-height:1.4;">
+                        ※当日のご予約は承っておりません。<br>お電話でお問い合わせください。
+                    </div>
                     <div style="margin-top:24px;">
                         <button class="sim-btn-block sim-btn-primary btn-next">次へ</button>
                         <button class="sim-btn-block sim-btn-secondary btn-prev">戻る</button>
@@ -364,26 +371,26 @@ const ReservationSystem = {
                         <h4 style="margin-bottom:8px; color:var(--color-main);">メニューの選択</h4>
                         
                         <div class="sim-indicator">
-                            大人メニュー 残り枠：<strong>${adultRemain}</strong>名分<br>
+                            大人メニュー：<strong>${adultRemain}</strong>名分<br>
                             <small style="color:#eee;">※大人は必ず人数分（${pA.adult}名分）選択してください</small>
                         </div>
                         <h5 style="background:#f0f0f0; padding:8px; border-radius:4px;">大人のメニュー</h5>
-                        ${this.createCounter('simA.menus.adultTeishoku', '定食（2,000円〜）', mA.adultTeishoku, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultTanpin', '単品・釣り体験のみ（500円〜）', mA.adultTanpin, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultTeishoku', '定食', mA.adultTeishoku, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultTanpin', '単品・釣り体験のみ', mA.adultTanpin, adultRemain === 0)}
                         
                         <div class="sim-indicator" style="margin-top:16px;">
-                            子供メニュー 注文可能：あと <strong>${childRemain}</strong>個<br>
+                            子供メニュー：あと <strong>${childRemain}</strong>個<br>
                             <small style="color:#eee;">※子供は人数（${pA.child}名）まで注文可能です</small>
                         </div>
                         <h5 style="background:#f0f0f0; padding:8px; border-radius:4px;">子供のメニュー</h5>
-                        ${this.createCounter('simA.menus.childKids', 'お子様ランチ（1,000円）', mA.childKids, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childCurry', 'カレー（800円）', mA.childCurry, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childKids', 'お子様ランチ', mA.childKids, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childCurry', 'カレー', mA.childCurry, childRemain === 0)}
 
-                        <h5 style="background:#f0f0f0; padding:8px; border-radius:4px; margin-top:16px;">釣ったお魚の調理方法（1匹あたり）</h5>
+                        <h5 style="background:#f0f0f0; padding:8px; border-radius:4px; margin-top:16px;">釣ったお魚の調理方法</h5>
                         <p style="font-size:0.85rem; color:#666; margin-bottom:8px;">※釣った魚の数だけ調理方法を選択してください。</p>
-                        ${this.createCounter('simA.fish.shioyaki', 'しお焼き（400円）', this.state.simA.fish.shioyaki)}
-                        ${this.createCounter('simA.fish.gyoden', 'ぎょでん・みそ（450円）', this.state.simA.fish.gyoden)}
-                        ${this.createCounter('simA.fish.karaage', 'からあげ（480円）', this.state.simA.fish.karaage)}
+                        ${this.createCounter('simA.fish.shioyaki', 'しお焼き', this.state.simA.fish.shioyaki)}
+                        ${this.createCounter('simA.fish.gyoden', 'ぎょでん・みそ', this.state.simA.fish.gyoden)}
+                        ${this.createCounter('simA.fish.karaage', 'からあげ', this.state.simA.fish.karaage)}
                     `;
                 } 
                 else if (this.state.simA.purpose === 'takeout') {
@@ -396,16 +403,16 @@ const ReservationSystem = {
                         
                         <h5 style="background:#f0f0f0; padding:8px; border-radius:4px;">釣りの道具</h5>
                         <p style="font-size:0.85rem; color:#666; margin-bottom:8px;">※釣竿はご来場人数（${totalPeople}名）までレンタル可能です。</p>
-                        ${this.createCounter('simA.takeout.rods', '竿の本数（1,000円/本）', this.state.simA.takeout.rods, isRodMaxed)}
+                        ${this.createCounter('simA.takeout.rods', '竿の本数', this.state.simA.takeout.rods, isRodMaxed)}
                         
                         <h5 style="background:#f0f0f0; padding:8px; border-radius:4px; margin-top:16px;">お魚・調理方法</h5>
                         ${this.createCounter('simA.takeout.fish', '釣る予定の匹数（目安）', this.state.simA.takeout.fish)}
                         
                         <p style="font-size:0.85rem; color:#666; margin-top:16px; margin-bottom:8px;">ご希望の調理方法（お持ち帰り状態）を選択してください。</p>
                         <div class="sim-panel-grid" style="grid-template-columns: 1fr;">
-                            <div class="sim-panel ${this.state.simA.takeout.method === 'raw' ? 'is-active' : ''}" data-group="A_method" data-value="raw">そのまま生で<br><small>（400円/100g）</small></div>
-                            <div class="sim-panel ${this.state.simA.takeout.method === 'gut' ? 'is-active' : ''}" data-group="A_method" data-value="gut">おなかの掃除<br><small>（420円/100g）</small></div>
-                            <div class="sim-panel ${this.state.simA.takeout.method === 'grill' ? 'is-active' : ''}" data-group="A_method" data-value="grill">焼きで持ちかえる<br><small>（440円/100g）</small></div>
+                            <div class="sim-panel ${this.state.simA.takeout.method === 'raw' ? 'is-active' : ''}" data-group="A_method" data-value="raw">そのまま生で<br></div>
+                            <div class="sim-panel ${this.state.simA.takeout.method === 'gut' ? 'is-active' : ''}" data-group="A_method" data-value="gut">おなかの掃除<br></div>
+                            <div class="sim-panel ${this.state.simA.takeout.method === 'grill' ? 'is-active' : ''}" data-group="A_method" data-value="grill">焼きで持ちかえる<br></div>
                         </div>
                     `;
                 }
@@ -426,17 +433,17 @@ const ReservationSystem = {
             if (step === 1) {
                 html += `
                     <h4 style="margin-bottom:12px; color:var(--color-main);">人数のご入力</h4>
-                    ${this.createCounter('simB.people.adult', '大人', this.state.simB.people.adult)}
-                    ${this.createCounter('simB.people.child', '子供', this.state.simB.people.child)}
+                    ${this.createCounter('simB.people.adult', 'おとな', this.state.simB.people.adult)}
+                    ${this.createCounter('simB.people.child', 'こども', this.state.simB.people.child)}
                     ${this.createCounter('simB.people.infant', '幼児', this.state.simB.people.infant)}
-                    ${this.createCounter('simB.people.dog', 'ワンちゃん', this.state.simB.people.dog)}
-                    <p style="font-size:0.8rem; color:var(--color-accent); margin-top:8px;">※ワンちゃんは「大人＋子供」の人数までは無料。超えた分は1頭500円となります。</p>
+                    ${this.createCounter('simB.people.dog', 'わんちゃん', this.state.simB.people.dog)}
 
                     <h5 style="margin-top:24px; margin-bottom:8px;">ご希望日 <small style="font-weight:normal; color:#666;">※後からでも入力可能です</small></h5>
-                    <div style="background:#fff3cd; color:#856404; padding:8px 12px; border-radius:4px; font-size:0.85rem; margin-bottom:8px; border-left:4px solid #ffeeba; line-height:1.4;">
-                        ※当日のご予約はWEBからは受け付けておりません。<br>お手数ですがお電話にてお問い合わせください。
-                    </div>
                     <input type="date" id="sim-date" class="sim-input" value="${this.state.simB.date}" min="${this.getTomorrowDateString()}">
+                    <div style="background:#fff3cd; color:#856404; padding:8px 12px; border-radius:4px; font-size:0.85rem; margin:8px 8px; border-left:4px solid #ffeeba; line-height:1.4;">
+                    当日のご予約は承っておりません。<br>お電話でお問い合わせください。
+                    </div>
+                    
                     
                     <div style="margin-top:24px;">
                         <button class="sim-btn-block sim-btn-primary btn-next">次へ</button>
@@ -446,8 +453,7 @@ const ReservationSystem = {
             else if (step === 2) {
                 html += `
                     <h4 style="margin-bottom:12px; color:var(--color-main);">プランを選択してください</h4>
-                    <p style="font-size:0.85rem; color:#666; margin-bottom:16px;">※グループ皆様で同じプランとなります。</p>
-                    <div class="sim-panel-grid" style="grid-template-columns: 1fr;">
+                    <div class="sim-panel-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;">
                         <div class="sim-panel ${this.state.simB.plan === '3000' ? 'is-active' : ''}" data-group="B_plan" data-value="3000">スタンダード（3,000円）</div>
                         <div class="sim-panel ${this.state.simB.plan === '4000' ? 'is-active' : ''}" data-group="B_plan" data-value="4000">ボリューム（4,000円）</div>
                         <div class="sim-panel ${this.state.simB.plan === '5000' ? 'is-active' : ''}" data-group="B_plan" data-value="5000">プレミアム（5,000円）</div>
@@ -459,6 +465,21 @@ const ReservationSystem = {
                 `;
             }
             else if (step === 3) {
+                // ★新設：飲み放題選択画面
+                html += `
+                    <h4 style="margin-bottom:12px; color:var(--color-main);">飲み放題オプション</h4>
+                    <div class="sim-panel-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;">
+                        <div class="sim-panel ${this.state.simB.drink === 'none' ? 'is-active' : ''}" data-group="B_drink" data-value="none">なし（単品注文）</div>
+                        <div class="sim-panel ${this.state.simB.drink === 'alcohol' ? 'is-active' : ''}" data-group="B_drink" data-value="alcohol">アルコール飲み放題<br><small>（大人はアルコール、子供はソフトドリンク）</small></div>
+                        <div class="sim-panel ${this.state.simB.drink === 'soft' ? 'is-active' : ''}" data-group="B_drink" data-value="soft">ソフトドリンク飲み放題<br><small>（全員ソフトドリンク）</small></div>
+                    </div>
+                    <div style="margin-top:24px;">
+                        <button class="sim-btn-block sim-btn-primary btn-calculate">料金を計算する</button>
+                        <button class="sim-btn-block sim-btn-secondary btn-prev">戻る</button>
+                    </div>
+                `;
+            }
+            else if (step === 4) {
                 html += this.renderResultScreen('B');
             }
         }
@@ -522,38 +543,43 @@ const ReservationSystem = {
         } 
         else if (flow === 'B') {
             const pB = this.state.simB.people;
+            const pbPrices = this.prices.B;
             const basePrice = parseInt(this.state.simB.plan, 10);
-            const adultTotal = pB.adult * basePrice;
-            const childTotal = pB.child * (basePrice / 2); 
-            total += adultTotal + childTotal;
-            receiptHtml += `<div class="sim-receipt-row"><span>プラン(大人) x${pB.adult}</span><span>¥${adultTotal.toLocaleString()}</span></div>`;
-            receiptHtml += `<div class="sim-receipt-row"><span>プラン(子供) x${pB.child}</span><span>¥${childTotal.toLocaleString()}</span></div>`;
             
-            const freeDogs = pB.adult + pB.child;
-            const paidDogs = Math.max(0, pB.dog - freeDogs);
-            if (paidDogs > 0) {
-                total += paidDogs * this.prices.B.dogFee;
-                receiptHtml += `<div class="sim-receipt-row"><span>ワンちゃん追加料金 x${paidDogs}</span><span>¥${(paidDogs * this.prices.B.dogFee).toLocaleString()}</span></div>`;
-            } else if (pB.dog > 0) {
-                receiptHtml += `<div class="sim-receipt-row"><span>ワンちゃん同伴 x${pB.dog}</span><span>無料</span></div>`;
+            // 食事代
+            const adultMeal = pB.adult * basePrice;
+            const childMeal = pB.child * (basePrice / 2); 
+            total += adultMeal + childMeal;
+            receiptHtml += `<div class="sim-receipt-row"><span>BBQプラン(大人) x${pB.adult}</span><span>¥${adultMeal.toLocaleString()}</span></div>`;
+            receiptHtml += `<div class="sim-receipt-row"><span>BBQプラン(子供) x${pB.child}</span><span>¥${childMeal.toLocaleString()}</span></div>`;
+            
+            // 飲み放題代（★追加）
+            if (this.state.simB.drink === 'alcohol') {
+                const alcTotal = (pB.adult * pbPrices.drinkAlcohol) + (pB.child * pbPrices.drinkSoftChild);
+                total += alcTotal;
+                receiptHtml += `<div class="sim-receipt-row"><span>アルコール飲み放題(大人) x${pB.adult}</span><span>¥${(pB.adult * pbPrices.drinkAlcohol).toLocaleString()}</span></div>`;
+                receiptHtml += `<div class="sim-receipt-row"><span>ソフトドリンク放題(子供) x${pB.child}</span><span>¥${(pB.child * pbPrices.drinkSoftChild).toLocaleString()}</span></div>`;
+            } else if (this.state.simB.drink === 'soft') {
+                const softTotal = (pB.adult * pbPrices.drinkSoftAdult) + (pB.child * pbPrices.drinkSoftChild);
+                total += softTotal;
+                receiptHtml += `<div class="sim-receipt-row"><span>ソフトドリンク放題(大人) x${pB.adult}</span><span>¥${(pB.adult * pbPrices.drinkSoftAdult).toLocaleString()}</span></div>`;
+                receiptHtml += `<div class="sim-receipt-row"><span>ソフトドリンク放題(子供) x${pB.child}</span><span>¥${(pB.child * pbPrices.drinkSoftChild).toLocaleString()}</span></div>`;
             }
         }
 
-        receiptHtml += `<div class="sim-receipt-total"><span>合計目安</span><span>¥${total.toLocaleString()}</span></div></div>`;
-
         // ▼▼▼ 今回追加：ワクワク感を高めるメッセージボックス ▼▼▼
         receiptHtml += `
-            <div style="background:#f4f9f5; border:2px dashed var(--color-main, #2C4234); padding:16px; border-radius:8px; margin-bottom:24px; text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.03);">
-                <p style="color:var(--color-main, #2C4234); font-weight:bold; margin-bottom:8px; font-size:1.05rem;">
-                    ✨ 上記はあくまでお見積りの「目安」です
+            <div style="background:#f4f9f5; border:1px dashed var(--color-main); padding:10px; border-radius:8px; margin-bottom:15px; text-align:center;">
+                <p style="color:var(--color-main); font-weight:bold; margin-bottom:4px; font-size:0.95rem;">
+                    ✨ お見積りは「目安」です
                 </p>
-                <p style="font-size:0.9rem; color:#444; line-height:1.6;">
-                    当日はメニューの追加や変更も大歓迎です！<br>
-                    他にも美味しいお料理や冷たいドリンクをたくさんご用意して、皆様のお越しを心よりお待ちしております。
+                <p style="font-size:0.8rem; color:#444; line-height:1.4;">
+                    当日の追加変更も大歓迎！お待ちしております。
                 </p>
             </div>
-        `;
+            `;
         // ▲▲▲ ここまで追加 ▲▲▲
+        receiptHtml += `<div class="sim-receipt-total"><span>合計目安</span><span>¥${total.toLocaleString()}</span></div></div>`;
 
         const currentDate = flow === 'A' ? this.state.simA.date : this.state.simB.date;
         const dateAlertHtml = !currentDate ? `<div style="color:#c00; font-size:0.85rem; font-weight:bold; margin-bottom:8px;">※ご予約に進むには日付の入力が必要です</div>` : '';
@@ -563,9 +589,6 @@ const ReservationSystem = {
             
             ${dateAlertHtml}
             <label style="font-size:0.9rem; font-weight:bold;">ご予約日 <span style="color:#c00;">*</span></label>
-            <div style="background:#fff3cd; color:#856404; padding:8px 12px; border-radius:4px; font-size:0.85rem; margin-top:4px; margin-bottom:8px; border-left:4px solid #ffeeba; line-height:1.4;">
-                ※当日のご予約はWEBからは受け付けておりません。<br>お手数ですがお電話にてお問い合わせください。
-            </div>
             <input type="date" id="sim-date" class="sim-input" value="${currentDate}" min="${this.getTomorrowDateString()}" style="margin-bottom:16px;">
 
             <label style="font-size:0.9rem; font-weight:bold;">代表者名 <span style="color:#c00;">*</span></label>
@@ -580,7 +603,9 @@ const ReservationSystem = {
                     <span>キャンセルポリシーに同意する<br><small style="font-weight:normal; color:#666;">※当日キャンセルではなく、前日までのキャンセル・変更を受け付けます。</small></span>
                 </label>
             </div>
-            
+            <div style="background:#fff3cd; color:#856404; padding:8px 12px; border-radius:4px; font-size:0.85rem; margin-top:4px; margin-bottom:8px; border-left:4px solid #ffeeba; line-height:1.4;">
+            当日のご予約は承っておりません。<br>お電話でお問い合わせください。
+            </div>
             <button id="btn-submit-line" class="sim-btn-block" style="background:#06C755; color:#fff;">LINEで予約する</button>
             <button class="sim-btn-block sim-btn-secondary btn-prev" style="border:none;">戻る</button>
         `;
@@ -594,7 +619,7 @@ const ReservationSystem = {
         const currentDate = this.state.flow === 'A' ? this.state.simA.date : this.state.simB.date;
         
         if (!currentDate) { this.showError('ご予約日を選択してください。'); return; }
-        if (currentDate < this.getTomorrowDateString()) { this.showError('当日のご予約はWEBからは受け付けておりません。お手数ですがお電話にてお問い合わせください。'); return; }
+        if (currentDate < this.getTomorrowDateString()) { this.showError('当日のご予約は承っておりません。お電話でお問い合わせください。'); return; }
         if (!u.name.trim() || !u.phone.trim()) { this.showError('お名前と電話番号を入力してください。'); return; }
         
         const phoneRegex = /^[0-9]{10,11}$/;

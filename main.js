@@ -28,9 +28,6 @@ function renderGlobalComponents() {
                          currentPath.endsWith('restaurant.html') || 
                          currentPath.endsWith('dogrun.html');
 
-  // ▼ ヘッダーのボタン部分：隠すページなら空文字、それ以外ならボタンのHTMLを入れる
-  const headerReserveHTML = hideReserveBtn ? '' : `<a href="#reservation-modal" class="btn-reserve-header" id="header-reserve-btn">予約する</a>`;
-
   // ヘッダーのHTML文字列（${headerReserveHTML} で出し分け）
   const headerHTML = `
       <header class="global-header">
@@ -43,7 +40,6 @@ function renderGlobalComponents() {
                   </a>
               </h1>
               <div class="header-actions">
-                  ${headerReserveHTML}
                   <button class="hamburger-btn" id="hamburger-btn" aria-label="メニューを開閉する">
                       <span class="hamburger-line"></span>
                       <span class="hamburger-line"></span>
@@ -120,7 +116,7 @@ function renderGlobalComponents() {
               <div class="modal-content">
                   <button class="modal-close-btn" data-modal-close aria-label="閉じる">×</button>
                   <h3 class="font-mincho modal-title">ご予約・料金シミュレーション</h3>
-                  <p class="modal-desc">ご希望の体験を選択してください。<br>※金額は目安です。LINE送信時には金額情報は含まれません。</p>
+                  <p class="modal-desc"><br>※金額は目安です。</p>
                   
                   <div class="simulation-form-placeholder">
                       <p>（フォーム項目実装エリア）</p>
@@ -271,33 +267,67 @@ function initModalLogic() {
  * 7. 追従ボタンの表示/非表示の切り替え
  * 最下部の巨大な予約ボタンが見えたら、右下の追従ボタンを隠す
  */
+// ==========================================
+// 画面右下の追従予約ボタンを制御する関数
+// ==========================================
 function initStickyButtonToggle() {
-  // 追従ボタンと、最下部のボタンエリアを取得
-  const stickyBtnWrapper = document.querySelector('.sticky-btn-wrapper');
-  const bottomCta = document.querySelector('.page-bottom-cta');
+    const stickyContainer = document.getElementById('sticky-btn-container');
+    if (!stickyContainer) return;
 
-  // どちらかがページに存在しない場合（トップページなど）は何もしない
-  if (!stickyBtnWrapper || !bottomCta) return;
+    const currentPath = window.location.pathname;
 
-  // オブザーバーの設定
-  const options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0 // 巨大ボタンのエリアが1pxでも画面に入ったら発火
-  };
+    // 1. トップページとドッグランページでは非表示にする
+    const hideReserveBtn = currentPath.endsWith('/') || 
+                           currentPath.endsWith('index.html') || 
+                           currentPath.endsWith('restaurant.html') ||
+                           currentPath.endsWith('dogrun.html');
 
-  const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-          if (entry.isIntersecting) {
-              // 巨大ボタンが画面に入った → 追従ボタンを隠す
-              stickyBtnWrapper.classList.add('is-hidden');
-          } else {
-              // 巨大ボタンが画面から出た → 追従ボタンを再び表示する
-              stickyBtnWrapper.classList.remove('is-hidden');
-          }
-      });
-  }, options);
+    if (hideReserveBtn) {
+        stickyContainer.innerHTML = ''; // 中身を空にする
+        return; // ここで処理を終了
+    }
 
-  // 巨大ボタンエリアの監視を開始
-  observer.observe(bottomCta);
+    // 2. ボタンの生成（BBQかそれ以外かで色とテキストを分ける）
+    const isBBQ = currentPath.endsWith('bbq.html');
+    const btnClass = isBBQ ? "btn-main" : "btn-accent"; // BBQは緑、それ以外はアンバー
+    const btnText = isBBQ 
+        ? "【1日3組限定】手ぶらBBQのご予約" 
+        : "大自然の中で釣り体験のご予約";
+
+    stickyContainer.innerHTML = `
+        <div class="sticky-btn-wrapper">
+            <button id="sticky-reservation-btn" class="${btnClass} sticky-btn">
+                ${btnText}
+            </button>
+        </div>
+    `;
+
+    // 3. スクロール監視（最下部CTAが見えたら隠す）
+    const stickyBtnWrapper = stickyContainer.querySelector('.sticky-btn-wrapper');
+    const bottomCta = document.querySelector('.page-bottom-cta');
+
+    // どちらかが存在しない場合は監視をスキップ
+    if (!stickyBtnWrapper || !bottomCta) return;
+
+    // オブザーバーの設定
+    const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0 // 巨大ボタンのエリアが1pxでも画面に入ったら発火
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 巨大ボタンが画面に入った → 追従ボタンを隠す
+                stickyBtnWrapper.classList.add('is-hidden');
+            } else {
+                // 巨大ボタンが画面から出た → 追従ボタンを再び表示する
+                stickyBtnWrapper.classList.remove('is-hidden');
+            }
+        });
+    }, options);
+
+    // 巨大ボタンエリアの監視を開始
+    observer.observe(bottomCta);
 }

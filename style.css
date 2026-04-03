@@ -507,6 +507,32 @@ a {
 }
 
 /* ========================================
+   共通ボタンデザイン：メインカラー（緑の塗りつぶし）
+======================================== */
+.btn-main {
+  display: inline-block;
+  background-color: var(--color-main, #2C4234);
+  color: var(--color-white, #ffffff);
+  border: none;
+  padding: 16px 32px;    /* ★追加：ボタンの縦横のふっくらとした余白 */
+  border-radius: 50px;   /* ★追加：角の美しい丸み */
+  font-weight: bold;     /* ★追加：文字を太くして読みやすく */
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(44, 66, 52, 0.2); /* ★追加：森の色に合わせた上品な影 */
+  transition: all 0.3s ease;
+}
+
+/* ホバー（タップ）した時は、少しだけ暗くして押した感を出す */
+.btn-main:hover {
+  background-color: rgba(30, 45, 35, 1);
+  color: var(--color-white, #ffffff);
+  box-shadow: 0 6px 15px rgba(44, 66, 52, 0.3); /* 影を少し広げる */
+  transform: translateY(-2px); /* 少しだけ上にフワッと浮く */
+}
+/* ========================================
    Header & Navigation Styles
 ======================================== */
 .global-header {
@@ -1433,3 +1459,157 @@ body {
 }
 }
 
+/* ========================================
+   BBQ Page
+======================================== */
+/* ========================================
+   A案：オーバーレイによる修正
+======================================== */
+.bbq-hero {
+  position: relative; /* 子要素の絶対配置の基準にする */
+  width: 100%;
+  height: 80vh; /* スマホでの高さを十分に確保（画面の80%） */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* 画像がはみ出さないように */
+}
+
+/* 背景画像（<img>タグ）の調整 */
+.bbq-hero .hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 画像を箱のサイズに合わせていい感じに拡大縮小・切り抜き */
+  z-index: 1; /* 一番下に配置 */
+}
+
+/* ★重要：オーバーレイ（暗幕）の追加 */
+.bbq-hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* 黒色の0.4（40%）の透明度。写真に合わせて調整してください */
+  z-index: 2; /* 画像の上に配置 */
+}
+
+/* テキストコンテンツの調整 */
+.bbq-hero .hero-content {
+  position: relative;
+  z-index: 3; /* オーバーレイの上に配置 */
+  text-align: center;
+  padding: 0 20px; /* スマホでの横の余白 */
+  color: var(--color-white, #ffffff); /* ★重要：文字色を白にする */
+}
+
+.bbq-hero h2 {
+  font-size: 1.6rem; /* スマホでの文字サイズ */
+  line-height: 1.6;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 文字に影をつけてさらに読みやすく */
+  margin: 0;
+}
+
+/* バッジの調整 */
+.bbq-hero .hero-badge {
+  background-color: rgba(255, 255, 255, 0.9); /* バッジの背景を白っぽく */
+  padding: 8px 16px;
+  border-radius: 50px;
+  display: inline-block;
+}
+
+/* タブレット・PC向け調整 */
+@media screen and (min-width: 768px) {
+  .bbq-hero {
+      height: 60vh; /* パソコンでは少し低く */
+  }
+  .bbq-hero h2 {
+      font-size: 2.4rem; /* パソコンでの文字サイズ */
+  }
+}
+/* 2. プライベート空間 */
+.bbq-features { padding: 60px 20px; background-color: var(--color-white); }
+.feature-flex { display: flex; flex-direction: column; gap: 32px; }
+.feature-text p { margin-bottom: 16px; line-height: 1.8; }
+.feature-image img { width: 100%; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+
+/* 3. 目玉特典（愛犬） */
+.bbq-dog-benefit { padding: 20px; background-color: var(--color-bg); }
+.dog-benefit-box {
+  background-color: #fffaf0; /* 温かみのあるクリーム色 */
+  border: 3px solid var(--color-accent);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(200, 90, 23, 0.1);
+}
+.dog-benefit-title { color: var(--color-accent); font-size: 1.4rem; line-height: 1.5; margin-bottom: 16px; }
+.dog-benefit-title .icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+.dog-benefit-desc { line-height: 1.8; color: var(--color-text); }
+.dog-benefit-desc strong { font-size: 1.1rem; color: var(--color-main); background: linear-gradient(transparent 60%, rgba(200, 90, 23, 0.2) 60%); }
+
+/* 4. プランと料金 */
+.bbq-plans { padding: 60px 20px; background-color: var(--color-white); }
+.attention-text { color: var(--color-accent); font-size: 0.9rem; font-weight: bold; margin-bottom: 32px; }
+
+.plan-card-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+.plan-card {
+  background-color: var(--color-white);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  display: flex; flex-direction: column;
+}
+.plan-card.is-popular {
+  border: 2px solid var(--color-accent);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(200, 90, 23, 0.15);
+}
+.popular-badge {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background-color: var(--color-accent); color: #fff;
+  padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px;
+}
+.plan-header { background-color: var(--color-main); color: #fff; padding: 24px 20px; text-align: center; border-radius: 10px 10px 0 0; }
+.plan-card.is-popular .plan-header { background-color: var(--color-accent); }
+.plan-header h4 { font-size: 1.3rem; margin-bottom: 8px; }
+.plan-price { font-size: 2rem; font-weight: bold; }
+.plan-price .currency { font-size: 1rem; font-weight: normal; margin-left: 4px; }
+.plan-body { padding: 24px; flex-grow: 1; }
+.plan-desc { font-size: 0.9rem; color: #555; margin-bottom: 20px; line-height: 1.5; border-bottom: 1px dashed #ccc; padding-bottom: 16px; }
+.plan-items { list-style: none; padding: 0; margin: 0; }
+.plan-items li { position: relative; padding-left: 20px; margin-bottom: 12px; line-height: 1.4; }
+.plan-items li::before { content: "✓"; position: absolute; left: 0; color: var(--color-main); font-weight: bold; }
+.plan-card.is-popular .plan-items li::before { color: var(--color-accent); }
+
+.kids-price-info { background-color: var(--color-bg); padding: 24px; border-radius: 12px; text-align: center; }
+.kids-price-info h4 { color: var(--color-main); margin-bottom: 12px; }
+
+/* 5. 飲み放題 */
+.bbq-drinks { padding: 60px 20px; background-color: var(--color-bg); }
+.drink-list { max-width: 500px; margin: 0 auto; list-style: none; padding: 0; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.drink-list li { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px dotted #ccc; font-weight: bold; }
+.drink-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.drink-name { color: var(--color-text); }
+.drink-price { color: var(--color-main); font-size: 1.1rem; }
+
+/* 6. ルール・注意事項 */
+.bbq-rules { padding: 60px 20px; background-color: var(--color-white); }
+.rule-box { background: #f9f9f9; border-left: 4px solid var(--color-main); padding: 24px; border-radius: 0 8px 8px 0; }
+.rule-list dt { font-weight: bold; color: var(--color-main); margin-bottom: 8px; font-size: 1.1rem; }
+.rule-list dd { margin-bottom: 24px; line-height: 1.6; color: #444; }
+.rule-list dd:last-child { margin-bottom: 0; }
+.text-alert { color: #c00 !important; }
+
+/* タブレット・PC向け調整 */
+@media screen and (min-width: 768px) {
+  .bbq-hero h2 { font-size: 2rem; }
+  .feature-flex { flex-direction: row; align-items: center; }
+  .feature-text, .feature-image { flex: 1; }
+  .plan-card-grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+}
