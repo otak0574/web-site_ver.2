@@ -3,35 +3,63 @@
  * Vanilla JSのみを使用し、軽量かつ高速に動作させます。
  */
 
+// ページ読み込み完了時に各機能を一斉にスタートさせます
 document.addEventListener('DOMContentLoaded', () => {
-  initCommonComponents();
-  initModalLogic();
-  initLineIntegration();
+  renderGlobalComponents(); // ヘッダー・フッター・追従ボタンの生成
+  initHamburgerMenu();      // メニューの開閉制御
+  initModalLogic();         // モーダルの制御
+  initLineIntegration();    // LINE連携
+  initScrollAnimation();    // フェードインアニメーション
 });
 
 /**
-* 1. 共通パーツの一元化と動的読み込み
+* 1. 共通パーツ（ヘッダー、フッター、追従ボタン）のHTMLを生成しDOMに挿入する
 */
-function initCommonComponents() {
-  // ヘッダーのHTML文字列 (画像の遅延読み込み lazy 指定込み)
+function renderGlobalComponents() {
+  // ヘッダーのHTML文字列
   const headerHTML = `
       <header class="global-header">
-          <h1 class="header-logo font-mincho">
-              <a href="/">七宗遊園</a>
-          </h1>
-          <button class="hamburger-btn" aria-label="メニューを開く">
-              <span class="hamburger-line"></span>
-              <span class="hamburger-line"></span>
-              <span class="hamburger-line"></span>
-          </button>
+          <div class="header-inner">
+              <h1 class="header-logo font-mincho">
+                  <a href="/">七宗遊園</a>
+              </h1>
+              <div class="header-actions">
+                  <button class="hamburger-btn" id="hamburger-btn" aria-label="メニューを開閉する">
+                      <span class="hamburger-line"></span>
+                      <span class="hamburger-line"></span>
+                      <span class="hamburger-line"></span>
+                  </button>
+              </div>
+          </div>
+          
+          <nav class="global-nav" id="global-nav">
+              <ul class="nav-list font-mincho">
+                  <li><a href="/">トップページ</a></li>
+                  <li><a href="fishing.html">釣り堀案内</a></li>
+                  <li><a href="restaurant.html">レストラン</a></li>
+                  <li><a href="bbq.html">BBQ（プレミアム）</a></li>
+                  <li><a href="dogrun.html">ドッグラン</a></li>
+                  <li><a href="story.html">こだわりとストーリー</a></li>
+              </ul>
+          </nav>
       </header>
   `;
 
   // フッターのHTML文字列
   const footerHTML = `
       <footer class="global-footer">
-          <p class="font-mincho">国有林の秘密基地。七宗遊園</p>
-          <p style="font-size: 0.75rem; margin-top: 16px;">&copy; Hichiso Yuen All Rights Reserved.</p>
+          <div class="footer-inner">
+              <h2 class="footer-logo font-mincho">七宗遊園</h2>
+              <div class="footer-info">
+                  <p>〒509-0400<br>岐阜県加茂郡七宗町神渕4183-4</p>
+                  <p class="footer-tel">TEL: <a href="tel:0574461128">0574-46-1128</a></p>
+                  <p>営業時間: 10:00 ～ 15:00<br>定休日: 第二・第四火曜</p>
+              </div>
+              <div class="footer-link">
+                  <a href="access.html" class="btn-access">アクセスを見る</a>
+              </div>
+              <p class="footer-copyright">&copy; Hichiso Yuen All Rights Reserved.</p>
+          </div>
       </footer>
   `;
 
@@ -48,21 +76,59 @@ function initCommonComponents() {
       </div>
   `;
 
-  // DOMへの挿入
-  document.getElementById('header-container').innerHTML = headerHTML;
-  document.getElementById('footer-container').innerHTML = footerHTML;
-  document.getElementById('sticky-btn-container').innerHTML = stickyBtnHTML;
+  // 挿入先コンテナが存在する場合のみHTMLを挿入（ここで一括処理）
+  const headerContainer = document.getElementById('header-container');
+  const footerContainer = document.getElementById('footer-container');
+  const stickyBtnContainer = document.getElementById('sticky-btn-container');
+
+  if (headerContainer) headerContainer.innerHTML = headerHTML;
+  if (footerContainer) footerContainer.innerHTML = footerHTML;
+  if (stickyBtnContainer) stickyBtnContainer.innerHTML = stickyBtnHTML;
 }
 
 /**
-* 2. モーダルウィンドウの制御
+* 2. ハンバーガーメニューの開閉制御（Vanilla JS）
+*/
+function initHamburgerMenu() {
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const globalNav = document.getElementById('global-nav');
+  
+  if (!hamburgerBtn || !globalNav) return;
+
+  hamburgerBtn.addEventListener('click', function() {
+      this.classList.toggle('is-active');
+      globalNav.classList.toggle('is-active');
+      
+      // メニューが開いている時は背面のスクロールを無効化
+      if (this.classList.contains('is-active')) {
+          document.body.style.overflow = 'hidden';
+      } else {
+          document.body.style.overflow = '';
+      }
+  });
+
+  // ナビゲーションのリンクをクリックしたらメニューを閉じる
+  const navLinks = globalNav.querySelectorAll('a');
+  navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+          hamburgerBtn.classList.remove('is-active');
+          globalNav.classList.remove('is-active');
+          document.body.style.overflow = '';
+      });
+  });
+}
+
+/**
+* 3. モーダルウィンドウの制御
 */
 function initModalLogic() {
   const modal = document.getElementById('reservation-modal');
-  // ボタン生成後にイベントリスナーを登録するため、少し遅延させるか親要素でイベント委譲する
+  if (!modal) return;
+
   document.body.addEventListener('click', (e) => {
       // 予約ボタンクリック時（モーダルを開く）
-      if (e.target.closest('#open-reservation-btn')) {
+      if (e.target.closest('#open-reservation-btn') || e.target.closest('#header-reserve-btn')) {
+          e.preventDefault(); // リンクのデフォルト動作を防ぐ
           modal.classList.add('is-open');
           modal.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden'; // 背面のスクロール防止
@@ -78,22 +144,17 @@ function initModalLogic() {
 }
 
 /**
-* 3. LINE連携システム（フロントエンド完結）
-* 金額情報は含めず、選択項目のみをテキストとしてLINEへ送るロジック
+* 4. LINE連携システム（フロントエンド完結）
 */
 function initLineIntegration() {
   const sendLineBtn = document.getElementById('send-line-btn');
   if (!sendLineBtn) return;
 
   sendLineBtn.addEventListener('click', () => {
-      // ※実際の案件では、ここでシミュレーションフォームの選択値を取得します。
-      // 例: const selectedPlan = document.getElementById('plan-select').value;
-      
       const selectedPlan = "BBQファミリーセット";
       const selectedDate = "未定";
       const peopleCount = "大人2名, 子供2名";
 
-      // LINEに送信するテキストの組み立て（合計金額の目安は意図的に除外）
       const textMessage = `【七宗遊園 予約リクエスト】\n`
                         + `希望プラン: ${selectedPlan}\n`
                         + `希望日時: ${selectedDate}\n`
@@ -101,13 +162,35 @@ function initLineIntegration() {
                         + `------------------------\n`
                         + `※上記の内容で空き状況を確認してください。`;
 
-      // URLエンコード
       const encodedText = encodeURIComponent(textMessage);
-      
-      // LINEアプリを開く（スマートフォン向け）
       const lineUrl = `https://line.me/R/msg/text/?${encodedText}`;
-      
-      // 新しいタブ（またはアプリ）で開く
       window.open(lineUrl, '_blank');
+  });
+}
+
+/**
+* 5. スクロール時のフェードインアニメーション
+*/
+function initScrollAnimation() {
+  const targets = document.querySelectorAll('.fade-in-target');
+  if (targets.length === 0) return;
+
+  const options = {
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+          }
+      });
+  }, options);
+
+  targets.forEach(target => {
+      observer.observe(target);
   });
 }
