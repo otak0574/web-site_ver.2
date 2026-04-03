@@ -450,6 +450,48 @@ a {
 }
 
 /* ========================================
+   追従ボタンの2段組みテキスト用スタイル
+======================================== */
+.sticky-reserve-btn {
+  padding: 12px 20px; /* 2段になる分、上下の余白を少し調整 */
+}
+
+.btn-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 左揃えにして整える */
+  line-height: 1.2;
+}
+
+.btn-text-wrapper .main-text {
+  font-size: 1.1rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+
+.btn-text-wrapper .sub-text {
+  font-size: 0.65rem; /* サブテキストは小さく控えめに */
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+/* ========================================
+   追従ボタンの表示・非表示アニメーション
+======================================== */
+.sticky-btn-wrapper {
+  /* 元のCSSに、変化をなめらかにする記述を追加 */
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+/* JSでこのクラスが付与された時にボタンを隠す */
+.sticky-btn-wrapper.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px); /* 少し下に下がりながら自然に消える */
+  pointer-events: none; /* 透明な状態での誤操作を防ぐ */
+}
+
+/* ========================================
    Header & Navigation Styles
 ======================================== */
 .global-header {
@@ -482,22 +524,6 @@ a {
   display: flex;
   align-items: center;
   gap: 16px;
-}
-
-/* 予約ボタン（ヘッダー右上） */
-.btn-reserve-header {
-  background-color: var(--color-accent, #C85A17); /* アンバー */
-  color: #FFFFFF;
-  font-size: 0.85rem;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 50px;
-  transition: background-color 0.3s ease;
-}
-
-.btn-reserve-header:hover {
-  background-color: #a84b12; /* 少し濃いアンバー */
 }
 
 /* ハンバーガーボタン */
@@ -638,4 +664,351 @@ a {
 /* ヘッダー固定に伴うコンテンツの余白調整 */
 body {
   padding-top: 60px; /* ヘッダーの高さ分だけメインコンテンツを下げる */
+}
+
+/* ========================================
+   下層ページ共通ヘッダー（Hero）
+======================================== */
+.page-hero {
+  position: relative;
+  width: 100%;
+  height: 40vh; /* トップページより低めに設定 */
+  min-height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.page-hero h2 {
+  font-size: 1.25rem;
+  line-height: 1.8;
+}
+
+/* ========================================
+ Fishing Page - Rules
+======================================== */
+.section-title {
+  text-align: center;
+  color: var(--color-main);
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background-color: var(--color-accent);
+  margin: 16px auto 0;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
+/* ========================================
+ Fishing Page - Pricing
+======================================== */
+
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.pricing-lead {
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.pricing-lead strong {
+  color: var(--color-accent);
+  font-size: 1.2rem;
+}
+
+.pricing-card {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  padding: 32px 24px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.pricing-card.pattern-a {
+  border: 2px solid var(--color-accent);
+}
+
+.pattern-highlight {
+  background-color: rgba(217, 109, 43, 0.1);
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.highlight-text {
+  color: var(--color-accent);
+  font-size: 1.4rem;
+  font-weight: bold;
+  display: block;
+}
+
+.pattern-formula {
+  text-align: center;
+  font-size: 0.95rem;
+  padding-bottom: 24px;
+  border-bottom: 1px dashed #ccc;
+  margin-bottom: 24px;
+}
+
+.price-details dt {
+  font-weight: bold;
+  color: var(--color-main);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.price-details dd {
+  font-size: 0.9rem;
+  padding-left: 1em;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.price-details dd::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+}
+
+.price-details .note {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* ========================================
+   Fishing Page - Appeal (新規追加)
+======================================== */
+.fishing-appeal {
+  padding: 60px 20px;
+  background-color: var(--color-white);
+  text-align: center;
+}
+
+.appeal-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.appeal-title {
+  color: var(--color-accent);
+  font-size: 1.4rem;
+  margin-bottom: 24px;
+  letter-spacing: 0.05em;
+}
+
+.appeal-text {
+  font-size: 0.95rem;
+  line-height: 2.2;
+  color: var(--color-text);
+}
+
+/* ========================================
+   Fishing Page - Rules (上質化)
+======================================== */
+/* 前回の .fishing-rules の背景色などを調整 */
+.fishing-rules {
+  padding: 60px 20px;
+  background-color: var(--color-bg); /* 背景をオフホワイトに */
+}
+
+.rule-card {
+  background-color: var(--color-white);
+  padding: 32px 24px;
+  border-radius: 8px;
+  border-top: 4px solid var(--color-main);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  text-align: left;
+}
+
+.rule-number {
+  display: block;
+  color: var(--color-accent);
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.rule-card h4 {
+  color: var(--color-main);
+  margin-bottom: 16px;
+  font-size: 1.15rem;
+  border-bottom: 1px solid rgba(44,66,52,0.1);
+  padding-bottom: 12px;
+}
+
+.rule-card p {
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+
+/* ========================================
+   Fishing Page - Tab UI (新規追加)
+======================================== */
+.fishing-pricing {
+  padding: 60px 20px;
+  background-color: var(--color-white);
+}
+
+.pricing-tabs-wrapper {
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+.tabs-hint {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.pricing-tabs {
+  display: flex;
+  gap: 8px; /* スマホで綺麗に横並び */
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 16px 8px;
+  background-color: var(--color-bg);
+  border: 1px solid rgba(44,66,52,0.2);
+  color: var(--color-main);
+  font-size: 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.is-active {
+  background-color: var(--color-main);
+  color: var(--color-white);
+  border-color: var(--color-main);
+}
+
+/* タブコンテンツの表示・非表示制御 */
+.tab-content {
+  display: none;
+  animation: fadeInTab 0.4s ease forwards;
+}
+
+.tab-content.is-active {
+  display: block;
+}
+
+@keyframes fadeInTab {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   Page Bottom CTA (新規追加)
+======================================== */
+.page-bottom-cta {
+  padding: 80px 20px;
+  background-color: var(--color-bg);
+  text-align: center;
+}
+
+.cta-message {
+  color: var(--color-main);
+  font-size: 1.3rem;
+  margin-bottom: 32px;
+}
+
+.large-cta-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 40px;
+  box-shadow: 0 8px 20px rgba(217, 109, 43, 0.3);
+}
+
+.large-cta-btn .main-text {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.large-cta-btn .sub-text {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* ========================================
+ Fishing Page - FAQ
+======================================== */
+.fishing-faq {
+  padding: 60px 20px;
+  background-color: var(--color-white);
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* JS不要のアコーディオン実装 */
+.faq-item {
+  border-bottom: 1px solid #ddd;
+}
+
+.faq-item summary {
+  display: block;
+  padding: 20px 40px 20px 0;
+  cursor: pointer;
+  position: relative;
+  font-size: 1.05rem;
+  color: var(--color-main);
+  font-weight: bold;
+}
+
+/* デフォルトの矢印を消す */
+.faq-item summary::-webkit-details-marker { display: none; }
+
+/* オリジナルの開閉アイコン（＋/－） */
+.faq-item summary::after {
+  content: '＋';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-accent);
+  font-size: 1.2rem;
+}
+
+.faq-item[open] summary::after {
+  content: '－';
+}
+
+.faq-answer {
+  padding: 0 0 20px;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+/* タブレット・PC向け調整 */
+@media screen and (min-width: 768px) {
+  .page-hero h2 { font-size: 2rem; }
+  .rules-grid { grid-template-columns: repeat(3, 1fr); }
 }
