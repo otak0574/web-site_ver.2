@@ -276,23 +276,28 @@ function initStickyButtonToggle() {
 
     const currentPath = window.location.pathname;
 
-    // 1. トップページとドッグランページでは非表示にする
-    const hideReserveBtn = currentPath.endsWith('/') || 
-                           currentPath.endsWith('index.html') || 
-                           currentPath.endsWith('restaurant.html') ||
-                           currentPath.endsWith('dogrun.html');
+    // 表示を隠すページ（トップページのみに設定し、ドッグランは表示させる）
+    const hiddenPages = ['index']; // restaurantなどは既に判定ロジックがあるはずですが、ここではdogrunを除外
+    const hideReserveBtn = hiddenPages.some(page => currentPath.includes(page)) || 
+                           currentPath === '/' || 
+                           currentPath.endsWith('/');
 
     if (hideReserveBtn) {
-        stickyContainer.innerHTML = ''; // 中身を空にする
-        return; // ここで処理を終了
+        stickyContainer.innerHTML = '';
+        return; 
     }
 
-    // 2. ボタンの生成（BBQかそれ以外かで色とテキストを分ける）
-    const isBBQ = currentPath.endsWith('bbq.html');
-    const btnClass = isBBQ ? "btn-main" : "btn-accent"; // BBQは緑、それ以外はアンバー
-    const btnText = isBBQ 
-        ? "【1日3組限定】手ぶらBBQのご予約" 
-        : "大自然の中で釣り体験のご予約";
+    // ページごとの設定
+    let btnClass = "btn-accent"; // デフォルトはアンバー
+    let btnText = "大自然の中で釣り体験のご予約";
+
+    if (currentPath.includes('bbq.html')) {
+        btnClass = "btn-main"; // BBQページは緑
+        btnText = "【1日3組限定】手ぶらBBQのご予約";
+    } else if (currentPath.includes('dogrun.html')) {
+        btnClass = "btn-accent"; // ドッグランページはアンバー（アクセント）
+        btnText = "愛犬同伴BBQの料金シミュレーション・ご予約"; // BBQへの誘導テキスト
+    }
 
     stickyContainer.innerHTML = `
         <div class="sticky-btn-wrapper">
