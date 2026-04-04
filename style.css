@@ -1431,23 +1431,6 @@ body {
   margin-top: 4px;
 }
 
-.menu-target-price {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 2px dashed var(--color-accent);
-  text-align: center;
-}
-
-.menu-target-price p {
-  color: var(--color-main);
-  font-size: 1.1rem;
-  line-height: 1.8;
-}
-
-.menu-target-price strong {
-  color: var(--color-accent);
-  font-size: 1.4rem;
-}
 
 /* タブレット・PC向け調整 */
 @media screen and (min-width: 768px) {
@@ -1496,7 +1479,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* 黒色の0.4（40%）の透明度。写真に合わせて調整してください */
+  background-color: rgba(0, 0, 0, 0.6); /* 黒色の0.4（40%）の透明度。写真に合わせて調整してください */
   z-index: 2; /* 画像の上に配置 */
 }
 
@@ -1572,6 +1555,35 @@ body {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(200, 90, 23, 0.15);
 }
+
+/* ========================================
+   BBQ Page - Plan Cards with Images (追加)
+======================================== */
+.plan-card-thumb {
+  margin: 0;
+  width: 100%;
+  height: 200px; /* 画像の高さを固定して揃える */
+  background-color: #eee; /* 画像がない場合のプレースホルダ色 */
+  overflow: hidden; /* ホバー時に画像がはみ出さないように */
+  border-radius: 12px 12px 0 0; /* カードの角丸に合わせる */
+}
+
+.plan-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 画像を枠いっぱいに綺麗に収める */
+  transition: transform 0.5s ease; /* ホバー時の動きを滑らかに */
+}
+
+.plan-card:hover .plan-card-thumb img {
+  transform: scale(1.05); /* ホバー時に画像を少し拡大 */
+}
+
+/* 一番人気のバッジが画像の上に重なるように調整 */
+.plan-card.is-popular .popular-badge {
+  z-index: 10;
+}
+
 .popular-badge {
   position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
   background-color: var(--color-accent); color: #fff;
@@ -2017,5 +2029,126 @@ body {
 
   .btn-route-search .main-text {
       font-size: 1.1rem;
+  }
+}
+
+/* ========================================
+   Rules Notice (釣り堀ページの基本ルール)
+======================================== */
+.pricing-rules-notice {
+  background-color: #FFF5E6;
+  border: 2px solid #FADCB3;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 40px;
+  box-shadow: 0 4px 15px rgba(200, 90, 23, 0.05);
+}
+
+.pricing-rules-notice h4 {
+  color: var(--color-accent);
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.pricing-rules-notice ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pricing-rules-notice li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.pricing-rules-notice li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-accent);
+  font-weight: bold;
+}
+
+.pricing-rules-notice li:last-child {
+  margin-bottom: 0;
+}
+
+.pricing-rules-notice small {
+  display: block;
+  color: #666;
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
+/* ========================================
+ Reservation Steps Guide (カンタン予約ステップ)
+======================================== */
+.reservation-steps-guide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 24px 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+}
+
+.step-num {
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.step-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.step-item p {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--color-main);
+  font-weight: bold;
+  margin: 0;
+}
+
+.step-arrow {
+  color: #ccc;
+  font-size: 1.2rem;
+}
+
+/* モバイル表示時の微調整 */
+@media screen and (max-width: 768px) {
+  .reservation-steps-guide {
+      padding: 20px 10px;
+      gap: 5px;
+  }
+  .step-icon {
+      font-size: 1.6rem;
+  }
+  .step-item p {
+      font-size: 0.75rem;
   }
 }

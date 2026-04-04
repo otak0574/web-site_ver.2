@@ -110,7 +110,7 @@ function renderGlobalComponents() {
   if (stickyBtnContainer) stickyBtnContainer.innerHTML = stickyBtnHTML;
 
   // ▼ モーダルの自動挿入：ボタンが存在するページでのみモーダル本体を読み込む
-  if (!hideReserveBtn && !document.getElementById('reservation-modal')) {
+  if (!document.getElementById('reservation-modal')) {
       const modalHTML = `
           <div id="reservation-modal" class="modal" aria-hidden="true">
               <div class="modal-overlay" data-modal-close></div>
