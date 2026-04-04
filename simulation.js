@@ -31,7 +31,7 @@ const ReservationSystem = {
 
     prices: {
         A: { 
-            teishoku: 2000, tanpin: 1000, kids: 1000, curry: 800,
+            teishoku: 2000, tanpin: 500, kids: 1100, curry: 1100,
             shioyaki: 400, gyoden: 450, karaage: 480, // ★お魚調理代追加
             takeoutRods: 1000,
             methodRaw: 400, methodGut: 420, methodGrill: 440 
@@ -484,8 +484,8 @@ const ReservationSystem = {
             }
         }
 
-        container.innerHTML = html;
-    },
+        container.innerHTML = `<div class="step-animation">${html}</div>`;
+        },
 
     createCounter(targetPath, label, val, isMaxed = false) {
         return `

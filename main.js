@@ -56,6 +56,7 @@ function renderGlobalComponents() {
                   <li><a href="bbq.html">BBQ（プレミアム）</a></li>
                   <li><a href="dogrun.html">ドッグラン</a></li>
                   <li><a href="story.html">こだわりとストーリー</a></li>
+                  <li><a href="access.html">アクセス</a></li>
               </ul>
           </nav>
       </header>
@@ -67,7 +68,7 @@ function renderGlobalComponents() {
           <div class="footer-inner">
               <h2 class="footer-logo font-mincho">七宗遊園</h2>
               <div class="footer-info">
-                  <p>〒509-0400<br>岐阜県加茂郡七宗町神渕4183-4</p>
+                  <p>〒509-0511<br>岐阜県加茂郡七宗町神渕4183-4</p>
                   <p class="footer-tel">TEL: <a href="tel:0574461128">0574-46-1128</a></p>
                   <p>営業時間: 10:00 ～ 15:00<br>定休日: 第二・第四火曜</p>
               </div>
@@ -277,7 +278,7 @@ function initStickyButtonToggle() {
     const currentPath = window.location.pathname;
 
     // 表示を隠すページ（トップページのみに設定し、ドッグランは表示させる）
-    const hiddenPages = ['index','restaurant','dogrun','story']; // restaurantなどは既に判定ロジックがあるはずですが、ここではdogrunを除外
+    const hiddenPages = ['index','restaurant','dogrun','story','access']; // restaurantなどは既に判定ロジックがあるはずですが、ここではdogrunを除外
     const hideReserveBtn = hiddenPages.some(page => currentPath.includes(page)) || 
                            currentPath === '/' || 
                            currentPath.endsWith('/');

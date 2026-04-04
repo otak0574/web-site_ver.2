@@ -150,11 +150,19 @@ a {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    /* ▼ ここが「フワッ」の正体 */
+    opacity: 0;                /* 最初は透明 */
+    visibility: hidden;        /* 存在を隠す（クリックもできない） */
+    transition: opacity 0.4s ease, visibility 0.4s ease; /* 0.4秒かけて変化 */
 }
 
 .modal.is-open {
     opacity: 1;
     visibility: visible;
+}
+
+.modal.is-open .modal-content {
+  transform: translateY(0);    /* 定位置に戻る */
 }
 
 .modal-overlay {
@@ -176,6 +184,8 @@ a {
     position: relative;
     overflow-y: auto;
     z-index: 1;
+    transform: translateY(20px); /* 最初は少し下に下げておく */
+    transition: transform 0.4s ease;
 }
 
 .modal-close-btn {
@@ -1102,6 +1112,9 @@ body {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.step-animation {
+  animation: fadeInStep 0.4s ease-out forwards;
+}
 
 /* ========================================
    Page Bottom CTA (新規追加)
@@ -1225,17 +1238,6 @@ body {
   line-height: 1.8;
   margin-bottom: 24px;
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-.hero-badge {
-  background-color: rgba(255, 255, 255, 0.95);
-  color: var(--color-main);
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 0.95rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  border: 2px solid var(--color-accent);
 }
 
 /* 2. 癒やしの空間 */
@@ -1789,4 +1791,231 @@ body {
     .story-hero h2 { font-size: 2.8rem; }
     .space-flex { flex-direction: row; }
     .space-image, .space-text { flex: 1; }
+}
+
+/* ========================================
+   Access & Basic Info Page Styles
+======================================== */
+
+/* 1. Hero Section (ヒーローエリア) */
+.access-hero {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--color-main, #2C4234);
+}
+
+.access-hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.35); /* 写真の上に薄い幕を敷いて文字を読みやすく */
+  z-index: 2;
+}
+
+.access-hero .hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: #ffffff;
+  padding: 0 20px;
+}
+
+.access-hero .hero-sub {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+}
+
+.access-hero h2 {
+  font-size: 2rem;
+  line-height: 1.4;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* 2. Basic Info Table (基本情報テーブル) */
+.basic-info-section {
+  padding: 60px 20px;
+  background-color: var(--color-bg, #F7F5F0);
+}
+
+.info-table-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.info-table th, .info-table td {
+  padding: 20px 15px;
+  border-bottom: 1px solid #eeeeee;
+  text-align: left;
+  vertical-align: top;
+}
+
+.info-table th {
+  width: 30%;
+  font-weight: bold;
+  color: var(--color-main, #2C4234);
+  font-family: '筑紫Aオールド明朝', 'YuMincho', serif;
+  white-space: nowrap;
+}
+
+.info-table td {
+  color: var(--color-text, #333333);
+  line-height: 1.6;
+}
+
+.info-table tr:last-child th, 
+.info-table tr:last-child td {
+  border-bottom: none;
+}
+
+.map-link, .tel-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--color-accent, #C85A17);
+  font-weight: bold;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.info-table .note {
+  font-size: 0.85rem;
+  color: #666666;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* 3. Route Button (ルート案内ボタン) */
+.route-button-section {
+  padding: 20px;
+  background-color: var(--color-bg, #F7F5F0);
+}
+
+.btn-route-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--color-accent, #C85A17);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 24px 20px;
+  border-radius: 50px;
+  box-shadow: 0 6px 20px rgba(200, 90, 23, 0.3);
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.btn-route-search:active {
+  transform: scale(0.98);
+}
+
+.btn-route-search .main-text {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.btn-route-search .sub-text {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* 4. Car Access & Parking (お車・駐車場) */
+.car-access-section {
+  padding: 60px 20px;
+  background-color: #ffffff;
+}
+
+.access-card {
+  max-width: 800px;
+  margin: 0 auto 60px;
+}
+
+.access-card-text h4 {
+  font-size: 1.4rem;
+  color: var(--color-main, #2C4234);
+  margin-bottom: 15px;
+}
+
+.nav-guide {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f9f4f0;
+  border-left: 4px solid var(--color-accent);
+  font-size: 0.95rem;
+}
+
+.guide-caption {
+  padding: 15px;
+  background: #fdfdfd;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.parking-info-box {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: var(--color-bg, #F7F5F0);
+  border-radius: 12px;
+}
+
+.parking-flex {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.p-icon {
+  font-size: 2rem;
+}
+
+.parking-note {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed #cccccc;
+  font-size: 0.85rem;
+  color: #555555;
+}
+
+/* モバイル対応（スマホで見やすい調整） */
+@media screen and (max-width: 768px) {
+  .access-hero { height: 40vh; }
+  .access-hero h2 { font-size: 1.6rem; }
+  
+  .info-table th, .info-table td {
+      display: block;
+      width: 100%;
+      padding: 10px 5px;
+  }
+  
+  .info-table th {
+      border-bottom: none;
+      padding-bottom: 0;
+      font-size: 0.9rem;
+  }
+  
+  .info-table td {
+      padding-top: 5px;
+  }
+
+  .btn-route-search .main-text {
+      font-size: 1.1rem;
+  }
 }
