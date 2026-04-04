@@ -24,7 +24,6 @@ function renderGlobalComponents() {
   // ▼ 予約ボタンを「隠す」ページの条件を定義
   // URLの末尾が /、index.html、restaurant.html、dogrun.html のいずれかであれば true になる
   const hideReserveBtn = currentPath.endsWith('/') || 
-                         currentPath.endsWith('index.html') || 
                          currentPath.endsWith('restaurant.html') || 
                          currentPath.endsWith('dogrun.html');
 
@@ -277,7 +276,7 @@ function initStickyButtonToggle() {
     const currentPath = window.location.pathname;
 
     // 表示を隠すページ（トップページのみに設定し、ドッグランは表示させる）
-    const hiddenPages = ['index','restaurant','dogrun','story','access']; // restaurantなどは既に判定ロジックがあるはずですが、ここではdogrunを除外
+    const hiddenPages = ['restaurant','dogrun','story','access']; // restaurantなどは既に判定ロジックがあるはずですが、ここではdogrunを除外
     const hideReserveBtn = hiddenPages.some(page => currentPath.includes(page)) || 
                            currentPath === '/' || 
                            currentPath.endsWith('/');
