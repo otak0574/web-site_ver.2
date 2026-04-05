@@ -25,12 +25,14 @@
 }
 
 body {
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    font-family: var(--font-body);
-    font-weight: 300;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+  background-color: var(--color-bg);
+  /* ▼ CSSだけで描く、波打つオーガニックな木目調テクスチャ */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='woodgrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.12' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23woodgrain)'/%3E%3C/svg%3E");
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 img {
@@ -1014,46 +1016,48 @@ body {
   color: var(--color-text);
 }
 
-/* ========================================
-   Fishing Page - Rules (上質化)
-======================================== */
-/* 前回の .fishing-rules の背景色などを調整 */
 .fishing-rules {
   padding: 60px 20px;
-  background-color: var(--color-bg); /* 背景をオフホワイトに */
+  background-color: transparent; /* 木目を活かす */
 }
 
 .rule-card {
-  background-color: var(--color-white);
+  background-color: var(--color-main); /* 緑背景 */
+  color: #ffffff; /* 白文字 */
   padding: 32px 24px;
-  border-radius: 8px;
-  border-top: 4px solid var(--color-main);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2);
   text-align: left;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
+/* 数字を右上の背景に透かしで入れるとお洒落になります */
 .rule-number {
-  display: block;
-  color: var(--color-accent);
-  font-size: 2.5rem;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 4rem;
+  font-weight: bold;
   line-height: 1;
-  margin-bottom: 12px;
-  opacity: 0.5;
+  z-index: -1;
 }
 
 .rule-card h4 {
-  color: var(--color-main);
+  color: #ffffff;
   margin-bottom: 16px;
   font-size: 1.15rem;
-  border-bottom: 1px solid rgba(44,66,52,0.1);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
   padding-bottom: 12px;
 }
 
 .rule-card p {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.8;
+  color: #ffffff;
 }
-
 
 /* ========================================
    Fishing Page - Tab UI (新規追加)
@@ -1613,12 +1617,26 @@ body {
 .drink-price { color: var(--color-main); font-size: 1.1rem; }
 
 /* 6. ルール・注意事項 */
-.bbq-rules { padding: 60px 20px; background-color: var(--color-white); }
-.rule-box { background: #f9f9f9; border-left: 4px solid var(--color-main); padding: 24px; border-radius: 0 8px 8px 0; }
-.rule-list dt { font-weight: bold; color: var(--color-main); margin-bottom: 8px; font-size: 1.1rem; }
-.rule-list dd { margin-bottom: 24px; line-height: 1.6; color: #444; }
+.bbq-rules { padding: 60px 20px; background-color: transparent; }
+.rule-box { 
+    background: var(--color-main); 
+    padding: 32px; 
+    border-radius: 12px; 
+    box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2);
+    color: #ffffff;
+}
+.rule-list dt { 
+    font-weight: bold; 
+    color: var(--color-accent); /* 見出しはアンバー色 */
+    margin-bottom: 12px; 
+    font-size: 1.1rem; 
+    border-bottom: 1px dashed rgba(255,255,255,0.3); 
+    padding-bottom: 8px;
+}
+.rule-list dd { margin-bottom: 28px; line-height: 1.6; color: #ffffff; }
 .rule-list dd:last-child { margin-bottom: 0; }
-.text-alert { color: #c00 !important; }
+/* 緑背景だと赤文字が読めないため、警告文は明るいゴールドに変更 */
+.text-alert { color: #FFD27D !important; }
 
 /* タブレット・PC向け調整 */
 @media screen and (min-width: 768px) {
@@ -1685,12 +1703,28 @@ body {
 .info-card .highlight { color: var(--color-accent); font-weight: bold; }
 
 .dogrun-rules-box { 
-  background: #fff; padding: 30px; border-radius: 15px; 
-  border-left: 5px solid var(--color-main);
+  background: var(--color-main); 
+  padding: 32px; 
+  border-radius: 12px; 
+  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2);
+  color: #ffffff;
 }
-.rule-list { list-style: none; padding: 0; }
-.rule-list li { padding: 10px 0; border-bottom: 1px dotted #eee; font-size: 0.95rem; }
-.rule-list li:last-child { border-bottom: none; }
+/* ドッグラン特有のリスト装飾 */
+.dogrun-rules-box .rule-list { list-style: none; padding: 0; }
+.dogrun-rules-box .rule-list li { 
+    padding: 12px 0 12px 1.5em; 
+    border-bottom: 1px dotted rgba(255,255,255,0.3); 
+    font-size: 0.95rem; 
+    position: relative;
+}
+.dogrun-rules-box .rule-list li::before {
+    content: "🐾";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    font-size: 0.9rem;
+}
+.dogrun-rules-box .rule-list li:last-child { border-bottom: none; }
 
 /* 4. BBQ Benefit Highlight (目玉セクション) */
 .bbq-benefit-highlight { padding: 60px 20px; }
@@ -2151,4 +2185,116 @@ body {
   .step-item p {
       font-size: 0.75rem;
   }
+}
+
+/* ========================================
+   全ページ共通：セクションごとの独立カードUI (モジュール型)
+======================================== */
+
+/* 1. 各セクションを独立した白いカードにする */
+main > section {
+  margin: 24px 16px !important; /* スマホで上下に24px、左右に16pxの隙間（木目が見える部分） */
+  border-radius: 16px !important; /* 大きめの角丸 */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08) !important; /* ふんわり浮き上がる影 */
+  overflow: hidden !important; /* 写真が角丸からはみ出ないようにする */
+}
+
+/* 2. 背景色を白にする（元から色が付いている特殊なセクションは除外） */
+main > section:not(.top-commitment):not(.story-closing):not(.access-hero) {
+  background-color: #ffffff !important;
+}
+
+/* 3. PC向けの余白と幅の調整（画面いっぱいに広がらないように中央配置） */
+@media screen and (min-width: 768px) {
+  main > section {
+      margin: 40px auto !important;
+      max-width: 1000px; /* パソコンで見た時に横長になりすぎないように */
+  }
+}
+
+/* 4. ヒーローエリア（一番上の写真）の微調整 */
+main > section.page-hero,
+main > section.bbq-hero,
+main > section.restaurant-hero,
+main > section.access-hero,
+main > section.story-hero,
+main > section.dogrun-hero,
+main > section.top-hero {
+  margin-top: 16px !important; /* ヘッダーから少しだけ離す */
+  padding: 0 !important;
+}
+
+
+/* ========================================
+ 全ページ共通：ルール部分を「緑背景×白文字のカード」に統一
+======================================== */
+
+/* ▼ 1. 釣り堀：基本ルール（ページ下部） */
+.pricing-rules-notice {
+  background-color: var(--color-main) !important;
+  border: none !important;
+  padding: 32px 24px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2) !important;
+}
+.pricing-rules-notice h4 {
+  color: #ffffff !important;
+  border-bottom: 1px dashed rgba(255,255,255,0.3);
+  padding-bottom: 12px;
+}
+.pricing-rules-notice li {
+  color: #ffffff !important;
+}
+.pricing-rules-notice li::before {
+  color: var(--color-accent) !important;
+}
+.pricing-rules-notice small {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* ▼ 2. 釣り堀：3つのルール（ページ上部） */
+.fishing-rules .rule-card {
+  background-color: var(--color-main) !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+.fishing-rules .rule-card h4 {
+  color: #ffffff !important;
+  border-bottom: 1px dashed rgba(255,255,255,0.3) !important;
+}
+.fishing-rules .rule-card p {
+  color: #ffffff !important;
+}
+.fishing-rules .rule-card .rule-number {
+  color: rgba(255, 255, 255, 0.15) !important; /* 番号を背景に透かす */
+}
+
+/* ▼ 3. BBQ：ご利用ルール・注意事項 */
+.bbq-rules .rule-box {
+  background-color: var(--color-main) !important;
+  border: none !important;
+  padding: 32px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2) !important;
+}
+.bbq-rules .rule-list dt {
+  color: var(--color-accent) !important; /* 小見出しはアンバー色 */
+  border-bottom: 1px dashed rgba(255,255,255,0.3) !important;
+  padding-bottom: 8px !important;
+}
+.bbq-rules .rule-list dd {
+  color: #ffffff !important;
+}
+.bbq-rules .text-alert {
+  color: #FFD27D !important; /* 赤文字は緑背景に沈むため、明るいゴールドに変更 */
+}
+
+/* ▼ 4. ドッグラン：利用規約 */
+.dogrun-rules-box {
+  background-color: var(--color-main) !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+.dogrun-rules-box .rule-list li {
+  border-bottom: 1px dotted rgba(255,255,255,0.3) !important;
 }
