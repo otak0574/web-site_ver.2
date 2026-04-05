@@ -802,13 +802,29 @@ main > section.top-hero {
   background-color: var(--color-main) !important;
   border: none !important;
   color: #ffffff !important;
+  padding: 32px 24px !important; /* ★復活：カードの内側余白 */
+  border-radius: 12px !important; /* ★復活：角丸 */
+  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2) !important; /* ★復活：影 */
+  position: relative !important; /* ★復活：数字の配置用 */
+  overflow: hidden !important; 
+  z-index: 1 !important;
 }
 .fishing-rules .rule-card h4 {
   color: #ffffff !important;
   border-bottom: 1px dashed rgba(255,255,255,0.3) !important;
+  padding-bottom: 12px !important;
 }
 .fishing-rules .rule-card p { color: #ffffff !important; }
-.fishing-rules .rule-card .rule-number { color: rgba(255, 255, 255, 0.15) !important; }
+.fishing-rules .rule-card .rule-number {
+  position: absolute !important; /* ★復活：右上に大きく配置 */
+  top: 10px !important;
+  right: 15px !important;
+  font-size: 4rem !important; 
+  font-weight: bold !important;
+  line-height: 1 !important;
+  color: rgba(255, 255, 255, 0.15) !important;
+  z-index: -1 !important;
+}
 
 /* ▼ 3. BBQ：ご利用ルール・注意事項 */
 .bbq-rules .rule-box {
@@ -831,6 +847,15 @@ main > section.top-hero {
   background-color: var(--color-main) !important;
   border: none !important;
   color: #ffffff !important;
+  padding: 32px !important; /* ★復活：箱の内側余白 */
+  border-radius: 12px !important; /* ★復活：角丸 */
+  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2) !important; /* ★復活：影 */
+}
+/* ★追加：HTML側にある緑文字指定を強制的に白で上書きする */
+.dogrun-rules-box h3 {
+  color: #ffffff !important;
+  border-bottom: 1px dashed rgba(255,255,255,0.3) !important;
+  padding-bottom: 16px !important;
 }
 .dogrun-rules-box .rule-list li {
   border-bottom: 1px dotted rgba(255,255,255,0.3) !important;
