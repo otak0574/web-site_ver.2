@@ -165,8 +165,6 @@ const ReservationSystem = {
                 if (this.validateCurrentStep()) {
                     this.state.step++;
                     this.render();
-                }
-            }
                     this.state.step++;
                     this.render();
                 }
