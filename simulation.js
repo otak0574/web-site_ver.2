@@ -163,24 +163,10 @@ const ReservationSystem = {
             // ▼ 次へ進むボタン（自動入力の賢い処理付き）
             if (e.target.closest('.btn-next')) {
                 if (this.validateCurrentStep()) {
-                    if (this.state.flow === 'A' && this.state.step === 2) {
-                        const pA = this.state.simA.people;
-                        const totalPeople = pA.adult + pA.child;
-                        
-                        if (this.state.simA.purpose === 'eat_in') {
-                            const currentAdultMenus = this.state.simA.menus.adultTeishoku + this.state.simA.menus.adultTanpin;
-                            if (currentAdultMenus === 0) this.state.simA.menus.adultTeishoku = pA.adult;
-                            
-                            const currentChildMenus = this.state.simA.menus.childKids + this.state.simA.menus.childCurry;
-                            if (currentChildMenus === 0 && pA.child > 0) this.state.simA.menus.childKids = pA.child;
-
-                            const currentFish = this.state.simA.fish.shioyaki + this.state.simA.fish.gyoden + this.state.simA.fish.karaage;
-                            if (currentFish === 0) this.state.simA.fish.shioyaki = totalPeople;
-                        } 
-                        else if (this.state.simA.purpose === 'takeout') {
-                            if (this.state.simA.takeout.fish === 0) this.state.simA.takeout.fish = totalPeople;
-                        }
-                    }
+                    this.state.step++;
+                    this.render();
+                }
+            }
                     this.state.step++;
                     this.render();
                 }
