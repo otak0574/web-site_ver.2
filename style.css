@@ -25,6 +25,7 @@
 }
 
 body {
+  background-color: var(--color-bg);
   /* ▼ CSSだけで描く、波打つオーガニックな木目調テクスチャ */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='woodgrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.12' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23woodgrain)'/%3E%3C/svg%3E");
   color: var(--color-text);
@@ -32,6 +33,7 @@ body {
   font-weight: 300;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  padding-top: 60px; /* ヘッダー固定に伴うコンテンツの余白調整 */
 }
 
 img {
@@ -55,492 +57,13 @@ a {
    Common Layout (Header, Footer)
 ======================================== */
 .global-header {
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px;
-    z-index: 100;
-}
-
-.header-logo-image {
-    width: 100px;
-    height: 100px;
-}
-
-.hamburger-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 30px;
-    height: 24px;
-    position: relative;
-}
-
-.hamburger-line {
-    display: block;
-    width: 100%;
-    height: 2px;
-    position: absolute;
-    transition: 0.3s;
-}
-
-.hamburger-line:nth-child(1) { top: 0; }
-.hamburger-line:nth-child(2) { top: 11px; }
-.hamburger-line:nth-child(3) { bottom: 0; }
-
-.global-footer {
-    color: var(--color-bg);
-    padding: 40px 16px;
-    text-align: center;
-    margin-top: 60px;
-}
-
-/* ========================================
-   Sticky Reservation Button (Mobile)
-======================================== */
-.sticky-btn-wrapper {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 90;
-}
-
-.btn-accent {
-    color: var(--color-white);
-    border: none;
-    border-radius: 50px;
-    padding: 16px 24px;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 1rem;
-    box-shadow: 0 4px 12px rgba(217, 109, 43, 0.4);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: transform 0.2s;
-}
-
-.btn-accent:active {
-    transform: scale(0.95);
-}
-
-/* ========================================
-   Modal Overlay
-======================================== */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    /* ▼ ここが「フワッ」の正体 */
-    opacity: 0;                /* 最初は透明 */
-    visibility: hidden;        /* 存在を隠す（クリックもできない） */
-    transition: opacity 0.4s ease, visibility 0.4s ease; /* 0.4秒かけて変化 */
-}
-
-.modal.is-open {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal.is-open .modal-content {
-  transform: translateY(0);    /* 定位置に戻る */
-}
-
-.modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(44, 66, 52, 0.8); /* メインカラーの透過 */
-}
-
-.modal-content {
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    border-radius: 12px;
-    padding: 24px;
-    position: relative;
-    overflow-y: auto;
-    z-index: 1;
-    transform: translateY(20px); /* 最初は少し下に下げておく */
-    transition: transform 0.4s ease;
-}
-
-.modal-close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--color-main);
-    cursor: pointer;
-}
-
-.modal-title {
-    color: var(--color-main);
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-.modal-desc {
-    font-size: 0.85rem;
-    margin-bottom: 24px;
-    text-align: center;
-}
-
-.simulation-form-placeholder {
-    border: 1px dashed var(--color-main);
-    padding: 40px 20px;
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-/* ========================================
-   Main Content Layout Adjustments
-======================================== */
-.hero-section {
-    min-height: 120vh; /* スクロール確認用 */
-    padding: 40px 16px;
-    text-align: center;
-}
-
-.hero-section h2 {
-    color: var(--color-main);
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-/* ========================================
-   Top Page Styles
-======================================== */
-/* 1. ファーストビュー（ヒーローエリア） */
-.top-hero {
-  position: relative;
-  width: 100%;
-  height: 85vh; /* スマホ画面に最適化した高さ */
-  min-height: 500px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hero-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-/* 文字の視認性を上げるためのオーバーレイ */
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
-  z-index: 2;
-}
-
-.hero-text {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  color: var(--color-white);
-  padding: 0 20px;
-}
-
-.hero-text h2 {
-  font-size: 1.5rem;
-  line-height: 2;
-  letter-spacing: 0.05em;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-/* 2. イントロダクション */
-.top-intro {
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.intro-title {
-  color: var(--color-main);
-  font-size: 1.4rem;
-  margin-bottom: 24px;
-}
-
-.intro-text {
-  font-size: 0.95rem;
-  line-height: 2.2;
-  color: var(--color-text);
-}
-
-/* 3. 各施設への導線 */
-.top-facilities {
-  padding: 0 20px 60px;
-}
-
-.facility-grid {
-  display: grid;
-  grid-template-columns: 1fr; /* スマホは1カラム */
-  gap: 32px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.facility-card {
-  display: block;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.facility-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-
-.card-badge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  color: var(--color-white);
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  z-index: 10;
-}
-
-.card-img-wrapper {
-  width: 100%;
-  aspect-ratio: 16 / 10; /* 画像の比率を統一 */
-  overflow: hidden;
-}
-
-.card-img-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.facility-card:hover .card-img-wrapper img {
-  transform: scale(1.05);
-}
-
-.card-body {
-  padding: 24px;
-}
-
-.card-title {
-  color: var(--color-main);
-  font-size: 1.25rem;
-  margin-bottom: 12px;
-  border-bottom: 1px solid rgba(44, 66, 52, 0.2);
-  padding-bottom: 12px;
-}
-
-.card-desc {
-  font-size: 0.9rem;
-  margin-bottom: 16px;
-  color: var(--color-text);
-}
-
-.card-link-text {
-  display: inline-block;
-  color: var(--color-accent);
-  font-size: 0.9rem;
-  font-weight: bold;
-  position: relative;
-}
-
-.card-link-text::after {
-  content: "→";
-  margin-left: 4px;
-  transition: margin-left 0.3s ease;
-}
-
-.facility-card:hover .card-link-text::after {
-  margin-left: 8px;
-}
-
-/* 4. こだわりへの入り口 */
-.top-commitment {
-  padding: 60px 20px;
-  color: var(--color-white);
-  text-align: center;
-}
-
-.commitment-inner {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.commitment-title {
-  font-size: 1.4rem;
-  margin-bottom: 24px;
-}
-
-.commitment-text {
-  font-size: 0.9rem;
-  line-height: 2;
-  margin-bottom: 32px;
-}
-
-.btn-outline {
-  display: inline-block;
-  border: 1px solid var(--color-white);
-  color: var(--color-white);
-  padding: 16px 32px;
-  border-radius: 50px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-outline:hover {
-  color: var(--color-main);
-}
-
-/* 白背景用のアウトラインボタン（緑色） */
-.btn-outline-main {
-  display: inline-block;
-  border: 1px solid var(--color-main); /* 枠線を緑色に */
-  color: var(--color-main); /* 文字を緑色に */
-  padding: 16px 32px;
-  border-radius: 50px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-outline-main:hover {
-  color: var(--color-white); /* ホバー時は文字を白に */
-}
-
-/* ========================================
- Animation Utility
-======================================== */
-.fade-in-target {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.fade-in-target.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* タブレット・PC向け調整 */
-@media screen and (min-width: 768px) {
-  .hero-text h2 { font-size: 2.5rem; }
-  .facility-grid { grid-template-columns: repeat(2, 1fr); } /* 2カラムに */
-}
-
-/* ========================================
-   追従ボタンの2段組みテキスト用スタイル
-======================================== */
-.sticky-reserve-btn {
-  padding: 12px 20px; /* 2段になる分、上下の余白を少し調整 */
-}
-
-.btn-text-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* 左揃えにして整える */
-  line-height: 1.2;
-}
-
-.btn-text-wrapper .main-text {
-  font-size: 1.1rem;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-}
-
-.btn-text-wrapper .sub-text {
-  font-size: 0.65rem; /* サブテキストは小さく控えめに */
-  opacity: 0.9;
-  margin-top: 4px;
-}
-
-/* ========================================
-   追従ボタンの表示・非表示アニメーション
-======================================== */
-.sticky-btn-wrapper {
-  /* 元のCSSに、変化をなめらかにする記述を追加 */
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-}
-
-/* JSでこのクラスが付与された時にボタンを隠す */
-.sticky-btn-wrapper.is-hidden {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px); /* 少し下に下がりながら自然に消える */
-  pointer-events: none; /* 透明な状態での誤操作を防ぐ */
-}
-
-/* ========================================
-   共通ボタンデザイン：メインカラー（緑の塗りつぶし）
-======================================== */
-.btn-main {
-  display: inline-block;
-  background-color: var(--color-main, #2C4234);
-  color: var(--color-white, #ffffff);
-  border: none;
-  padding: 16px 32px;    /* ★追加：ボタンの縦横のふっくらとした余白 */
-  border-radius: 50px;   /* ★追加：角の美しい丸み */
-  font-weight: bold;     /* ★追加：文字を太くして読みやすく */
-  font-size: 0.95rem;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  box-shadow: 0 4px 10px rgba(44, 66, 52, 0.2); /* ★追加：森の色に合わせた上品な影 */
-  transition: all 0.3s ease;
-}
-
-/* ホバー（タップ）した時は、少しだけ暗くして押した感を出す */
-.btn-main:hover {
-  background-color: rgba(30, 45, 35, 1);
-  color: var(--color-white, #ffffff);
-  box-shadow: 0 6px 15px rgba(44, 66, 52, 0.3); /* 影を少し広げる */
-  transform: translateY(-2px); /* 少しだけ上にフワッと浮く */
-}
-/* ========================================
-   Header & Navigation Styles
-======================================== */
-.global-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--color-bg, #F7F5F0); /* ベースカラー */
+  background-color: var(--color-bg); /* ベースカラー */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  z-index: 900; /* モーダルより低く、コンテンツより高く */
+  z-index: 900; 
 }
 
 .header-inner {
@@ -553,16 +76,20 @@ a {
 }
 
 .header-logo a {
-  color: var(--color-main, #2C4234); /* メインカラー */
+  color: var(--color-main);
   font-size: 1.25rem;
   font-weight: bold;
-  text-decoration: none;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.header-logo-image {
+    width: 100px;
+    height: 100px;
 }
 
 /* ハンバーガーボタン */
@@ -573,7 +100,7 @@ a {
   background: transparent;
   border: none;
   cursor: pointer;
-  z-index: 902; /* ナビゲーションより上 */
+  z-index: 902;
 }
 
 .hamburger-line {
@@ -581,7 +108,7 @@ a {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--color-main, #2C4234);
+  background-color: var(--color-main);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -590,16 +117,9 @@ a {
 .hamburger-line:nth-child(2) { top: 11px; }
 .hamburger-line:nth-child(3) { bottom: 0; }
 
-/* ハンバーガーボタン: アクティブ時（×印になる動き） */
-.hamburger-btn.is-active .hamburger-line:nth-child(1) {
-  transform: translateY(11px) rotate(45deg);
-}
-.hamburger-btn.is-active .hamburger-line:nth-child(2) {
-  opacity: 0;
-}
-.hamburger-btn.is-active .hamburger-line:nth-child(3) {
-  transform: translateY(-11px) rotate(-45deg);
-}
+.hamburger-btn.is-active .hamburger-line:nth-child(1) { transform: translateY(11px) rotate(45deg); }
+.hamburger-btn.is-active .hamburger-line:nth-child(2) { opacity: 0; }
+.hamburger-btn.is-active .hamburger-line:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
 
 /* フルスクリーンナビゲーション */
 .global-nav {
@@ -608,7 +128,7 @@ a {
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: var(--color-bg, #F7F5F0);
+  background-color: var(--color-bg);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -626,7 +146,6 @@ a {
 
 .nav-list {
   list-style: none;
-  padding: 0;
   text-align: center;
 }
 
@@ -635,20 +154,17 @@ a {
 }
 
 .nav-list a {
-  color: var(--color-main, #2C4234);
+  color: var(--color-main);
   font-size: 1.25rem;
-  text-decoration: none;
-  position: relative;
 }
 
-/* ========================================
- Footer Styles
-======================================== */
+/* フッター */
 .global-footer {
-  background-color: var(--color-main, #2C4234); /* 深緑で引き締める */
-  color: #F7F5F0; /* ベースカラーのオフホワイトをテキストに使用 */
+  background-color: var(--color-main);
+  color: #F7F5F0;
   padding: 60px 20px 40px;
   text-align: center;
+  margin-top: 60px;
 }
 
 .footer-logo {
@@ -663,70 +179,223 @@ a {
   margin-bottom: 40px;
 }
 
-.footer-info p {
-  margin-bottom: 16px;
-}
+.footer-info p { margin-bottom: 16px; }
+.footer-tel a { color: #F7F5F0; font-size: 1.2rem; font-weight: bold; }
+.footer-link { margin-bottom: 40px; }
 
-.footer-tel a {
-  color: #F7F5F0;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.footer-link {
-  margin-bottom: 40px;
-}
-
-/* アクセスボタン（フッター用アウトラインデザイン） */
 .btn-access {
   display: inline-block;
   border: 1px solid #F7F5F0;
   color: #F7F5F0;
   padding: 12px 40px;
   border-radius: 50px;
-  text-decoration: none;
   font-size: 0.95rem;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-access:hover {
   background-color: #F7F5F0;
-  color: var(--color-main, #2C4234);
+  color: var(--color-main);
 }
 
-.footer-copyright {
-  font-size: 0.75rem;
-  opacity: 0.7;
+.footer-copyright { font-size: 0.75rem; opacity: 0.7; }
+
+/* ========================================
+   ボタン類 (Sticky, Main, Outline)
+======================================== */
+.sticky-btn-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 90;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-/* ヘッダー固定に伴うコンテンツの余白調整 */
-body {
-  padding-top: 60px; /* ヘッダーの高さ分だけメインコンテンツを下げる */
+.sticky-btn-wrapper.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.btn-accent {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    font-weight: 400;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(217, 109, 43, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s;
+}
+.btn-accent:active { transform: scale(0.95); }
+
+.btn-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.btn-text-wrapper .main-text { font-size: 1.1rem; font-weight: bold; letter-spacing: 0.05em; }
+.btn-text-wrapper .sub-text { font-size: 0.65rem; opacity: 0.9; margin-top: 4px; }
+
+.btn-main {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-white);
+  border: none;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(44, 66, 52, 0.2);
+  transition: all 0.3s ease;
+}
+.btn-main:hover {
+  background-color: rgba(30, 45, 35, 1);
+  box-shadow: 0 6px 15px rgba(44, 66, 52, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-outline-main {
+  display: inline-block;
+  border: 1px solid var(--color-main);
+  color: var(--color-main);
+  padding: 16px 32px;
+  border-radius: 50px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.btn-outline-main:hover {
+  background-color: var(--color-main);
+  color: var(--color-white);
 }
 
 /* ========================================
-   下層ページ共通ヘッダー（Hero）
+   Modal
+======================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.modal.is-open { opacity: 1; visibility: visible; }
+.modal.is-open .modal-content { transform: translateY(0); }
+
+.modal-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(44, 66, 52, 0.8);
+}
+
+.modal-content {
+    background-color: var(--color-bg);
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow-y: auto;
+    z-index: 1;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: none; border: none; font-size: 1.5rem; color: var(--color-main); cursor: pointer;
+}
+
+.modal-title { color: var(--color-main); margin-bottom: 12px; text-align: center; }
+.modal-desc { font-size: 0.85rem; margin-bottom: 24px; text-align: center; }
+
+.simulation-form-placeholder {
+    background-color: var(--color-white);
+    border: 1px dashed var(--color-main);
+    padding: 40px 20px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* ========================================
+   Top Page Styles
+======================================== */
+.top-hero {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  min-height: 500px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%); z-index: 2; }
+.hero-text { position: relative; z-index: 3; text-align: center; color: var(--color-white); padding: 0 20px; }
+.hero-text h2 { font-size: 1.5rem; line-height: 2; letter-spacing: 0.05em; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+.top-intro { padding: 60px 20px; text-align: center; }
+.intro-title { color: var(--color-main); font-size: 1.4rem; margin-bottom: 24px; }
+.intro-text { font-size: 0.95rem; line-height: 2.2; color: var(--color-text); }
+
+.top-facilities { padding: 0 20px 60px; }
+.facility-grid { display: grid; grid-template-columns: 1fr; gap: 32px; max-width: 1000px; margin: 0 auto; }
+.facility-card { display: block; border-radius: 12px; overflow: hidden; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.facility-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+.card-badge { position: absolute; top: 16px; left: 16px; background-color: var(--color-accent); color: var(--color-white); padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; z-index: 10; }
+.card-img-wrapper { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; }
+.card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.facility-card:hover .card-img-wrapper img { transform: scale(1.05); }
+.card-body { padding: 24px; }
+.card-title { color: var(--color-main); font-size: 1.25rem; margin-bottom: 12px; border-bottom: 1px solid rgba(44, 66, 52, 0.2); padding-bottom: 12px; }
+.card-desc { font-size: 0.9rem; margin-bottom: 16px; color: var(--color-text); }
+.card-link-text { display: inline-block; color: var(--color-accent); font-size: 0.9rem; font-weight: bold; position: relative; }
+.card-link-text::after { content: "→"; margin-left: 4px; transition: margin-left 0.3s ease; }
+.facility-card:hover .card-link-text::after { margin-left: 8px; }
+
+.top-commitment { padding: 60px 20px; background-color: var(--color-main) !important; color: var(--color-white); text-align: center; } /* ここはモジュールUIの色除外のため !important 指定 */
+.commitment-inner { max-width: 600px; margin: 0 auto; }
+.commitment-title { font-size: 1.4rem; margin-bottom: 24px; }
+.commitment-text { font-size: 0.9rem; line-height: 2; margin-bottom: 32px; }
+.btn-outline { display: inline-block; border: 1px solid var(--color-white); color: var(--color-white); padding: 16px 32px; border-radius: 50px; transition: background-color 0.3s ease, color 0.3s ease; }
+.btn-outline:hover { background-color: var(--color-white); color: var(--color-main); }
+
+
+/* ========================================
+   下層ページ共通
 ======================================== */
 .page-hero {
   position: relative;
   width: 100%;
-  height: 40vh; /* トップページより低めに設定 */
+  height: 40vh;
   min-height: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
 }
+.page-hero h2 { font-size: 1.25rem; line-height: 1.8; }
 
-.page-hero h2 {
-  font-size: 1.25rem;
-  line-height: 1.8;
-}
-
-/* ========================================
- Fishing Page - Rules
-======================================== */
 .section-title {
   text-align: center;
   color: var(--color-main);
@@ -734,851 +403,162 @@ body {
   margin-bottom: 40px;
   position: relative;
 }
+.section-title::after { content: ''; display: block; width: 40px; height: 2px; background-color: var(--color-accent); margin: 16px auto 0; }
 
-.section-title::after {
-  content: '';
-  display: block;
-  width: 40px;
-  height: 2px;
-  background-color: var(--color-accent);
-  margin: 16px auto 0;
-}
+.page-bottom-cta { padding: 80px 20px; text-align: center; }
+.cta-message { color: var(--color-main); font-size: 1.3rem; margin-bottom: 32px; }
 
-.rules-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  max-width: 1000px;
-  margin: 0 auto;
+.large-cta-btn, .large-cta-btn-main {
+  display: inline-flex; flex-direction: column; align-items: center; padding: 20px 40px;
 }
+.large-cta-btn { box-shadow: 0 8px 20px rgba(217, 109, 43, 0.3); }
+.large-cta-btn-main { box-shadow: 0 8px 20px rgba(44, 66, 52, 0.15); }
+.large-cta-btn .main-text, .large-cta-btn-main .main-text { font-size: 1.4rem; font-weight: bold; margin-bottom: 4px; }
+.large-cta-btn .sub-text, .large-cta-btn-main .sub-text { font-size: 0.8rem; opacity: 0.9; }
 
+/* 予約ステップガイド */
+.reservation-steps-guide {
+  display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 600px; margin: 0 auto;
+  padding: 24px 16px; border-radius: 16px;
+}
+.step-item { display: flex; flex-direction: column; align-items: center; flex: 1; text-align: center; }
+.step-num { background: var(--color-accent); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 10px; border-radius: 20px; margin-bottom: 8px; letter-spacing: 0.05em; }
+.step-icon { font-size: 2rem; margin-bottom: 8px; }
+.step-item p { font-size: 0.8rem; line-height: 1.4; color: var(--color-main); font-weight: bold; margin: 0; }
+.step-arrow { color: #ccc; font-size: 1.2rem; }
 
-/* ========================================
- Fishing Page - Pricing
-======================================== */
-
-
-.pricing-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.pricing-lead {
-  font-size: 1rem;
-  color: var(--color-text);
-}
-
-.pricing-lead strong {
-  color: var(--color-accent);
-  font-size: 1.2rem;
-}
-
-.pricing-card {
-  background-color: var(--color-white);
-  border-radius: 12px;
-  padding: 32px 24px;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.pricing-card.pattern-a {
-  border: 2px solid var(--color-accent);
-}
-/* ========================================
-   Fishing Page - Premium Pricing UI
-======================================== */
-/* ハイライト部分（無料や竿代のアピール） */
-.premium-highlight {
-  background-color: rgba(217, 109, 43, 0.08);
-  border: 1px solid rgba(217, 109, 43, 0.2);
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.premium-highlight.is-standard {
-  background-color: var(--color-bg);
-  border-color: rgba(44, 66, 52, 0.1);
-}
-
-.highlight-label {
-  font-size: 0.9rem;
-  color: var(--color-text);
-}
-
-.highlight-main {
-  color: var(--color-accent);
-  font-size: 1.6rem;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-}
-
-.premium-highlight.is-standard .highlight-main {
-  color: var(--color-main);
-}
-
-.highlight-sub {
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 4px;
-}
-
-/* 計算式の視覚化（図形ブロック） */
-.formula-area {
-  margin-bottom: 32px;
-  background-color: var(--color-bg);
-  padding: 20px 16px;
-  border-radius: 8px;
-}
-
-.formula-lead {
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--color-text);
-  margin-bottom: 12px;
-}
-
-.formula-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.formula-box {
-  background-color: var(--color-white);
-  border: 1px solid var(--color-main);
-  color: var(--color-main);
-  padding: 10px 16px;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  font-weight: bold;
-  text-align: center;
-  flex: 1; /* 箱の幅を均等にする */
-  max-width: 200px;
-}
-
-.formula-sign {
-  color: var(--color-accent);
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-/* カフェメニュー風の料金リスト */
-.price-menu-area {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.menu-block-title {
-  color: var(--color-main);
-  font-size: 1.1rem;
-  margin-bottom: 12px;
-  border-bottom: 1px solid rgba(44, 66, 52, 0.2);
-  padding-bottom: 8px;
-}
-
-.menu-block-title small {
-  font-size: 0.8rem;
-  margin-left: 8px;
-  color: #666;
-}
-
-.menu-note {
-  font-size: 0.85rem;
-  color: #666;
-  margin-bottom: 12px;
-}
-
-.menu-list {
-  list-style: none;
-  padding: 0;
-}
-
-.menu-list li {
-  display: flex;
-  justify-content: space-between; /* 左右に文字を分ける */
-  align-items: baseline;
-  padding: 8px 0;
-  margin-bottom: 4px;
-  position: relative;
-}
-
-/* 左右を点線で繋ぐための装飾 */
-.menu-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 12px;
-  border-bottom: 1px dotted #ccc;
-  z-index: 1;
-}
-
-.item-name, .item-price {
-  background-color: var(--color-white); /* 点線を隠すための背景 */
-  position: relative;
-  z-index: 2;
-}
-
-.item-name {
-  padding-right: 8px;
-  font-size: 0.95rem;
-  color: var(--color-text);
-}
-
-.item-price {
-  padding-left: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--color-main);
-}
-
-/* ========================================
-   Fishing Page - 大人・子供のメニュー分割
-======================================== */
-.menu-split-container {
-  display: grid;
-  grid-template-columns: 1fr; /* スマホでは縦並び */
-  gap: 24px;
-  margin-bottom: 32px;
-}
-
-.menu-sub-title {
-  background-color: var(--color-bg);
-  color: var(--color-main);
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  margin-bottom: 12px;
-  text-align: center;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-}
-
-.item-name small {
-  font-size: 0.75rem;
-  color: #666;
-  margin-left: 4px;
-}
-
-/* タブレット・PC向け調整（画面が広い場合は横並びにする） */
-@media screen and (min-width: 768px) {
-  .menu-split-container {
-      grid-template-columns: repeat(2, 1fr); /* 2カラムの横並びに */
-      gap: 32px;
-  }
-}
-/* ========================================
-   Fishing Page - Appeal (新規追加)
-======================================== */
-.fishing-appeal {
-  padding: 60px 20px;
-  background-color: var(--color-white);
-  text-align: center;
-}
-
-.appeal-inner {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.appeal-title {
-  color: var(--color-accent);
-  font-size: 1.4rem;
-  margin-bottom: 24px;
-  letter-spacing: 0.05em;
-}
-
-.appeal-text {
-  font-size: 1.2rem;
-  line-height: 2.2;
-  color: var(--color-text);
-}
-
-.fishing-rules {
-  padding: 60px 20px;
-  background-color: transparent; /* 木目を活かす */
-}
-
-.rule-card {
-  background-color: var(--color-main); /* 緑背景 */
-  color: #ffffff; /* 白文字 */
-  padding: 32px 24px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2);
-  text-align: left;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-/* 数字を右上の背景に透かしで入れるとお洒落になります */
-.rule-number {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: rgba(255, 255, 255, 0.15);
-  font-size: 4rem;
-  font-weight: bold;
-  line-height: 1;
-  z-index: -1;
-}
-
-.rule-card h4 {
-  color: #ffffff;
-  margin-bottom: 16px;
-  font-size: 1.15rem;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
-  padding-bottom: 12px;
-}
-
-.rule-card p {
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: #ffffff;
-}
-
-/* ========================================
-   Fishing Page - Tab UI (新規追加)
-======================================== */
-.fishing-pricing {
-  padding: 60px 20px;
-  background-color: var(--color-white);
-}
-
-.pricing-tabs-wrapper {
-  max-width: 600px;
-  margin: 0 auto 32px;
-}
-
-.tabs-hint {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.pricing-tabs {
-  display: flex;
-  gap: 8px; /* スマホで綺麗に横並び */
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 16px 8px;
-  background-color: var(--color-bg);
-  border: 1px solid rgba(44,66,52,0.2);
-  color: var(--color-main);
-  font-size: 0.95rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.tab-btn.is-active {
-  background-color: var(--color-main);
-  color: var(--color-white);
-  border-color: var(--color-main);
-}
-
-/* タブコンテンツの表示・非表示制御 */
-.tab-content {
-  display: none;
-  animation: fadeInTab 0.4s ease forwards;
-}
-
-.tab-content.is-active {
-  display: block;
-}
-
-@keyframes fadeInTab {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.step-animation {
-  animation: fadeInStep 0.4s ease-out forwards;
-}
-
-/* ========================================
-   Page Bottom CTA (新規追加)
-======================================== */
-.page-bottom-cta {
-  padding: 80px 20px;
-  background-color: var(--color-bg);
-  text-align: center;
-}
-
-.cta-message {
-  color: var(--color-main);
-  font-size: 1.3rem;
-  margin-bottom: 32px;
-}
-
-.large-cta-btn {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 40px;
-  box-shadow: 0 8px 20px rgba(217, 109, 43, 0.3);
-}
-/*レストランページCTA用*/
-.large-cta-btn-main {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 40px;
-  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.15);
-}
-
-.large-cta-btn .main-text {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.large-cta-btn .sub-text {
-  font-size: 0.8rem;
-  opacity: 0.9;
-}
-
-/* ========================================
- Fishing Page - FAQ
-======================================== */
-.fishing-faq {
-  padding: 60px 20px;
-  background-color: var(--color-white);
-}
-
-.faq-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* JS不要のアコーディオン実装 */
-.faq-item {
-  border-bottom: 1px solid #ddd;
-}
-
-.faq-item summary {
-  display: block;
-  padding: 20px 40px 20px 0;
-  cursor: pointer;
-  position: relative;
-  font-size: 1.05rem;
-  color: var(--color-main);
-  font-weight: bold;
-}
-
-/* デフォルトの矢印を消す */
+/* FAQアコーディオン */
+.faq-container { max-width: 800px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid #ddd; }
+.faq-item summary { display: block; padding: 20px 40px 20px 0; cursor: pointer; position: relative; font-size: 1.05rem; color: var(--color-main); font-weight: bold; }
 .faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: '＋'; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--color-accent); font-size: 1.2rem; }
+.faq-item[open] summary::after { content: '－'; }
+.faq-answer { padding: 0 0 20px; font-size: 0.95rem; line-height: 1.8; color: var(--color-text); }
 
-/* オリジナルの開閉アイコン（＋/－） */
-.faq-item summary::after {
-  content: '＋';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-accent);
-  font-size: 1.2rem;
-}
-
-.faq-item[open] summary::after {
-  content: '－';
-}
-
-.faq-answer {
-  padding: 0 0 20px;
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: var(--color-text);
-}
-
-/* タブレット・PC向け調整 */
-@media screen and (min-width: 768px) {
-  .page-hero h2 { font-size: 2rem; }
-  .rules-grid { grid-template-columns: repeat(3, 1fr); }
-}
 
 /* ========================================
-   Restaurant Page
+   各ページ独自コンポーネント (Fishing, Restaurant, BBQ, Dogrun, Story, Access)
+   ※レイアウト（paddingやgrid）のみ残し、不要な背景色は削除
 ======================================== */
-/* 1. Hero Section */
-.restaurant-hero {
-  /* TODO: images/restaurant-hero.webp を用意してください */
-  background-image: url('images/HP1.jpg');
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: multiply;
-  background-color: rgba(0, 0, 0, 0.4); /* 暗くして文字を読みやすく */
-  flex-direction: column;
-}
 
-.restaurant-hero h2 {
-  color: var(--color-white);
-  text-align: center;
-  font-size: 1.4rem;
-  line-height: 1.8;
-  margin-bottom: 24px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
+/* --- Fishing --- */
+.fishing-appeal { padding: 60px 20px; text-align: center; }
+.appeal-inner { max-width: 700px; margin: 0 auto; }
+.appeal-title { color: var(--color-accent); font-size: 1.4rem; margin-bottom: 24px; letter-spacing: 0.05em; }
+.appeal-text { font-size: 1.2rem; line-height: 2.2; color: var(--color-text); }
 
-/* 2. 癒やしの空間 */
-.restaurant-concept {
-  padding: 60px 20px;
-  background-color: var(--color-white);
-}
+.fishing-rules { padding: 60px 20px; }
+.rules-grid { display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 1000px; margin: 0 auto; }
 
-.concept-flex {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
+.fishing-pricing { padding: 60px 20px; }
+.pricing-header { text-align: center; margin-bottom: 40px; }
+.pricing-lead { font-size: 1rem; color: var(--color-text); }
+.pricing-lead strong { color: var(--color-accent); font-size: 1.2rem; }
+.pricing-card { border-radius: 12px; padding: 32px 24px; position: relative; }
+.pricing-card.pattern-a { border: 2px solid var(--color-accent); }
 
-.concept-text p {
-  margin-bottom: 16px;
-}
+.premium-highlight { background-color: rgba(217, 109, 43, 0.08); border: 1px solid rgba(217, 109, 43, 0.2); border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 32px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.premium-highlight.is-standard { background-color: var(--color-bg); border-color: rgba(44, 66, 52, 0.1); }
+.highlight-label { font-size: 0.9rem; color: var(--color-text); }
+.highlight-main { color: var(--color-accent); font-size: 1.6rem; font-weight: bold; letter-spacing: 0.05em; }
+.premium-highlight.is-standard .highlight-main { color: var(--color-main); }
+.highlight-sub { font-size: 0.8rem; color: #666; margin-top: 4px; }
 
-.concept-image img {
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-}
+.formula-area { margin-bottom: 32px; background-color: var(--color-bg); padding: 20px 16px; border-radius: 8px; }
+.formula-lead { text-align: center; font-size: 0.85rem; margin-bottom: 12px; }
+.formula-visual { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.formula-box { background-color: var(--color-white); border: 1px solid var(--color-main); color: var(--color-main); padding: 10px 16px; border-radius: 4px; font-size: 0.95rem; font-weight: bold; text-align: center; flex: 1; max-width: 200px; }
+.formula-sign { color: var(--color-accent); font-weight: bold; font-size: 1.2rem; }
 
-/* 3. プチ体験（エンタメ要素） */
-.restaurant-experience {
-  padding: 60px 20px;
-  background-color: var(--color-bg);
-}
+.price-menu-area { display: flex; flex-direction: column; gap: 24px; }
+.menu-block-title { color: var(--color-main); font-size: 1.1rem; margin-bottom: 12px; border-bottom: 1px solid rgba(44, 66, 52, 0.2); padding-bottom: 8px; }
+.menu-block-title small { font-size: 0.8rem; margin-left: 8px; color: #666; }
+.menu-note { font-size: 0.85rem; color: #666; margin-bottom: 12px; }
+.menu-list { list-style: none; padding: 0; }
+.menu-list li { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; margin-bottom: 4px; position: relative; }
+.menu-list li::before { content: ""; position: absolute; left: 0; right: 0; bottom: 12px; border-bottom: 1px dotted #ccc; z-index: 1; }
+.item-name, .item-price { background-color: var(--color-white); position: relative; z-index: 2; }
+.item-name { padding-right: 8px; font-size: 0.95rem; color: var(--color-text); }
+.item-price { padding-left: 8px; font-size: 1rem; font-weight: bold; color: var(--color-main); }
 
-.experience-lead {
-  text-align: center;
-  margin-bottom: 40px;
-}
+.menu-split-container { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 32px; }
+.menu-sub-title { background-color: var(--color-bg); color: var(--color-main); padding: 8px 12px; border-radius: 4px; font-size: 0.9rem; margin-bottom: 12px; text-align: center; font-weight: bold; letter-spacing: 0.05em; }
+.item-name small { font-size: 0.75rem; color: #666; margin-left: 4px; }
 
-.experience-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
+.pricing-tabs-wrapper { max-width: 600px; margin: 0 auto 32px; }
+.tabs-hint { text-align: center; font-size: 0.85rem; color: #666; margin-bottom: 8px; }
+.pricing-tabs { display: flex; gap: 8px; }
+.tab-btn { flex: 1; padding: 16px 8px; background-color: var(--color-bg); border: 1px solid rgba(44,66,52,0.2); color: var(--color-main); font-size: 0.95rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+.tab-btn.is-active { background-color: var(--color-main); color: var(--color-white); border-color: var(--color-main); }
+.tab-content { display: none; animation: fadeInTab 0.4s ease forwards; }
+.tab-content.is-active { display: block; }
+@keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.experience-card {
-  background-color: var(--color-white);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.exp-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.exp-content {
-  padding: 24px;
-}
-
-.exp-content h4 {
-  color: var(--color-main);
-  font-size: 1.2rem;
-  line-height: 1.5;
-  margin-bottom: 12px;
-  border-bottom: 1px dashed rgba(44, 66, 52, 0.3);
-  padding-bottom: 12px;
-}
-
-/* 4. 食材へのこだわり */
-.restaurant-ingredients {
-  padding: 60px 20px;
-  background-color: var(--color-white);
-}
-
-/* 5. メニュー */
-/* ========================================
-   メニュー紹介カード（レストランページ用）
-======================================== */
-.menu-card-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  margin-bottom: 40px;
-}
-
-.menu-card {
-  background-color: var(--color-white);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-  display: flex;
-  flex-direction: column;
-}
-
-.menu-card-thumb {
-  margin: 0;
-  width: 100%;
-  height: 220px; /* 写真の高さを固定して揃える */
-  background-color: #eee;
-}
-
-.menu-card-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.menu-card-body {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1; /* 高さを揃えるための魔法 */
-}
-
-.menu-card-title {
-  color: var(--color-main);
-  font-size: 1.25rem;
-  line-height: 1.4;
-  margin-bottom: 12px;
-  border-bottom: 1px dashed rgba(44, 66, 52, 0.3);
-  padding-bottom: 12px;
-}
-
-.menu-card-desc {
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  flex-grow: 1; /* 説明文の長さが違っても下の金額エリアを揃える */
-}
-
-.menu-card-price {
-  color: var(--color-accent);
-  font-size: 1.8rem;
-  font-weight: bold;
-  text-align: right;
-  margin: 0;
-}
-
-.menu-card-price .currency {
-  font-size: 1rem;
-  margin-left: 4px;
-}
-
-/* 単品・お子様メニュー用のリストデザイン */
-.menu-card-list {
-  margin: 0;
-  padding: 0;
-}
-
-.menu-list-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 8px 0;
-  border-bottom: 1px dotted #ccc;
-}
-
-.menu-list-row:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.menu-list-row dt {
-  font-size: 0.95rem;
-  color: var(--color-text);
-}
-
-.menu-list-row dt small {
-  font-size: 0.8rem;
-  color: #888;
-  margin-left: 4px;
-}
-
-.menu-list-row dd {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: var(--color-main);
-  margin: 0;
-}
-
-/* 既存の .menu-list などを流用しつつ調整 */
-.restaurant-menu .menu-list li {
-  padding: 12px 0;
-  font-size: 1.05rem;
-}
-
-.restaurant-menu .item-name small {
-  display: block;
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 4px;
-}
+.fishing-faq { padding: 60px 20px; }
 
 
-/* タブレット・PC向け調整 */
-@media screen and (min-width: 768px) {
-  .restaurant-hero h2 { font-size: 2rem; }
-  .concept-flex { flex-direction: row; align-items: center; }
-  .concept-text, .concept-image { flex: 1; }
-  .experience-grid { grid-template-columns: repeat(2, 1fr); }
-  .menu-card-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 32px;
-}
-}
+/* --- Restaurant --- */
+.restaurant-hero { background-image: url('images/HP1.jpg'); background-size: cover; background-position: center; background-blend-mode: multiply; background-color: rgba(0, 0, 0, 0.4); flex-direction: column; }
+.restaurant-hero h2 { color: var(--color-white); text-align: center; font-size: 1.4rem; line-height: 1.8; margin-bottom: 24px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.restaurant-concept { padding: 60px 20px; }
+.concept-flex { display: flex; flex-direction: column; gap: 32px; }
+.concept-text p { margin-bottom: 16px; }
+.concept-image img { width: 100%; border-radius: 12px; }
+.restaurant-experience { padding: 60px 20px; }
+.experience-lead { text-align: center; margin-bottom: 40px; }
+.experience-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+.experience-card { border-radius: 12px; overflow: hidden; }
+.exp-img { width: 100%; height: 200px; object-fit: cover; }
+.exp-content { padding: 24px; }
+.exp-content h4 { color: var(--color-main); font-size: 1.2rem; line-height: 1.5; margin-bottom: 12px; border-bottom: 1px dashed rgba(44, 66, 52, 0.3); padding-bottom: 12px; }
+.restaurant-ingredients { padding: 60px 20px; }
+.menu-card-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+.menu-card { border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.menu-card-thumb { margin: 0; width: 100%; height: 220px; background-color: #eee; }
+.menu-card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.menu-card-body { padding: 24px; display: flex; flex-direction: column; flex-grow: 1; }
+.menu-card-title { color: var(--color-main); font-size: 1.25rem; line-height: 1.4; margin-bottom: 12px; border-bottom: 1px dashed rgba(44, 66, 52, 0.3); padding-bottom: 12px; }
+.menu-card-desc { font-size: 0.95rem; color: #555; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+.menu-card-price { color: var(--color-accent); font-size: 1.8rem; font-weight: bold; text-align: right; margin: 0; }
+.menu-card-price .currency { font-size: 1rem; margin-left: 4px; }
+.menu-card-list { margin: 0; padding: 0; }
+.menu-list-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px dotted #ccc; }
+.menu-list-row:last-child { border-bottom: none; padding-bottom: 0; }
+.menu-list-row dt { font-size: 0.95rem; color: var(--color-text); }
+.menu-list-row dt small { font-size: 0.8rem; color: #888; margin-left: 4px; }
+.menu-list-row dd { font-size: 1.1rem; font-weight: bold; color: var(--color-main); margin: 0; }
 
-/* ========================================
-   BBQ Page
-======================================== */
-/* ========================================
-   A案：オーバーレイによる修正
-======================================== */
-.bbq-hero {
-  position: relative; /* 子要素の絶対配置の基準にする */
-  width: 100%;
-  height: 80vh; /* スマホでの高さを十分に確保（画面の80%） */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* 画像がはみ出さないように */
-}
 
-/* 背景画像（<img>タグ）の調整 */
-.bbq-hero .hero-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 画像を箱のサイズに合わせていい感じに拡大縮小・切り抜き */
-  z-index: 1; /* 一番下に配置 */
-}
+/* --- BBQ --- */
+.bbq-hero { position: relative; width: 100%; height: 80vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.bbq-hero .hero-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.bbq-hero::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 2; }
+.bbq-hero .hero-content { position: relative; z-index: 3; text-align: center; padding: 0 20px; color: var(--color-white); }
+.bbq-hero h2 { font-size: 1.6rem; line-height: 1.6; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); margin: 0; }
+.bbq-hero .hero-badge { background-color: rgba(255, 255, 255, 0.9); padding: 8px 16px; border-radius: 50px; display: inline-block; }
 
-/* ★重要：オーバーレイ（暗幕）の追加 */
-.bbq-hero::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* 黒色の0.4（40%）の透明度。写真に合わせて調整してください */
-  z-index: 2; /* 画像の上に配置 */
-}
-
-/* テキストコンテンツの調整 */
-.bbq-hero .hero-content {
-  position: relative;
-  z-index: 3; /* オーバーレイの上に配置 */
-  text-align: center;
-  padding: 0 20px; /* スマホでの横の余白 */
-  color: var(--color-white, #ffffff); /* ★重要：文字色を白にする */
-}
-
-.bbq-hero h2 {
-  font-size: 1.6rem; /* スマホでの文字サイズ */
-  line-height: 1.6;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 文字に影をつけてさらに読みやすく */
-  margin: 0;
-}
-
-/* バッジの調整 */
-.bbq-hero .hero-badge {
-  background-color: rgba(255, 255, 255, 0.9); /* バッジの背景を白っぽく */
-  padding: 8px 16px;
-  border-radius: 50px;
-  display: inline-block;
-}
-
-/* タブレット・PC向け調整 */
-@media screen and (min-width: 768px) {
-  .bbq-hero {
-      height: 60vh; /* パソコンでは少し低く */
-  }
-  .bbq-hero h2 {
-      font-size: 2.4rem; /* パソコンでの文字サイズ */
-  }
-}
-/* 2. プライベート空間 */
-.bbq-features { padding: 60px 20px; background-color: var(--color-white); }
+.bbq-features { padding: 60px 20px; }
 .feature-flex { display: flex; flex-direction: column; gap: 32px; }
 .feature-text p { margin-bottom: 16px; line-height: 1.8; }
-.feature-image img { width: 100%; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.feature-image img { width: 100%; border-radius: 12px; }
 
-/* 3. 目玉特典（愛犬） */
-.bbq-dog-benefit { padding: 20px; background-color: var(--color-bg); }
-.dog-benefit-box {
-  background-color: #fffaf0; /* 温かみのあるクリーム色 */
-  border: 3px solid var(--color-accent);
-  border-radius: 16px;
-  padding: 32px 24px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(200, 90, 23, 0.1);
-}
+.bbq-dog-benefit { padding: 20px; }
+.dog-benefit-box { background-color: #fffaf0; border: 3px solid var(--color-accent); border-radius: 16px; padding: 32px 24px; text-align: center; }
 .dog-benefit-title { color: var(--color-accent); font-size: 1.4rem; line-height: 1.5; margin-bottom: 16px; }
 .dog-benefit-title .icon { font-size: 2rem; display: block; margin-bottom: 8px; }
 .dog-benefit-desc { line-height: 1.8; color: var(--color-text); }
 .dog-benefit-desc strong { font-size: 1.1rem; color: var(--color-main); background: linear-gradient(transparent 60%, rgba(200, 90, 23, 0.2) 60%); }
 
-/* 4. プランと料金 */
-.bbq-plans { padding: 60px 20px; background-color: var(--color-white); }
-.attention-text { color: var(--color-accent); font-size: 0.9rem; font-weight: bold; margin-bottom: 32px; }
-
+.bbq-plans { padding: 60px 20px; }
+.attention-text { color: var(--color-accent); font-size: 0.9rem; font-weight: bold; margin-bottom: 32px; text-align: center; }
 .plan-card-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
-.plan-card {
-  background-color: var(--color-white);
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  display: flex; flex-direction: column;
-}
-.plan-card.is-popular {
-  border: 2px solid var(--color-accent);
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(200, 90, 23, 0.15);
-}
-
-/* ========================================
-   BBQ Page - Plan Cards with Images (追加)
-======================================== */
-.plan-card-thumb {
-  margin: 0;
-  width: 100%;
-  height: 200px; /* 画像の高さを固定して揃える */
-  background-color: #eee; /* 画像がない場合のプレースホルダ色 */
-  overflow: hidden; /* ホバー時に画像がはみ出さないように */
-  border-radius: 12px 12px 0 0; /* カードの角丸に合わせる */
-}
-
-.plan-card-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 画像を枠いっぱいに綺麗に収める */
-  transition: transform 0.5s ease; /* ホバー時の動きを滑らかに */
-}
-
-.plan-card:hover .plan-card-thumb img {
-  transform: scale(1.05); /* ホバー時に画像を少し拡大 */
-}
-
-/* 一番人気のバッジが画像の上に重なるように調整 */
-.plan-card.is-popular .popular-badge {
-  z-index: 10;
-}
-
-.popular-badge {
-  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-  background-color: var(--color-accent); color: #fff;
-  padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px;
-}
+.plan-card { border: 1px solid #ddd; border-radius: 12px; position: relative; display: flex; flex-direction: column; }
+.plan-card.is-popular { border: 2px solid var(--color-accent); transform: translateY(-5px); }
+.plan-card-thumb { margin: 0; width: 100%; height: 200px; background-color: #eee; overflow: hidden; border-radius: 12px 12px 0 0; }
+.plan-card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.plan-card:hover .plan-card-thumb img { transform: scale(1.05); }
+.popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background-color: var(--color-accent); color: #fff; padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px; z-index: 10;}
 .plan-header { background-color: var(--color-main); color: #fff; padding: 24px 20px; text-align: center; border-radius: 10px 10px 0 0; }
 .plan-card.is-popular .plan-header { background-color: var(--color-accent); }
 .plan-header h4 { font-size: 1.3rem; margin-bottom: 8px; }
@@ -1591,587 +571,171 @@ body {
 .plan-items li::before { content: "✓"; position: absolute; left: 0; color: var(--color-main); font-weight: bold; }
 .plan-card.is-popular .plan-items li::before { color: var(--color-accent); }
 
-.kids-price-info { background-color: var(--color-bg); padding: 24px; border-radius: 12px; text-align: center; }
+.kids-price-info { padding: 24px; border-radius: 12px; text-align: center; background-color: var(--color-bg); }
 .kids-price-info h4 { color: var(--color-main); margin-bottom: 12px; }
 
-/* 5. 飲み放題 */
-.bbq-drinks { padding: 60px 20px; background-color: var(--color-bg); }
-.drink-list { max-width: 500px; margin: 0 auto; list-style: none; padding: 0; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.bbq-drinks { padding: 60px 20px; }
+.drink-list { max-width: 500px; margin: 0 auto; list-style: none; padding: 24px; border-radius: 12px; }
 .drink-list li { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px dotted #ccc; font-weight: bold; }
 .drink-list li:last-child { border-bottom: none; padding-bottom: 0; }
 .drink-name { color: var(--color-text); }
 .drink-price { color: var(--color-main); font-size: 1.1rem; }
 
-/* 6. ルール・注意事項 */
-.bbq-rules { padding: 60px 20px; background-color: transparent; }
-.rule-box { 
-    background: var(--color-main); 
-    padding: 32px; 
-    border-radius: 12px; 
-    box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2);
-    color: #ffffff;
-}
-.rule-list dt { 
-    font-weight: bold; 
-    color: var(--color-accent); /* 見出しはアンバー色 */
-    margin-bottom: 12px; 
-    font-size: 1.1rem; 
-    border-bottom: 1px dashed rgba(255,255,255,0.3); 
-    padding-bottom: 8px;
-}
-.rule-list dd { margin-bottom: 28px; line-height: 1.6; color: #ffffff; }
-.rule-list dd:last-child { margin-bottom: 0; }
-/* 緑背景だと赤文字が読めないため、警告文は明るいゴールドに変更 */
-.text-alert { color: #FFD27D !important; }
+.bbq-rules { padding: 60px 20px; }
+.rule-list { list-style: none; padding: 0;}
 
-/* タブレット・PC向け調整 */
-@media screen and (min-width: 768px) {
-  .bbq-hero h2 { font-size: 2rem; }
-  .feature-flex { flex-direction: row; align-items: center; }
-  .feature-text, .feature-image { flex: 1; }
-  .plan-card-grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
-}
 
-/* ========================================
-   Dog Run Page Styles
-======================================== */
-.dogrun-hero {
-  position: relative;
-  height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
+/* --- Dog Run --- */
+.dogrun-hero { position: relative; height: 70vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.dogrun-hero::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); z-index: 2; }
+.dogrun-hero .hero-content { position: relative; z-index: 3; text-align: center; color: #fff; }
+.dogrun-hero h2 { font-size: 1.8rem; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+.dogrun-hero .sub-copy { font-size: 1.1rem; display: block; margin-top: 10px; font-weight: normal; }
 
-.dogrun-hero::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.3); /* テキスト可読性向上のための薄い幕 */
-  z-index: 2;
-}
-
-.dogrun-hero .hero-content {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  color: #fff;
-}
-
-.dogrun-hero h2 {
-  font-size: 1.8rem;
-  line-height: 1.6;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.dogrun-hero .sub-copy {
-  font-size: 1.1rem;
-  display: block;
-  margin-top: 10px;
-  font-weight: normal;
-}
-
-/* 2. Environment Section */
-.dogrun-environment { padding: 60px 20px; background-color: #fff; }
+.dogrun-environment { padding: 60px 20px; }
 .feature-grid { display: grid; grid-template-columns: 1fr; gap: 40px; margin-top: 40px; }
 .feature-item h4 { margin: 15px 0 10px; color: var(--color-main); font-size: 1.2rem; }
-.feature-img-box img { width: 100%; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.feature-img-box img { width: 100%; border-radius: 12px; }
 
-/* 3. Info Cards */
-.dogrun-info { padding: 60px 20px; background-color: var(--color-bg); }
+.dogrun-info { padding: 60px 20px; }
 .info-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
-.info-card { 
-  background: #fff; padding: 30px; border-radius: 15px; text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-}
+.info-card { padding: 30px; border-radius: 15px; text-align: center; }
 .info-icon { font-size: 2.5rem; margin-bottom: 15px; }
 .info-card .highlight { color: var(--color-accent); font-weight: bold; }
 
-.dogrun-rules-box { 
-  background: var(--color-main); 
-  padding: 32px; 
-  border-radius: 12px; 
-  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2);
-  color: #ffffff;
-}
-/* ドッグラン特有のリスト装飾 */
-.dogrun-rules-box .rule-list { list-style: none; padding: 0; }
-.dogrun-rules-box .rule-list li { 
-    padding: 12px 0 12px 1.5em; 
-    border-bottom: 1px dotted rgba(255,255,255,0.3); 
-    font-size: 0.95rem; 
-    position: relative;
-}
-.dogrun-rules-box .rule-list li::before {
-    content: "🐾";
-    position: absolute;
-    left: 0;
-    top: 12px;
-    font-size: 0.9rem;
-}
-.dogrun-rules-box .rule-list li:last-child { border-bottom: none; }
-
-/* 4. BBQ Benefit Highlight (目玉セクション) */
 .bbq-benefit-highlight { padding: 60px 20px; }
-.benefit-container {
-  background-color: var(--color-main);
-  color: #fff;
-  padding: 50px 30px;
-  border-radius: 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.benefit-badge {
-  display: inline-block;
-  background: var(--color-accent);
-  padding: 4px 15px;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-}
-
-.benefit-container .accent-text {
-  color: #FFD27D; /* ゴールドに近い黄色で強調 */
-  font-size: 1.4rem;
-  display: block;
-  margin-top: 10px;
-}
-
+.benefit-container { background-color: var(--color-main); color: #fff; padding: 50px 30px; border-radius: 20px; text-align: center; position: relative; overflow: hidden; }
+.benefit-badge { display: inline-block; background: var(--color-accent); padding: 4px 15px; border-radius: 50px; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 20px; }
+.benefit-container .accent-text { color: #FFD27D; font-size: 1.4rem; display: block; margin-top: 10px; }
 .benefit-desc { margin: 20px 0; line-height: 1.8; }
 .benefit-proposal { font-size: 1.1rem; margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; }
 
-.btn-outline-white {
-  display: inline-block;
-  border: 2px solid #fff;
-  color: #fff;
-  padding: 12px 30px;
-  border-radius: 50px;
-  text-decoration: none;
-  transition: all 0.3s;
-}
+.btn-outline-white { display: inline-block; border: 2px solid #fff; color: #fff; padding: 12px 30px; border-radius: 50px; text-decoration: none; transition: all 0.3s; }
+.btn-outline-white:hover { background: #fff; color: var(--color-main); }
 
-.btn-outline-white:hover {
-  background: #fff;
-  color: var(--color-main);
-}
 
-/* Tablet/PC調整 */
-@media screen and (min-width: 768px) {
-  .dogrun-hero h2 { font-size: 2.8rem; }
-  .feature-grid { grid-template-columns: 1fr 1fr; }
-  .benefit-container { padding: 80px; }
-  .benefit-container .accent-text { font-size: 2.2rem; }
-}
-
-/* ========================================
-   Story Page
-======================================== */
-.page-story { background-color: var(--color-bg, #F7F5F0); }
-
-/* Hero */
-.story-hero {
-    position: relative; height: 80vh; min-height: 500px;
-    display: flex; align-items: center; justify-content: center; overflow: hidden;
-}
-.story-hero::after {
-    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.4); z-index: 2;
-}
-.story-hero .hero-content {
-    position: relative; z-index: 3; color: #fff; text-align: center; padding: 0 20px;
-}
+/* --- Story --- */
+.story-hero { position: relative; height: 80vh; min-height: 500px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.story-hero::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 2; }
+.story-hero .hero-content { position: relative; z-index: 3; color: #fff; text-align: center; padding: 0 20px; }
 .story-hero h2 { font-size: 1.8rem; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 
-/* Philosophy */
 .story-philosophy { padding: 80px 20px; text-align: center; }
 .story-philosophy .sub-title { display: block; color: var(--color-accent); letter-spacing: 2px; margin-bottom: 10px; }
 .philosophy-text { max-width: 700px; margin: 40px auto 0; text-align: left; line-height: 2; color: var(--color-text); }
 .philosophy-text p { margin-bottom: 24px; }
 
-/* Ingredients */
-.story-ingredients { padding: 80px 20px; background-color: #fff; }
+.story-ingredients { padding: 80px 20px; }
 .ingredient-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 40px; }
 .ingredient-card img { width: 100%; border-radius: 8px; margin-bottom: 20px; }
 .ingredient-card h4 { color: var(--color-main); margin-bottom: 12px; font-size: 1.2rem; }
 
-/* Space */
 .story-space { padding: 80px 20px; }
 .space-flex { display: flex; flex-direction: column; gap: 40px; align-items: center; }
 .space-image img { width: 100%; border-radius: 12px; }
 .space-text h3 { margin-bottom: 20px; color: var(--color-main); font-size: 1.4rem; }
 
-/* Closing & CTA */
-.story-closing { padding: 100px 20px; background-color: var(--color-main); color: #fff; text-align: center; }
+.story-closing { padding: 100px 20px; background-color: var(--color-main) !important; color: #fff; text-align: center; }
 .closing-message { font-size: 1.2rem; line-height: 1.8; margin-bottom: 50px; }
 .closing-plans { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 60px; }
 .plan-info { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; width: 100%; max-width: 400px; }
 .plan-info h4 { margin-bottom: 8px; }
 
-.btn-reservation-final {
-    background-color: var(--color-accent, #C85A17); color: #fff; border: none;
-    padding: 24px 40px; border-radius: 50px; font-size: 1.1rem; cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s; line-height: 1.5;
-}
+.btn-reservation-final { background-color: var(--color-accent); color: #fff; border: none; padding: 24px 40px; border-radius: 50px; font-size: 1.1rem; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; line-height: 1.5; text-decoration: none;}
 .btn-reservation-final span { font-size: 0.85rem; opacity: 0.9; font-weight: normal; }
 .btn-reservation-final:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-@media screen and (min-width: 768px) {
-    .story-hero h2 { font-size: 2.8rem; }
-    .space-flex { flex-direction: row; }
-    .space-image, .space-text { flex: 1; }
-}
+
+/* --- Access --- */
+.access-hero { position: relative; height: 60vh; min-height: 400px; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: var(--color-main) !important; }
+.access-hero::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.35); z-index: 2; }
+.access-hero .hero-content { position: relative; z-index: 3; text-align: center; color: #ffffff; padding: 0 20px; }
+.access-hero .hero-sub { font-size: 1rem; margin-bottom: 8px; letter-spacing: 0.1em; }
+.access-hero h2 { font-size: 2rem; line-height: 1.4; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+.basic-info-section { padding: 60px 20px; }
+.info-table-wrapper { max-width: 800px; margin: 0 auto; padding: 20px; border-radius: 12px; }
+.info-table { width: 100%; border-collapse: collapse; }
+.info-table th, .info-table td { padding: 20px 15px; border-bottom: 1px solid #eeeeee; text-align: left; vertical-align: top; }
+.info-table th { width: 30%; font-weight: bold; color: var(--color-main); font-family: var(--font-mincho); white-space: nowrap; }
+.info-table td { color: var(--color-text); line-height: 1.6; }
+.info-table tr:last-child th, .info-table tr:last-child td { border-bottom: none; }
+.map-link, .tel-link { display: inline-block; margin-top: 8px; color: var(--color-accent); font-weight: bold; text-decoration: none; border-bottom: 1px solid var(--color-accent); }
+.info-table .note { font-size: 0.85rem; color: #666666; display: inline-block; margin-top: 4px; }
+
+.route-button-section { padding: 20px; }
+.btn-route-search { display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 800px; margin: 0 auto; background-color: var(--color-accent); color: #ffffff; text-decoration: none; padding: 24px 20px; border-radius: 50px; transition: transform 0.3s, background-color 0.3s; }
+.btn-route-search:active { transform: scale(0.98); }
+.btn-route-search .main-text { font-size: 1.25rem; font-weight: bold; margin-bottom: 4px; }
+.btn-route-search .sub-text { font-size: 0.85rem; opacity: 0.9; }
+
+.car-access-section { padding: 60px 20px; }
+.access-card { max-width: 800px; margin: 0 auto 60px; }
+.access-card-text h4 { font-size: 1.4rem; color: var(--color-main); margin-bottom: 15px; }
+.nav-guide { margin-top: 15px; padding: 15px; background: #f9f4f0; border-left: 4px solid var(--color-accent); font-size: 0.95rem; }
+.guide-caption { padding: 15px; background: #fdfdfd; font-size: 0.9rem; line-height: 1.5; }
+
+.parking-info-box { max-width: 800px; margin: 0 auto; padding: 30px; border-radius: 12px; }
+.parking-flex { display: flex; align-items: flex-start; gap: 15px; margin-top: 20px; }
+.p-icon { font-size: 2rem; }
+.parking-note { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #cccccc; font-size: 0.85rem; color: #555555; }
+
 
 /* ========================================
-   Access & Basic Info Page Styles
+   メディアクエリ (タブレット・PCレイアウト)
 ======================================== */
-
-/* 1. Hero Section (ヒーローエリア) */
-.access-hero {
-  position: relative;
-  height: 60vh;
-  min-height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background-color: var(--color-main, #2C4234);
+@media screen and (min-width: 768px) {
+  .hero-text h2 { font-size: 2.5rem; }
+  .facility-grid { grid-template-columns: repeat(2, 1fr); }
+  .page-hero h2 { font-size: 2rem; }
+  .rules-grid { grid-template-columns: repeat(3, 1fr); }
+  
+  .restaurant-hero h2 { font-size: 2rem; }
+  .concept-flex { flex-direction: row; align-items: center; }
+  .concept-text, .concept-image { flex: 1; }
+  .experience-grid { grid-template-columns: repeat(2, 1fr); }
+  .menu-card-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+  
+  .bbq-hero { height: 60vh; }
+  .bbq-hero h2 { font-size: 2.4rem; }
+  .feature-flex { flex-direction: row; align-items: center; }
+  .feature-text, .feature-image { flex: 1; }
+  .plan-card-grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+  
+  .dogrun-hero h2 { font-size: 2.8rem; }
+  .feature-grid { grid-template-columns: 1fr 1fr; }
+  .benefit-container { padding: 80px; }
+  .benefit-container .accent-text { font-size: 2.2rem; }
+  
+  .story-hero h2 { font-size: 2.8rem; }
+  .space-flex { flex-direction: row; }
+  .space-image, .space-text { flex: 1; }
 }
 
-.access-hero::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.35); /* 写真の上に薄い幕を敷いて文字を読みやすく */
-  z-index: 2;
-}
-
-.access-hero .hero-content {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  color: #ffffff;
-  padding: 0 20px;
-}
-
-.access-hero .hero-sub {
-  font-size: 1rem;
-  margin-bottom: 8px;
-  letter-spacing: 0.1em;
-}
-
-.access-hero h2 {
-  font-size: 2rem;
-  line-height: 1.4;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-/* 2. Basic Info Table (基本情報テーブル) */
-.basic-info-section {
-  padding: 60px 20px;
-  background-color: var(--color-bg, #F7F5F0);
-}
-
-.info-table-wrapper {
-  max-width: 800px;
-  margin: 0 auto;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-}
-
-.info-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.info-table th, .info-table td {
-  padding: 20px 15px;
-  border-bottom: 1px solid #eeeeee;
-  text-align: left;
-  vertical-align: top;
-}
-
-.info-table th {
-  width: 30%;
-  font-weight: bold;
-  color: var(--color-main, #2C4234);
-  font-family: '筑紫Aオールド明朝', 'YuMincho', serif;
-  white-space: nowrap;
-}
-
-.info-table td {
-  color: var(--color-text, #333333);
-  line-height: 1.6;
-}
-
-.info-table tr:last-child th, 
-.info-table tr:last-child td {
-  border-bottom: none;
-}
-
-.map-link, .tel-link {
-  display: inline-block;
-  margin-top: 8px;
-  color: var(--color-accent, #C85A17);
-  font-weight: bold;
-  text-decoration: none;
-  border-bottom: 1px solid var(--color-accent);
-}
-
-.info-table .note {
-  font-size: 0.85rem;
-  color: #666666;
-  display: inline-block;
-  margin-top: 4px;
-}
-
-/* 3. Route Button (ルート案内ボタン) */
-.route-button-section {
-  padding: 20px;
-  background-color: var(--color-bg, #F7F5F0);
-}
-
-.btn-route-search {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: var(--color-accent, #C85A17);
-  color: #ffffff;
-  text-decoration: none;
-  padding: 24px 20px;
-  border-radius: 50px;
-  box-shadow: 0 6px 20px rgba(200, 90, 23, 0.3);
-  transition: transform 0.3s, background-color 0.3s;
-}
-
-.btn-route-search:active {
-  transform: scale(0.98);
-}
-
-.btn-route-search .main-text {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.btn-route-search .sub-text {
-  font-size: 0.85rem;
-  opacity: 0.9;
-}
-
-/* 4. Car Access & Parking (お車・駐車場) */
-.car-access-section {
-  padding: 60px 20px;
-  background-color: #ffffff;
-}
-
-.access-card {
-  max-width: 800px;
-  margin: 0 auto 60px;
-}
-
-.access-card-text h4 {
-  font-size: 1.4rem;
-  color: var(--color-main, #2C4234);
-  margin-bottom: 15px;
-}
-
-.nav-guide {
-  margin-top: 15px;
-  padding: 15px;
-  background: #f9f4f0;
-  border-left: 4px solid var(--color-accent);
-  font-size: 0.95rem;
-}
-
-.guide-caption {
-  padding: 15px;
-  background: #fdfdfd;
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.parking-info-box {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 30px;
-  background-color: var(--color-bg, #F7F5F0);
-  border-radius: 12px;
-}
-
-.parking-flex {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.p-icon {
-  font-size: 2rem;
-}
-
-.parking-note {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px dashed #cccccc;
-  font-size: 0.85rem;
-  color: #555555;
-}
-
-/* モバイル対応（スマホで見やすい調整） */
 @media screen and (max-width: 768px) {
   .access-hero { height: 40vh; }
   .access-hero h2 { font-size: 1.6rem; }
+  .info-table th, .info-table td { display: block; width: 100%; padding: 10px 5px; }
+  .info-table th { border-bottom: none; padding-bottom: 0; font-size: 0.9rem; }
+  .info-table td { padding-top: 5px; }
+  .btn-route-search .main-text { font-size: 1.1rem; }
   
-  .info-table th, .info-table td {
-      display: block;
-      width: 100%;
-      padding: 10px 5px;
-  }
-  
-  .info-table th {
-      border-bottom: none;
-      padding-bottom: 0;
-      font-size: 0.9rem;
-  }
-  
-  .info-table td {
-      padding-top: 5px;
-  }
-
-  .btn-route-search .main-text {
-      font-size: 1.1rem;
-  }
+  .reservation-steps-guide { padding: 20px 10px; gap: 5px; }
+  .step-icon { font-size: 1.6rem; }
+  .step-item p { font-size: 0.75rem; }
 }
 
 /* ========================================
-   Rules Notice (釣り堀ページの基本ルール)
+   Animation Utility
 ======================================== */
-.pricing-rules-notice {
-  background-color: #FFF5E6;
-  border: 2px solid #FADCB3;
-  border-radius: 12px;
-  padding: 24px;
-  margin-top: 40px;
-  box-shadow: 0 4px 15px rgba(200, 90, 23, 0.05);
+.fade-in-target {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
+.fade-in-target.is-visible { opacity: 1; transform: translateY(0); }
+.step-animation { animation: fadeInStep 0.4s ease-out forwards; }
 
-.pricing-rules-notice h4 {
-  color: var(--color-accent);
-  margin-bottom: 16px;
-  font-size: 1.1rem;
-  text-align: center;
-}
-
-.pricing-rules-notice ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.pricing-rules-notice li {
-  position: relative;
-  padding-left: 1.5em;
-  margin-bottom: 16px;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--color-text);
-}
-
-.pricing-rules-notice li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: var(--color-accent);
-  font-weight: bold;
-}
-
-.pricing-rules-notice li:last-child {
-  margin-bottom: 0;
-}
-
-.pricing-rules-notice small {
-  display: block;
-  color: #666;
-  margin-top: 4px;
-  font-size: 0.85rem;
-}
-
-/* ========================================
- Reservation Steps Guide (カンタン予約ステップ)
-======================================== */
-.reservation-steps-guide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  max-width: 600px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 24px 16px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-}
-
-.step-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  text-align: center;
-}
-
-.step-num {
-  background: var(--color-accent);
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: bold;
-  padding: 2px 10px;
-  border-radius: 20px;
-  margin-bottom: 8px;
-  letter-spacing: 0.05em;
-}
-
-.step-icon {
-  font-size: 2rem;
-  margin-bottom: 8px;
-}
-
-.step-item p {
-  font-size: 0.8rem;
-  line-height: 1.4;
-  color: var(--color-main);
-  font-weight: bold;
-  margin: 0;
-}
-
-.step-arrow {
-  color: #ccc;
-  font-size: 1.2rem;
-}
-
-/* モバイル表示時の微調整 */
-@media screen and (max-width: 768px) {
-  .reservation-steps-guide {
-      padding: 20px 10px;
-      gap: 5px;
-  }
-  .step-icon {
-      font-size: 1.6rem;
-  }
-  .step-item p {
-      font-size: 0.75rem;
-  }
-}
 
 /* ========================================
    全ページ共通：セクションごとの独立カードUI (モジュール型)
@@ -2179,11 +743,11 @@ body {
 
 /* 1. 各セクションを独立した白いカードにする */
 main > section {
-  margin: 24px 16px !important; /* スマホで上下に24px、左右に16pxの隙間（木目が見える部分） */
-  border-radius: 16px !important; /* 大きめの角丸 */
-  width: auto !important; /* ★追加：100%指定を解除して、横はみ出しを防ぐ */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08) !important; /* ふんわり浮き上がる影 */
-  overflow: hidden !important; /* 写真が角丸からはみ出ないようにする */
+  margin: 24px 16px !important; 
+  border-radius: 16px !important; 
+  width: auto !important; 
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08) !important; 
+  overflow: hidden !important; 
 }
 
 /* 2. 背景色を白にする（元から色が付いている特殊なセクションは除外） */
@@ -2191,15 +755,15 @@ main > section:not(.top-commitment):not(.story-closing):not(.access-hero) {
   background-color: #ffffff !important;
 }
 
-/* 3. PC向けの余白と幅の調整（画面いっぱいに広がらないように中央配置） */
+/* 3. PC向けの余白と幅の調整 */
 @media screen and (min-width: 768px) {
   main > section {
       margin: 40px auto !important;
-      max-width: 1000px; /* パソコンで見た時に横長になりすぎないように */
+      max-width: 1000px; 
   }
 }
 
-/* 4. ヒーローエリア（一番上の写真）の微調整 */
+/* 4. ヒーローエリアの微調整 */
 main > section.page-hero,
 main > section.bbq-hero,
 main > section.restaurant-hero,
@@ -2207,7 +771,7 @@ main > section.access-hero,
 main > section.story-hero,
 main > section.dogrun-hero,
 main > section.top-hero {
-  margin-top: 16px !important; /* ヘッダーから少しだけ離す */
+  margin-top: 16px !important; 
   padding: 0 !important;
 }
 
@@ -2229,15 +793,9 @@ main > section.top-hero {
   border-bottom: 1px dashed rgba(255,255,255,0.3);
   padding-bottom: 12px;
 }
-.pricing-rules-notice li {
-  color: #ffffff !important;
-}
-.pricing-rules-notice li::before {
-  color: var(--color-accent) !important;
-}
-.pricing-rules-notice small {
-  color: rgba(255, 255, 255, 0.75) !important;
-}
+.pricing-rules-notice li { color: #ffffff !important; }
+.pricing-rules-notice li::before { color: var(--color-accent) !important; }
+.pricing-rules-notice small { color: rgba(255, 255, 255, 0.75) !important; }
 
 /* ▼ 2. 釣り堀：3つのルール（ページ上部） */
 .fishing-rules .rule-card {
@@ -2249,12 +807,8 @@ main > section.top-hero {
   color: #ffffff !important;
   border-bottom: 1px dashed rgba(255,255,255,0.3) !important;
 }
-.fishing-rules .rule-card p {
-  color: #ffffff !important;
-}
-.fishing-rules .rule-card .rule-number {
-  color: rgba(255, 255, 255, 0.15) !important; /* 番号を背景に透かす */
-}
+.fishing-rules .rule-card p { color: #ffffff !important; }
+.fishing-rules .rule-card .rule-number { color: rgba(255, 255, 255, 0.15) !important; }
 
 /* ▼ 3. BBQ：ご利用ルール・注意事項 */
 .bbq-rules .rule-box {
@@ -2265,16 +819,12 @@ main > section.top-hero {
   box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2) !important;
 }
 .bbq-rules .rule-list dt {
-  color: var(--color-accent) !important; /* 小見出しはアンバー色 */
+  color: var(--color-accent) !important; 
   border-bottom: 1px dashed rgba(255,255,255,0.3) !important;
   padding-bottom: 8px !important;
 }
-.bbq-rules .rule-list dd {
-  color: #ffffff !important;
-}
-.bbq-rules .text-alert {
-  color: #FFD27D !important; /* 赤文字は緑背景に沈むため、明るいゴールドに変更 */
-}
+.bbq-rules .rule-list dd { color: #ffffff !important; }
+.bbq-rules .text-alert { color: #FFD27D !important; }
 
 /* ▼ 4. ドッグラン：利用規約 */
 .dogrun-rules-box {
