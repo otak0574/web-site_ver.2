@@ -446,7 +446,7 @@ a {
 .fishing-appeal { padding: 60px 20px; text-align: center; }
 .appeal-inner { max-width: 700px; margin: 0 auto; }
 .appeal-title { color: var(--color-accent); font-size: 1.4rem; margin-bottom: 24px; letter-spacing: 0.05em; }
-.appeal-text { font-size: 1.2rem; line-height: 2.2; color: var(--color-text); }
+.appeal-text { font-size: 1rem; line-height: 2.2; color: var(--color-text); }
 
 .fishing-rules { padding: 60px 20px; }
 .rules-grid { display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 1000px; margin: 0 auto; }
@@ -906,4 +906,32 @@ main > section.top-hero {
 .dogrun-rules-box .text-alert,
 .dogrun-rules-box .text-alert * {
   color: #FFD27D !important;
+}
+
+/* ========================================
+   全ページ共通：ヒーローセクション（トップ画像）の高さ統一
+======================================== */
+
+/* 下層ページ（釣り、BBQ、レストラン、ドッグラン、ストーリー、アクセス）の高さを完全に揃える */
+main > section.page-hero,
+main > section.bbq-hero,
+main > section.restaurant-hero,
+main > section.dogrun-hero,
+main > section.story-hero,
+main > section.access-hero {
+    height: 45vh !important; /* スマホ画面の45%の高さ */
+    min-height: 280px !important; /* どんなに画面が小さくても最低280pxは確保する */
+}
+
+/* パソコンやタブレットの広い画面での高さを揃える */
+@media screen and (min-width: 768px) {
+    main > section.page-hero,
+    main > section.bbq-hero,
+    main > section.restaurant-hero,
+    main > section.dogrun-hero,
+    main > section.story-hero,
+    main > section.access-hero {
+        height: 50vh !important; /* PCでは画面の50%の高さ */
+        min-height: 350px !important; 
+    }
 }
