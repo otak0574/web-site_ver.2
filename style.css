@@ -860,3 +860,32 @@ main > section.top-hero {
 .dogrun-rules-box .rule-list li {
   border-bottom: 1px dotted rgba(255,255,255,0.3) !important;
 }
+
+/* ========================================
+   スマホのテキスト改行をスマートにする設定
+======================================== */
+
+/* 1. 日本語の単語が変なところで切れるのを防ぐ（最新のAI改行機能） */
+body {
+  /* 単語や文節の区切りをブラウザが自動判定して、綺麗な位置で改行してくれます */
+  word-break: auto-phrase !important;
+  /* 句読点（。や、）が行の先頭にこないようにする厳密なルール */
+  line-break: strict !important; 
+}
+
+/* 2. スマホ画面（768px以下）専用の調整 */
+@media screen and (max-width: 768px) {
+  
+  /* ▼ A: 長文は「左揃え」にした方が、スマホでは圧倒的に読みやすくなります */
+  .appeal-text, 
+  .philosophy-text,
+  .concept-text {
+      text-align: left !important;
+  }
+
+  /* ▼ B: PC用にいれた改行（br）をスマホでは無視して、自然に流し込む魔法のクラス */
+  /* ※HTML側で <br class="pc-only"> と書いた改行だけ、スマホで無効化されます */
+  br.pc-only {
+      display: none !important;
+  }
+}
