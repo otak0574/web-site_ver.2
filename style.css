@@ -13,6 +13,7 @@
     /* フォント設定（明朝とゴシックの切り分け） */
     --font-mincho: "游明朝", "Yu Mincho", "筑紫Aオールド明朝", serif;
     --font-body: "Noto Sans JP", "游ゴシック", "Yu Gothic", sans-serif;
+    --font-body: "Zen Kaku Gothic New", sans-serif;
 }
 
 /* ========================================
@@ -25,17 +26,18 @@
 }
 
 body {
-  background-color: var(--color-bg);
-  /* ▼ CSSだけで描く、波打つオーガニックな木目調テクスチャ */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='woodgrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.12' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23woodgrain)'/%3E%3C/svg%3E");
+  background-color: #fdfaf6;
+  background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+  background-position: center;
+  background-attachment: fixed; /* 背景を固定 */
+  
   color: var(--color-text);
   font-family: var(--font-body);
-  font-weight: 300;
-  line-height: 1.6;
+  font-weight: 400;
+  line-height: 1.8;
   -webkit-font-smoothing: antialiased;
-  padding-top: 60px; /* ヘッダー固定に伴うコンテンツの余白調整 */
+  padding-top: 60px;
 }
-
 img {
     max-width: 100%;
     height: auto;
@@ -351,7 +353,7 @@ a {
 
 .hero-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
 .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%); z-index: 2; }
-.hero-text { position: relative; z-index: 3; text-align: center; color: var(--color-white); padding: 0 20px; }
+.hero-text { position: relative; z-index: 10; text-align: center; color: var(--color-white); padding: 0 20px; }
 .hero-text h2 { font-size: 1.5rem; line-height: 2; letter-spacing: 0.05em; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
 .top-intro { padding: 60px 20px; text-align: center; }
@@ -758,8 +760,8 @@ a {
    全ページ共通：セクションごとの独立カードUI (モジュール型)
 ======================================== */
 
-/* 1. 各セクションを独立した白いカードにする */
-main > section {
+/* 1. ヒーロー以外の全セクションを独立したカードにする（HTML構造に依存しない最強の書き方） */
+section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero) {
   margin: 24px 16px !important; 
   border-radius: 16px !important; 
   width: auto !important; 
@@ -768,36 +770,22 @@ main > section {
 }
 
 /* 2. 背景色を白にする（元から色が付いている特殊なセクションは除外） */
-main > section:not(.top-commitment):not(.story-closing):not(.access-hero) {
+section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero):not(.top-commitment):not(.story-closing) {
   background-color: #ffffff !important;
 }
 
 /* 3. PC向けの余白と幅の調整 */
 @media screen and (min-width: 768px) {
-  main > section {
+  section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero) {
       margin: 40px auto !important;
       max-width: 1000px; 
   }
 }
 
-/* 4. ヒーローエリアの微調整 */
-main > section.page-hero,
-main > section.bbq-hero,
-main > section.restaurant-hero,
-main > section.access-hero,
-main > section.story-hero,
-main > section.dogrun-hero,
-main > section.top-hero {
-  margin-top: 16px !important; 
-  padding: 0 !important;
-}
-
-
 /* ========================================
  全ページ共通：ルール部分を「緑背景×白文字のカード」に統一
 ======================================== */
 
-/* ▼ 1. 釣り堀：基本ルール（ページ下部） */
 .pricing-rules-notice {
   background-color: var(--color-main) !important;
   border: none !important;
@@ -814,15 +802,14 @@ main > section.top-hero {
 .pricing-rules-notice li::before { color: var(--color-accent) !important; }
 .pricing-rules-notice small { color: rgba(255, 255, 255, 0.75) !important; }
 
-/* ▼ 2. 釣り堀：3つのルール（ページ上部） */
 .fishing-rules .rule-card {
   background-color: var(--color-main) !important;
   border: none !important;
   color: #ffffff !important;
-  padding: 32px 24px !important; /* ★復活：カードの内側余白 */
-  border-radius: 12px !important; /* ★復活：角丸 */
-  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2) !important; /* ★復活：影 */
-  position: relative !important; /* ★復活：数字の配置用 */
+  padding: 32px 24px !important; 
+  border-radius: 12px !important; 
+  box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2) !important; 
+  position: relative !important; 
   overflow: hidden !important; 
   z-index: 1 !important;
 }
@@ -833,7 +820,7 @@ main > section.top-hero {
 }
 .fishing-rules .rule-card p { color: #ffffff !important; }
 .fishing-rules .rule-card .rule-number {
-  position: absolute !important; /* ★復活：右上に大きく配置 */
+  position: absolute !important; 
   top: 10px !important;
   right: 15px !important;
   font-size: 4rem !important; 
@@ -843,7 +830,6 @@ main > section.top-hero {
   z-index: -1 !important;
 }
 
-/* ▼ 3. BBQ：ご利用ルール・注意事項 */
 .bbq-rules .rule-box {
   background-color: var(--color-main) !important;
   border: none !important;
@@ -859,7 +845,6 @@ main > section.top-hero {
 .bbq-rules .rule-list dd { color: #ffffff !important; }
 .bbq-rules .text-alert { color: #FFD27D !important; }
 
-/* ▼ 4. ドッグラン：利用規約 */
 .dogrun-rules-box {
   background-color: var(--color-main) !important;
   border: none !important;
@@ -868,13 +853,11 @@ main > section.top-hero {
   box-shadow: 0 8px 20px rgba(44, 66, 52, 0.2) !important;
 }
 
-/* ★追加：箱の中の【すべての要素】を強制的に白文字にする（黒文字の撲滅） */
 .dogrun-rules-box,
 .dogrun-rules-box * {
   color: #ffffff !important;
 }
 
-/* タイトルの装飾と余白 */
 .dogrun-rules-box h3 {
   border-bottom: 1px dashed rgba(255,255,255,0.3) !important;
   padding-bottom: 16px !important;
@@ -883,7 +866,6 @@ main > section.top-hero {
   text-align: center !important;
 }
 
-/* 文章全体の行間を読みやすく調整 */
 .dogrun-rules-box p,
 .dogrun-rules-box li {
   line-height: 1.8 !important;
@@ -896,30 +878,26 @@ main > section.top-hero {
   margin: 0 !important;
 }
 
-/* 各ルールの余白と下線 */
 .dogrun-rules-box .rule-list li {
   position: relative !important;
   padding: 16px 0 16px 2.2em !important;
   border-bottom: 1px dotted rgba(255,255,255,0.3) !important;
 }
 
-/* 最後のルールの下線は消す */
 .dogrun-rules-box .rule-list li:last-child {
   border-bottom: none !important;
   padding-bottom: 0 !important;
 }
 
-/* ★追加：肉球アイコンに白い光のフチをつけて、緑背景でもクッキリさせる */
 .dogrun-rules-box .rule-list li::before {
   content: "🐾" !important;
   position: absolute !important;
   left: 0 !important;
   top: 16px !important;
   font-size: 1.1rem !important;
-  filter: drop-shadow(0px 0px 3px rgba(255, 255, 255, 0.9)) !important; /* ←これが光る魔法 */
+  filter: drop-shadow(0px 0px 3px rgba(255, 255, 255, 0.9)) !important;
 }
 
-/* 注意書きの赤文字があれば見やすいゴールドに変換 */
 .dogrun-rules-box .text-alert,
 .dogrun-rules-box .text-alert * {
   color: #FFD27D !important;
@@ -928,27 +906,90 @@ main > section.top-hero {
 /* ========================================
    全ページ共通：ヒーローセクション（トップ画像）の高さ統一
 ======================================== */
-
-/* 下層ページ（釣り、BBQ、レストラン、ドッグラン、ストーリー、アクセス）の高さを完全に揃える */
-main > section.page-hero,
-main > section.bbq-hero,
-main > section.restaurant-hero,
-main > section.dogrun-hero,
-main > section.story-hero,
-main > section.access-hero {
-    height: 45vh !important; /* スマホ画面の45%の高さ */
-    min-height: 280px !important; /* どんなに画面が小さくても最低280pxは確保する */
+section.page-hero,
+section.bbq-hero,
+section.restaurant-hero,
+section.dogrun-hero,
+section.story-hero,
+section.access-hero {
+    height: 60vh !important; 
+    min-height: 350px !important; 
 }
 
-/* パソコンやタブレットの広い画面での高さを揃える */
 @media screen and (min-width: 768px) {
-    main > section.page-hero,
-    main > section.bbq-hero,
-    main > section.restaurant-hero,
-    main > section.dogrun-hero,
-    main > section.story-hero,
-    main > section.access-hero {
-        height: 50vh !important; /* PCでは画面の50%の高さ */
-        min-height: 350px !important; 
+    section.page-hero,
+    section.bbq-hero,
+    section.restaurant-hero,
+    section.dogrun-hero,
+    section.story-hero,
+    section.access-hero {
+        height: 70vh !important; 
+        min-height: 480px !important; 
     }
+}
+
+/* ========================================
+   全ページ共通：ヒーローセクションを画面いっぱい＆アーチ型に
+======================================== */
+section.page-hero,
+section.bbq-hero,
+section.restaurant-hero,
+section.dogrun-hero,
+section.story-hero,
+section.access-hero,
+section.top-hero {
+    margin: 0 !important; 
+    max-width: 100% !important;
+    border-radius: 0 !important; 
+    box-shadow: none !important; 
+    position: relative;
+    overflow: hidden; 
+    -webkit-mask-image: radial-gradient(ellipse 100% 60px at 50% 100%, transparent 99%, black 100%);
+    mask-image: radial-gradient(ellipse 100% 60px at 50% 100%, transparent 99%, black 100%);
+}
+
+@media screen and (min-width: 768px) {
+    section.page-hero,
+    section.bbq-hero,
+    section.restaurant-hero,
+    section.dogrun-hero,
+    section.story-hero,
+    section.access-hero,
+    section.top-hero {
+        margin: 0 !important;
+        max-width: none !important;
+    }
+}
+
+section.page-hero .hero-image,
+section.bbq-hero .hero-image,
+section.restaurant-hero .hero-image,
+section.dogrun-hero .hero-image,
+section.story-hero .hero-image,
+section.access-hero .hero-image,
+section.top-hero .hero-image {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1 !important; 
+}
+
+section.page-hero::after,
+section.bbq-hero::after,
+section.restaurant-hero::after,
+section.dogrun-hero::after,
+section.story-hero::after,
+section.access-hero::after,
+section.top-hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(26, 110, 138, 0.6); 
+    z-index: 2 !important; 
+}
+
+/* ★文字が背景の下に隠れないようにする最重要コード */
+.hero-text {
+    position: relative !important;
+    z-index: 10 !important;
 }
