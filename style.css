@@ -512,6 +512,104 @@ a {
 .tab-btn.is-active { background-color: var(--color-main); color: var(--color-white); border-color: var(--color-main); }
 .tab-content { display: none; animation: fadeInTab 0.4s ease forwards; }
 .tab-content.is-active { display: block; }
+
+/* ========================================
+   ステップ形式カードUI（釣り堀の料金・遊び方用）
+======================================== */
+.step-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.step-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  border-left: 5px solid var(--color-main); /* 左側のアクセントライン */
+}
+
+/* お得なステップや重要なステップの色を変える */
+.step-card.is-accent {
+  border-left-color: var(--color-accent);
+}
+
+.step-card-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F5E6C8; /* 薄い背景色に合わせて調整 */
+  color: var(--color-main);
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.step-card.is-accent .step-card-badge {
+  background: rgba(217, 109, 43, 0.1);
+  color: var(--color-accent);
+}
+
+.step-card-badge span.step-text {
+  font-size: 0.75rem;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.step-card-badge span.step-num {
+  font-size: 1.6rem;
+  line-height: 1;
+  font-family: Arial, sans-serif; /* 数字をくっきりと */
+}
+
+.step-card-content {
+  flex-grow: 1;
+}
+
+.step-card-content h4 {
+  font-size: 1.25rem;
+  color: var(--color-main);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.step-card-content p {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+
+/* カード内の料金リストの装飾 */
+.step-card-content .menu-list {
+  background: #F9F9F9;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: 1px solid #E8E8E8;
+}
+
+/* スマホ用の調整（縦並びにして見やすく） */
+@media screen and (max-width: 600px) {
+  .step-card {
+      flex-direction: column;
+      gap: 16px;
+      padding: 20px;
+  }
+  .step-card-badge {
+      width: 50px;
+      height: 50px;
+  }
+  .step-card-badge span.step-text { font-size: 0.65rem; }
+  .step-card-badge span.step-num { font-size: 1.3rem; }
+}
+
 @keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .fishing-faq { padding: 60px 20px; }
