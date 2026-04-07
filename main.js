@@ -18,114 +18,83 @@ document.addEventListener('DOMContentLoaded', () => {
  * 1. 共通パーツの生成とDOMへの挿入
  */
 function renderGlobalComponents() {
-  // 現在のページのURLパスを取得
-  const currentPath = window.location.pathname;
+    // ヘッダーのHTML文字列
+    const headerHTML = `
+        <header class="global-header">
+            <div class="header-inner">
+                <h1 class="header-logo font-mincho">
+                    <a href="index.html">七宗遊園
+                    <div class="header-logo-image">
+                        <img src="images/logo2.png" alt="七宗遊園" loading="lazy">
+                    </div>
+                    </a>
+                </h1>
+                <div class="header-actions">
+                    <button class="hamburger-btn" id="hamburger-btn" aria-label="メニューを開閉する">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <nav class="global-nav" id="global-nav">
+                <ul class="nav-list font-mincho">
+                    <li><a href="fishing.html">釣り堀案内</a></li>
+                    <li><a href="restaurant.html">レストラン</a></li>
+                    <li><a href="bbq.html">BBQ（プレミアム）</a></li>
+                    <li><a href="dogrun.html">ドッグラン</a></li>
+                    <li><a href="story.html">こだわりとストーリー</a></li>
+                    <li><a href="access.html">アクセス</a></li>
+                </ul>
+            </nav>
+        </header>
+    `;
   
-  // ▼ 予約ボタンを「隠す」ページの条件を定義
-  // URLの末尾が /、index.html、restaurant.html、dogrun.html のいずれかであれば true になる
-  const hideReserveBtn = currentPath.endsWith('/') || 
-                         currentPath.endsWith('restaurant.html') || 
-                         currentPath.endsWith('dogrun.html');
-
-  // ヘッダーのHTML文字列（${headerReserveHTML} で出し分け）
-  const headerHTML = `
-      <header class="global-header">
-          <div class="header-inner">
-              <h1 class="header-logo font-mincho">
-                  <a href="index.html">七宗遊園
-                  <div class="header-logo-image">
-                      <img src="images/logo2.png" alt="七宗遊園" loading="lazy">
-                  </div>
-                  </a>
-              </h1>
-              <div class="header-actions">
-                  <button class="hamburger-btn" id="hamburger-btn" aria-label="メニューを開閉する">
-                      <span class="hamburger-line"></span>
-                      <span class="hamburger-line"></span>
-                      <span class="hamburger-line"></span>
-                  </button>
-              </div>
-          </div>
-          
-          <nav class="global-nav" id="global-nav">
-              <ul class="nav-list font-mincho">
-                  <li><a href="fishing.html">釣り堀案内</a></li>
-                  <li><a href="restaurant.html">レストラン</a></li>
-                  <li><a href="bbq.html">BBQ（プレミアム）</a></li>
-                  <li><a href="dogrun.html">ドッグラン</a></li>
-                  <li><a href="story.html">こだわりとストーリー</a></li>
-                  <li><a href="access.html">アクセス</a></li>
-              </ul>
-          </nav>
-      </header>
-  `;
-
-  // フッターのHTML文字列（変更なし）
-  const footerHTML = `
-      <footer class="global-footer">
-          <div class="footer-inner">
-              <h2 class="footer-logo font-mincho">七宗遊園</h2>
-              <div class="footer-info">
-                  <p>〒509-0511<br>岐阜県加茂郡七宗町神渕4183-4</p>
-                  <p class="footer-tel">TEL: <a href="tel:0574461128">0574-46-1128</a></p>
-                  <p>営業時間: 10:00 ～ 15:00<br>定休日: 第二・第四火曜</p>
-              </div>
-              <div class="footer-link">
-                  <a href="access.html" class="btn-access">アクセスを見る</a>
-              </div>
-              <p class="footer-copyright">&copy; Hichiso Yuen All Rights Reserved.</p>
-          </div>
-      </footer>
-  `;
-
-  // ▼ 追従ボタンのHTML文字列：隠さないページ（false）の場合のみ生成する
-  let stickyBtnHTML = '';
-  if (!hideReserveBtn) {
-      stickyBtnHTML = `
-          <div class="sticky-btn-wrapper">
-              <button id="open-reservation-btn" class="btn-accent sticky-reserve-btn">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                  </svg>
-                  <div class="btn-text-wrapper">
-                      <span class="main-text">予約する</span>
-                      <span class="sub-text">料金シミュレーションも可能です</span>
-                  </div>
-              </button>
-          </div>
-      `;
+    // フッターのHTML文字列
+    const footerHTML = `
+        <footer class="global-footer">
+            <div class="footer-inner">
+                <h2 class="footer-logo font-mincho">七宗遊園</h2>
+                <div class="footer-info">
+                    <p>〒509-0511<br>岐阜県加茂郡七宗町神渕4183-4</p>
+                    <p class="footer-tel">TEL: <a href="tel:0574461128">0574-46-1128</a></p>
+                    <p>営業時間: 10:00 ～ 15:00<br>定休日: 第二・第四火曜</p>
+                </div>
+                <div class="footer-link">
+                    <a href="access.html" class="btn-access">アクセスを見る</a>
+                </div>
+                <p class="footer-copyright">&copy; Hichiso Yuen All Rights Reserved.</p>
+            </div>
+        </footer>
+    `;
+  
+    // 挿入先コンテナが存在する場合のみHTMLを挿入
+    const headerContainer = document.getElementById('header-container');
+    const footerContainer = document.getElementById('footer-container');
+  
+    if (headerContainer) headerContainer.innerHTML = headerHTML;
+    if (footerContainer) footerContainer.innerHTML = footerHTML;
+  
+    // ▼ モーダルの自動挿入：ボタンが存在するページでのみモーダル本体を読み込む
+    if (!document.getElementById('reservation-modal')) {
+        const modalHTML = `
+            <div id="reservation-modal" class="modal" aria-hidden="true">
+                <div class="modal-overlay" data-modal-close></div>
+                <div class="modal-content">
+                    <button class="modal-close-btn" data-modal-close aria-label="閉じる">×</button>
+                    <h3 class="font-mincho modal-title">ご予約・料金シミュレーション</h3>
+                    <p class="modal-desc"><br>※お見積りは目安です。<br>※ 入力した内容はお客様のスマホ・パソコンの中だけで計算されます。<br>お店側には一切送られませんので、気軽にお試しください。</p>
+                    
+                    <div class="simulation-form-placeholder">
+                        <p>（フォーム項目実装エリア）</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
   }
-
-  // 挿入先コンテナが存在する場合のみHTMLを挿入
-  const headerContainer = document.getElementById('header-container');
-  const footerContainer = document.getElementById('footer-container');
-  const stickyBtnContainer = document.getElementById('sticky-btn-container');
-
-  if (headerContainer) headerContainer.innerHTML = headerHTML;
-  if (footerContainer) footerContainer.innerHTML = footerHTML;
-  // 追従ボタンは中身がある（生成された）場合のみ挿入
-  if (stickyBtnContainer) stickyBtnContainer.innerHTML = stickyBtnHTML;
-
-  // ▼ モーダルの自動挿入：ボタンが存在するページでのみモーダル本体を読み込む
-  if (!document.getElementById('reservation-modal')) {
-      const modalHTML = `
-          <div id="reservation-modal" class="modal" aria-hidden="true">
-              <div class="modal-overlay" data-modal-close></div>
-              <div class="modal-content">
-                  <button class="modal-close-btn" data-modal-close aria-label="閉じる">×</button>
-                  <h3 class="font-mincho modal-title">ご予約・料金シミュレーション</h3>
-                  <p class="modal-desc"><br>※お見積りは目安です。<br>※ 入力した内容はお客様のスマホ・パソコンの中だけで計算されます。<br>お店側には一切送られませんので、気軽にお試しください。</p>
-                  
-                  <div class="simulation-form-placeholder">
-                      <p>（フォーム項目実装エリア）</p>
-                  </div>
-              </div>
-          </div>
-      `;
-      document.body.insertAdjacentHTML('beforeend', modalHTML);
-  }
-}
 
 /**
 * 2. ハンバーガーメニューの開閉制御（Vanilla JS）
@@ -273,20 +242,10 @@ function initStickyButtonToggle() {
     const stickyContainer = document.getElementById('sticky-btn-container');
     if (!stickyContainer) return;
 
-    const currentPath = window.location.pathname;
-
-    // トップページだけは非表示にする（トップは画面内に独自の大きな導線があるため）
-    const hideReserveBtn = currentPath === '/' || currentPath.endsWith('/') || currentPath.includes('index.html');
-
-    if (hideReserveBtn) {
-        stickyContainer.innerHTML = '';
-        return; 
-    }
-
-    // 全下層ページ共通の「総合予約」ボタンを生成
+    // ▼ トップページを含め、全ページ共通の「総合予約」ボタンを生成
     stickyContainer.innerHTML = `
         <div class="sticky-btn-wrapper">
-            <button id="sticky-reservation-btn" class="btn-accent sticky-reserve-btn" style="display: flex; align-items: center; gap: 8px;">
+            <button id="sticky-reservation-btn" class="btn-accent sticky-reserve-btn" style="display: flex; align-items: center; gap: 8px; touch-action: manipulation;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>

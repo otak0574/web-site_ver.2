@@ -410,12 +410,29 @@ a {
 
 .large-cta-btn, .large-cta-btn-main {
   display: inline-flex; flex-direction: column; align-items: center; padding: 20px 40px;
+  border-radius: 50px; /* ストーリーページと同じ美しい丸み */
+  transition: transform 0.3s, box-shadow 0.3s; /* フワッと浮く動きの準備 */
+  text-decoration: none;
 }
 .large-cta-btn { box-shadow: 0 8px 20px rgba(217, 109, 43, 0.3); }
 .large-cta-btn-main { box-shadow: 0 8px 20px rgba(44, 66, 52, 0.15); }
-.large-cta-btn .main-text, .large-cta-btn-main .main-text { font-size: 1.4rem; font-weight: bold; margin-bottom: 4px; }
-.large-cta-btn .sub-text, .large-cta-btn-main .sub-text { font-size: 0.8rem; opacity: 0.9; }
 
+/* ホバー（タップ）時に少し浮き上がる動き */
+.large-cta-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(217, 109, 43, 0.4); }
+.large-cta-btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(44, 66, 52, 0.25); }
+
+/* ▼ ストーリーページと同じ、上品なフォントスタイルに統一 */
+.large-cta-btn .main-text, .large-cta-btn-main .main-text { 
+  font-size: 1.1rem; 
+  font-weight: normal; /* 太字(bold)をやめて上品に */
+  line-height: 1.5; 
+  margin-bottom: 4px; 
+}
+.large-cta-btn .sub-text, .large-cta-btn-main .sub-text { 
+  font-size: 0.85rem; 
+  opacity: 0.9; 
+  font-weight: normal;
+}
 /* 予約ステップガイド */
 .reservation-steps-guide {
   display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 600px; margin: 0 auto;

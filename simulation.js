@@ -76,7 +76,7 @@ const ReservationSystem = {
             
             /* パネル設定（選択肢） */
             .sim-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; margin-bottom: 32px; }
-            .sim-panel { border: 1px solid #D8D2C4; border-radius: 4px; padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: #fff; font-size: 0.95rem; line-height: 1.6; display: flex; align-items: center; justify-content: center; min-height: 60px; margin-bottom: 0; color: #555; }
+            .sim-panel { border: 1px solid #D8D2C4; border-radius: 4px; padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: #fff; font-size: 0.95rem; line-height: 1.6; display: flex; align-items: center; justify-content: center; min-height: 60px; margin-bottom: 0; color: #555; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
             .sim-panel:hover { border-color: var(--color-main, #2C4234); background-color: #F9F9F9; }
             .sim-panel.is-active { background: var(--color-main, #2C4234); color: #fff; border-color: var(--color-main, #2C4234); font-weight: normal; }
             
@@ -84,8 +84,7 @@ const ReservationSystem = {
             .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #E8E4D9; }
             .sim-counter-label { font-size: 0.95rem; color: #444; }
             .sim-counter-controls { display: flex; align-items: center; gap: 16px; }
-            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; color: #555; font-size: 1.2rem; font-weight: 300; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;}
-            .sim-btn-circle:active { background: #f0f0f0; }
+            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; color: #555; font-size: 1.2rem; font-weight: 300; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; touch-action: manipulation; user-select: none; -webkit-user-select: none; }            .sim-btn-circle:active { background: #f0f0f0; }
             .sim-btn-circle.is-disabled { opacity: 0.3; pointer-events: none; }
             .sim-counter-val { font-size: 1.2rem; width: 30px; text-align: center; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333;}
             
@@ -98,8 +97,7 @@ const ReservationSystem = {
             .sim-error-msg { color: #A0522D; padding: 0 0 20px 0; font-size: 0.9rem; display: none; font-weight: normal; text-align: center;}
             
             /* ボタン設定 */
-            .sim-btn-block { width: 100%; padding: 16px; border-radius: 4px; font-size: 1rem; cursor: pointer; border: none; transition: 0.3s; text-align: center; box-sizing: border-box !important; margin-bottom: 8px; letter-spacing: 0.1em; font-family: '筑紫Aオールド明朝', 'YuMincho', serif;}            
-            .sim-btn-primary { background: var(--color-main, #2C4234); color: #fff; }
+            .sim-btn-block { width: 100%; padding: 16px; border-radius: 4px; font-size: 1rem; cursor: pointer; border: none; transition: 0.3s; text-align: center; box-sizing: border-box !important; margin-bottom: 8px; letter-spacing: 0.1em; font-family: '筑紫Aオールド明朝', 'YuMincho', serif; touch-action: manipulation; user-select: none; -webkit-user-select: none; }            .sim-btn-primary { background: var(--color-main, #2C4234); color: #fff; }
             .sim-btn-primary:active { background: #1E2E24; }
             .sim-btn-secondary { background: #fff; border: 1px solid #D8D2C4; color: #555; }
             .sim-btn-secondary:active { background: #F5F5F5; }
