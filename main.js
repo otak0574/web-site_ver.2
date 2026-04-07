@@ -115,7 +115,7 @@ function renderGlobalComponents() {
               <div class="modal-content">
                   <button class="modal-close-btn" data-modal-close aria-label="閉じる">×</button>
                   <h3 class="font-mincho modal-title">ご予約・料金シミュレーション</h3>
-                  <p class="modal-desc"><br>※金額は目安です。</p>
+                  <p class="modal-desc"><br>※お見積りは目安です。<br>※ 入力した内容はお客様のスマホ・パソコンの中だけで計算されます。<br>お店側には一切送られませんので、気軽にお試しください。</p>
                   
                   <div class="simulation-form-placeholder">
                       <p>（フォーム項目実装エリア）</p>
@@ -275,38 +275,31 @@ function initStickyButtonToggle() {
 
     const currentPath = window.location.pathname;
 
-    // 表示を隠すページ（トップページのみに設定し、ドッグランは表示させる）
-    const hiddenPages = ['restaurant','dogrun','story','access']; // restaurantなどは既に判定ロジックがあるはずですが、ここではdogrunを除外
-    const hideReserveBtn = hiddenPages.some(page => currentPath.includes(page)) || 
-                           currentPath === '/' || 
-                           currentPath.endsWith('/');
+    // トップページだけは非表示にする（トップは画面内に独自の大きな導線があるため）
+    const hideReserveBtn = currentPath === '/' || currentPath.endsWith('/') || currentPath.includes('index.html');
 
     if (hideReserveBtn) {
         stickyContainer.innerHTML = '';
         return; 
     }
 
-    // ページごとの設定
-    let btnClass = "btn-accent"; // デフォルトはアンバー
-    let btnText = "大自然の中で釣り体験のご予約";
-
-    if (currentPath.includes('bbq.html')) {
-        btnClass = "btn-main"; // BBQページは緑
-        btnText = "【1日3組限定】手ぶらBBQのご予約";
-    } else if (currentPath.includes('dogrun.html')) {
-        btnClass = "btn-accent"; // ドッグランページはアンバー（アクセント）
-        btnText = "愛犬同伴BBQの料金シミュレーション・ご予約"; // BBQへの誘導テキスト
-    }
-
+    // 全下層ページ共通の「総合予約」ボタンを生成
     stickyContainer.innerHTML = `
         <div class="sticky-btn-wrapper">
-            <button id="sticky-reservation-btn" class="${btnClass} sticky-btn">
-                ${btnText}
+            <button id="sticky-reservation-btn" class="btn-accent sticky-reserve-btn" style="display: flex; align-items: center; gap: 8px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <div class="btn-text-wrapper" style="text-align: left; line-height: 1.2;">
+                    <span class="main-text" style="font-size: 1.1rem; font-weight: bold; display: block;">各種ご予約</span>
+                    <span class="sub-text" style="font-size: 0.7rem; opacity: 0.9; display: block;">料金シミュレーションも可能です</span>
+                </div>
             </button>
         </div>
     `;
 
-    // 3. スクロール監視（最下部CTAが見えたら隠す）
+    // スクロール監視（最下部CTAが見えたら隠す）
     const stickyBtnWrapper = stickyContainer.querySelector('.sticky-btn-wrapper');
     const bottomCta = document.querySelector('.page-bottom-cta');
 

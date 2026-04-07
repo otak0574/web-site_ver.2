@@ -68,76 +68,71 @@ const ReservationSystem = {
         const style = document.createElement('style');
         style.id = 'sim-styles';
         style.innerHTML = `
-            .simulation-form-placeholder { overflow-x: hidden; width: 100%; box-sizing: border-box; overflow-y: auto; padding: 15px 10px; color: #333;}
+            .simulation-form-placeholder { overflow-x: hidden; width: 100%; box-sizing: border-box; overflow-y: auto; padding: 24px 20px; color: #333; background-color: #FDFBF7; border: 1px solid #E8E4D9; border-radius: 4px; }
             
             /* 見出しを明朝体にして上品に */
-            .simulation-form-placeholder h4 { margin-top: 5px; margin-bottom: 16px; font-size: 1.1rem; font-family: '筑紫Aオールド明朝', 'YuMincho', serif; border-bottom: 1px solid rgba(44, 66, 52, 0.2); padding-bottom: 8px; color: var(--color-main, #2C4234);}
-            .simulation-form-placeholder h5 { margin-top: 24px; margin-bottom: 12px; font-size: 1rem; font-family: '筑紫Aオールド明朝', 'YuMincho', serif; color: var(--color-main, #2C4234); }
+            .simulation-form-placeholder h4 { margin-top: 10px; margin-bottom: 24px; font-size: 1.15rem; font-family: '筑紫Aオールド明朝', 'YuMincho', serif; border-bottom: 1px solid rgba(44, 66, 52, 0.15); padding-bottom: 12px; color: var(--color-main, #2C4234); font-weight: normal; text-align: center; letter-spacing: 0.05em;}
+            .simulation-form-placeholder h5 { margin-top: 32px; margin-bottom: 16px; font-size: 1rem; font-family: '筑紫Aオールド明朝', 'YuMincho', serif; color: var(--color-main, #2C4234); font-weight: normal; letter-spacing: 0.05em;}
             
-            /* パネル設定 */
-            .sim-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 24px; }
-            .sim-panel { border: none; border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #fff; font-size: 0.9rem; line-height: 1.4; display: flex; align-items: center; justify-content: center; min-height: 50px; margin-bottom: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-            .sim-panel:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
-            .sim-panel.is-active { background: #F4F9F5; color: var(--color-main, #2C4234); font-weight: bold; box-shadow: 0 0 0 2px var(--color-main, #2C4234); transform: translateY(-2px); }
+            /* パネル設定（選択肢） */
+            .sim-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; margin-bottom: 32px; }
+            .sim-panel { border: 1px solid #D8D2C4; border-radius: 4px; padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: #fff; font-size: 0.95rem; line-height: 1.6; display: flex; align-items: center; justify-content: center; min-height: 60px; margin-bottom: 0; color: #555; }
+            .sim-panel:hover { border-color: var(--color-main, #2C4234); background-color: #F9F9F9; }
+            .sim-panel.is-active { background: var(--color-main, #2C4234); color: #fff; border-color: var(--color-main, #2C4234); font-weight: normal; }
             
             /* カウンター周り */
-            .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dotted #ccc; }
-            .sim-counter-controls { display: flex; align-items: center; gap: 12px; }
-            .sim-btn-circle { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--color-main, #2C4234); background: #fff; color: var(--color-main, #2C4234); font-size: 1.4rem; font-weight: normal; cursor: pointer; display: flex; align-items: center; justify-content: center; touch-action: none !important; user-select: none; -webkit-user-select: none; transition: 0.2s;}
-            .sim-btn-circle:active { background: #f0f0f0; transform: scale(0.95); }
-            .sim-btn-circle.is-disabled { opacity: 0.2; pointer-events: none; border-color: #999; color: #999;}
-            .sim-counter-val { font-size: 1.3rem; font-weight: bold; width: 36px; text-align: center; font-family: 'Helvetica Neue', Arial, sans-serif;}
+            .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #E8E4D9; }
+            .sim-counter-label { font-size: 0.95rem; color: #444; }
+            .sim-counter-controls { display: flex; align-items: center; gap: 16px; }
+            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; color: #555; font-size: 1.2rem; font-weight: 300; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;}
+            .sim-btn-circle:active { background: #f0f0f0; }
+            .sim-btn-circle.is-disabled { opacity: 0.3; pointer-events: none; }
+            .sim-counter-val { font-size: 1.2rem; width: 30px; text-align: center; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333;}
             
             /* フォーム入力欄 */
-            .sim-input { width: 100%; padding: 14px 12px; border: 1px solid #ddd; border-radius: 8px; margin-top: 4px; font-size: 16px !important; box-sizing: border-box !important; max-width: 100%; background: #fafafa; transition: border 0.3s;}            
-            .sim-input:focus { border-color: var(--color-accent, #D96D2B); outline: none; background: #fff;}
-            input[type="date"].sim-input { -webkit-appearance: none; appearance: none; background-color: #fafafa; color: var(--color-text, #333); }
+            .sim-input { width: 100%; padding: 16px 14px; border: 1px solid #D8D2C4; border-radius: 4px; margin-top: 8px; font-size: 16px !important; box-sizing: border-box !important; background: #fff; transition: border 0.3s; color: #333;}            
+            .sim-input:focus { border-color: var(--color-main, #2C4234); outline: none;}
+            input[type="date"].sim-input { -webkit-appearance: none; appearance: none; color: #333; font-family: inherit;}
             
-            /* ★エラーメッセージ（背景なし・赤文字のみ） */
-            .sim-error-msg { color: #d32f2f; padding: 0 0 16px 0; font-size: 0.95rem; display: none; font-weight: bold; text-align: center;}
+            /* エラーメッセージ */
+            .sim-error-msg { color: #A0522D; padding: 0 0 20px 0; font-size: 0.9rem; display: none; font-weight: normal; text-align: center;}
             
             /* ボタン設定 */
-            .sim-btn-block { width: 100%; padding: 14px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; text-align: center; box-sizing: border-box !important; max-width: 100%; margin-bottom: 8px; letter-spacing: 0.05em;}            
-            .sim-btn-primary { background: var(--color-accent, #D96D2B); color: #fff; box-shadow: 0 4px 12px rgba(217, 109, 43, 0.3);}
-            .sim-btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 6px rgba(217, 109, 43, 0.3);}
-            .sim-btn-secondary { background: #fff; border: 1px solid #ccc; color: #555; }
-            .sim-btn-secondary:active { background: #f5f5f5; }
-            .sim-btn-group { display: flex; gap: 12px; margin-top: 32px; align-items: center; }
+            .sim-btn-block { width: 100%; padding: 16px; border-radius: 4px; font-size: 1rem; cursor: pointer; border: none; transition: 0.3s; text-align: center; box-sizing: border-box !important; margin-bottom: 8px; letter-spacing: 0.1em; font-family: '筑紫Aオールド明朝', 'YuMincho', serif;}            
+            .sim-btn-primary { background: var(--color-main, #2C4234); color: #fff; }
+            .sim-btn-primary:active { background: #1E2E24; }
+            .sim-btn-secondary { background: #fff; border: 1px solid #D8D2C4; color: #555; }
+            .sim-btn-secondary:active { background: #F5F5F5; }
+            .sim-btn-group { display: flex; gap: 16px; margin-top: 40px; align-items: center; }
             .sim-btn-group .sim-btn-block { margin-top: 0; margin-bottom: 0; width: auto; }
-            .sim-btn-group .btn-prev { flex: 1; padding: 14px 8px; font-size: 0.95rem; }
+            .sim-btn-group .btn-prev { flex: 1; padding: 16px 8px; font-size: 0.95rem; }
             .sim-btn-group .btn-next, .sim-btn-group .btn-calculate { flex: 2; }
             
             /* レシート表示 */
-            .sim-receipt { background: #FFFAF0; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 2px dashed #E8D5C4;}
-            .sim-receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: #444;}
-            .sim-receipt-total { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid #E8D5C4; font-size: 1.3rem; font-weight: bold; color: var(--color-accent, #D96D2B); font-family: '筑紫Aオールド明朝', 'YuMincho', serif;}
+            .sim-receipt { background: #FDFBF7; padding: 24px; border-radius: 4px; margin-bottom: 32px; border: 1px solid #E8E4D9;}
+            .sim-receipt-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: #555;}
+            .sim-receipt-total { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid #D8D2C4; font-size: 1.3rem; color: var(--color-main, #2C4234); font-family: '筑紫Aオールド明朝', 'YuMincho', serif;}
             
             /* ローディング */
-            .sim-loading { text-align: center; padding: 50px 0; }
-            .sim-spinner { display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(217, 109, 43, 0.2); border-radius: 50%; border-top-color: var(--color-accent, #D96D2B); animation: spin 1s ease-in-out infinite; margin-bottom: 16px; }
+            .sim-loading { text-align: center; padding: 60px 0; }
+            .sim-spinner { display: inline-block; width: 36px; height: 36px; border: 2px solid rgba(44, 66, 52, 0.1); border-radius: 50%; border-top-color: var(--color-main, #2C4234); animation: spin 1s ease-in-out infinite; margin-bottom: 24px; }
             @keyframes spin { to { transform: rotate(360deg); } }
             
             /* ステップアニメーション */
-            @keyframes fadeInStep { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-            .step-animation { animation: fadeInStep 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+            @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+            .step-animation { animation: fadeInStep 0.5s ease forwards; }
         `;
         document.head.appendChild(style);
     },
 
     bindEvents() {
         document.body.addEventListener('click', (e) => {
+            
             // ▼ モーダルを開く処理
             if (e.target.closest('#open-reservation-btn') || e.target.closest('#header-reserve-btn') || e.target.closest('#bottom-reservation-btn') || e.target.closest('#sticky-reservation-btn')) {
                 e.preventDefault();
-                const path = window.location.pathname;
-                if (path.includes('story.html') && e.target.closest('#bottom-reservation-btn')) {
-                    this.startSimulation('SELECT'); // 3択画面
-                } else if (path.includes('restaurant.html') && e.target.closest('#bottom-reservation-btn')) {
-                    this.startSimulation('C'); // シンプル食事予約
-                } else {
-                    const isBBQ = path.includes('bbq.html')|| path.includes('dogrun.html');
-                    this.startSimulation(isBBQ ? 'B' : 'A');
-                }
+                // どのページからボタンを押しても、必ず「3択画面」を開く
+                this.startSimulation('SELECT'); 
             }
 
             if (e.target.closest('[data-modal-close]')) this.closeModal();
@@ -146,10 +141,8 @@ const ReservationSystem = {
             if (e.target.closest('.sim-panel[data-action="select-plan"]')) {
                 const val = e.target.closest('.sim-panel').dataset.value;
                 if (val === 'fishing') {
-                    // 一番上：釣り体験をして食事（Flow A / eat_in）
+                    // 一番上：釣り堀（Flow A）※ステップ1から正しく開始するように修正
                     this.startSimulation('A');
-                    this.state.simA.purpose = 'eat_in';
-                    this.state.step = 2; 
                     this.render();
                 } else if (val === 'restaurant') {
                     // 真ん中：食事のみ・シンプル予約（Flow C）
@@ -160,13 +153,12 @@ const ReservationSystem = {
                 }
             }
 
-            // ▼ 次へ進むボタン（自動入力の賢い処理付き）
+            // ▼ 次へ進むボタン
             if (e.target.closest('.btn-next')) {
                 if (this.validateCurrentStep()) {
                     this.state.step++;
                     this.render();
-                    this.state.step++;
-                    this.render();
+                    // ※原因だった「2重に進むバグ」のコードを削除しました！
                 }
             }
 
@@ -398,24 +390,34 @@ const ReservationSystem = {
             (flow === 'B' ? '手ぶらBBQ 予約' : 
             (flow === 'C' ? 'お食事のみ 予約' : 'ご希望のプラン'));
 
-        if (flow === 'SELECT') {
-            html += `
-                <div class="sim-panel-grid" style="grid-template-columns: 1fr; margin-top:16px;">
-                    <div class="sim-panel" data-action="select-plan" data-value="fishing" style="display:flex; flex-direction:column; align-items:center; padding:20px;">
-                        <span style="font-size:1.8rem; margin-bottom:8px;">🐟</span>
-                        <span style="font-weight:bold;">釣り堀＋レストラン<br><small style="font-weight:normal;">（釣って店内で食事）</small></span>
-                    </div>
-                    <div class="sim-panel" data-action="select-plan" data-value="restaurant" style="display:flex; flex-direction:column; align-items:center; padding:20px;">
-                        <span style="font-size:1.8rem; margin-bottom:8px;">🍽️</span>
-                        <span style="font-weight:bold;">レストラン<br><small style="font-weight:normal;">（お食事のみ）</small></span>
-                    </div>
-                    <div class="sim-panel" data-action="select-plan" data-value="bbq" style="display:flex; flex-direction:column; align-items:center; padding:20px;">
-                        <span style="font-size:1.8rem; margin-bottom:8px;">🏕️</span>
-                        <span style="font-weight:bold;">手ぶらBBQ<br><small style="font-weight:normal;">（1日3組限定）</small></span>
-                    </div>
-                </div>
-            `;
+            // ▼ 追加：レストラン予約（C）と最初の3択画面（SELECT）ではシミュレーションの注意書きを隠す
+        const modalDesc = document.querySelector('.modal-desc');
+        if (modalDesc) {
+            if (flow === 'C' || flow === 'SELECT') {
+                modalDesc.style.display = 'none'; // 隠す
+            } else {
+                modalDesc.style.display = 'block'; // 釣り堀(A)とBBQ(B)の時だけ表示する
+            }
         }
+
+            if (flow === 'SELECT') {
+                html += `
+                    <div class="sim-panel-grid" style="grid-template-columns: 1fr; margin-top:24px;">
+                        <div class="sim-panel" data-action="select-plan" data-value="fishing" style="display:flex; flex-direction:column; align-items:center; padding:24px;">
+                            <span style="font-family: '筑紫Aオールド明朝', 'YuMincho', serif; font-size:1.1rem; margin-bottom:8px; color: var(--color-main);">釣り堀・お食事</span>
+                            <span style="font-size:0.85rem; color:#666;">（釣って店内で食事・お持ち帰り）</span>
+                        </div>
+                        <div class="sim-panel" data-action="select-plan" data-value="restaurant" style="display:flex; flex-direction:column; align-items:center; padding:24px;">
+                            <span style="font-family: '筑紫Aオールド明朝', 'YuMincho', serif; font-size:1.1rem; margin-bottom:8px; color: var(--color-main);">レストラン</span>
+                            <span style="font-size:0.85rem; color:#666;">（お食事のみのご予約）</span>
+                        </div>
+                        <div class="sim-panel" data-action="select-plan" data-value="bbq" style="display:flex; flex-direction:column; align-items:center; padding:24px;">
+                            <span style="font-family: '筑紫Aオールド明朝', 'YuMincho', serif; font-size:1.1rem; margin-bottom:8px; color: var(--color-main);">手ぶらBBQ</span>
+                            <span style="font-size:0.85rem; color:#666;">（1日3組限定・愛犬同伴可）</span>
+                        </div>
+                    </div>
+                `;
+            }
 
         if (flow === 'A') {
             if (step === 1) {
@@ -591,7 +593,7 @@ const ReservationSystem = {
     createCounter(targetPath, label, val, isMaxed = false) {
         return `
             <div class="sim-counter-row">
-                <span style="font-weight:bold; color:var(--color-text);">${label}</span>
+                <span class="sim-counter-label">${label}</span>
                 <div class="sim-counter-controls">
                     <button class="sim-btn-circle" data-action="minus" data-target="${targetPath}">－</button>
                     <span class="sim-counter-val" id="count-${targetPath.replace(/\./g, '-')}">${val}</span>
@@ -664,47 +666,66 @@ const ReservationSystem = {
                 receiptHtml += `<div class="sim-receipt-row"><span>ソフトドリンク(子供) x${pB.child}</span><span>¥${(pB.child * pbPrices.drinkSoftChild).toLocaleString()}</span></div>`;
             }
         }
-
+        
         receiptHtml += `
-            <div style="background:#f4f9f5; border:1px dashed var(--color-main); padding:10px; border-radius:8px; margin-bottom:15px; text-align:center;">
-                <p style="color:var(--color-main); font-weight:bold; margin-bottom:4px; font-size:0.95rem;">
-                    ✨ お見積りは「目安」です
-                </p>
-                <p style="font-size:0.8rem; color:#444; line-height:1.4;">
-                    当日の追加変更も大歓迎！お待ちしております。
+            <div style="padding:16px 0; text-align:center; border-bottom: 1px dashed #D8D2C4;">
+                <p style="color:#555; font-size:0.9rem; margin-bottom:4px;">
+                    もちろん、他にも美味しいドリンクやお料理たくさん用意してる。お店で会えるの楽しみにしてるね！
                 </p>
             </div>
-            `;
-        receiptHtml += `<div class="sim-receipt-total"><span>合計目安</span><span>¥${total.toLocaleString()}</span></div></div>`;
+        `;
+
+        // ▼ 人数の合計を計算する（大人＋子供 ※BBQのわんちゃんは人間ではないので割る数から除外）
+        let totalPeople = 0;
+        if (flow === 'A') {
+            totalPeople = this.state.simA.people.adult + this.state.simA.people.child;
+        } else if (flow === 'B') {
+            totalPeople = this.state.simB.people.adult + this.state.simB.people.child;
+        }
+
+        // ▼ 一人あたりの金額を計算（四捨五入）
+        const perPerson = totalPeople > 0 ? Math.round(total / totalPeople) : 0;
+
+        // ▼ 合計を小さく、一人あたりを大きく目立たせるデザイン
+        receiptHtml += `
+            <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid #D8D2C4; font-size: 0.95rem; color: #666;">
+                <span>合計目安</span>
+                <span>¥${total.toLocaleString()}</span>
+            </div>
+            <div class="sim-receipt-total" style="margin-top: 8px; padding-top: 0; border-top: none; font-weight: bold;">
+                <span style="font-size: 1.05rem;">お一人様あたり</span>
+                <span style="font-size: 1.6rem;">約 ¥${perPerson.toLocaleString()}</span>
+            </div>
+        </div>`;
 
         const currentDate = flow === 'A' ? this.state.simA.date : this.state.simB.date;
-        const dateAlertHtml = !currentDate ? `<div style="color:#c00; font-size:0.85rem; font-weight:bold; margin-bottom:8px;">※ご予約に進むには日付の入力が必要です</div>` : '';
+        const dateAlertHtml = !currentDate ? `<div style="color:#A0522D; font-size:0.85rem; margin-bottom:12px;">※ご予約日を選択してください</div>` : '';
 
         const formHtml = `
-            <h4 style="margin-bottom:12px; color:var(--color-main);">ご予約者情報の入力</h4>
+            <h4 style="margin-bottom:24px; color:var(--color-main);">ご予約情報の入力</h4>
             
             ${dateAlertHtml}
-            <label style="font-size:0.9rem; font-weight:bold;">ご予約日 <span style="color:#c00;">*</span></label>
-            <input type="date" id="sim-date" class="sim-input" value="${currentDate}" min="${this.getTomorrowDateString()}" style="margin-bottom:16px;">
+            <label style="font-size:0.9rem; color:#444;">ご予約日 <span style="color:#A0522D;">*</span></label>
+            <input type="date" id="sim-date" class="sim-input" value="${currentDate}" min="${this.getTomorrowDateString()}" style="margin-bottom:24px;">
 
-            <label style="font-size:0.9rem; font-weight:bold;">代表者名 <span style="color:#c00;">*</span></label>
-            <input type="text" id="user-name" class="sim-input" value="${this.state.userInfo.name}" placeholder="山田 太郎" style="margin-bottom:16px;">
+            <label style="font-size:0.9rem; color:#444;">代表者名 <span style="color:#A0522D;">*</span></label>
+            <input type="text" id="user-name" class="sim-input" value="${this.state.userInfo.name}" placeholder="山田 太郎" style="margin-bottom:24px;">
             
-            <label style="font-size:0.9rem; font-weight:bold;">電話番号 <span style="color:#c00;">*</span></label>
-            <input type="tel" id="user-phone" class="sim-input" value="${this.state.userInfo.phone}" placeholder="09012345678" style="margin-bottom:24px;">
+            <label style="font-size:0.9rem; color:#444;">電話番号 <span style="color:#A0522D;">*</span></label>
+            <input type="tel" id="user-phone" class="sim-input" value="${this.state.userInfo.phone}" placeholder="09012345678" style="margin-bottom:32px;">
 
-            <div style="background:#fff3cd; padding:16px; border-radius:4px; margin-bottom:24px; border-left:4px solid #ffecb5;">
-                <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer; font-size:0.9rem; font-weight:bold; line-height:1.4;">
-                    <input type="checkbox" id="policy-check" style="margin-top:2px; transform:scale(1.2);" ${this.state.userInfo.policy ? 'checked' : ''}>
-                    <span>キャンセルポリシーに同意する<br><small style="font-weight:normal; color:#666;">※当日キャンセルではなく、前日までのキャンセル・変更を受け付けます。</small></span>
+            <div style="background:#F9F9F9; padding:20px; border-radius:4px; margin-bottom:32px; border:1px solid #E8E4D9;">
+                <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer; font-size:0.9rem; line-height:1.6; color:#444;">
+                    <input type="checkbox" id="policy-check" style="margin-top:4px; transform:scale(1.2);" ${this.state.userInfo.policy ? 'checked' : ''}>
+                    <span>キャンセルポリシーに同意する<br><small style="color:#777;">※前日までのキャンセル・変更を受け付けます。</small></span>
                 </label>
             </div>
-            <div style="background:#fff3cd; color:#856404; padding:8px 12px; border-radius:4px; font-size:0.85rem; margin-top:4px; margin-bottom:8px; border-left:4px solid #ffeeba; line-height:1.4;">
-            当日のご予約は承っておりません。<br>お電話でお問い合わせください。
-            </div>
+            
+            <p style="text-align:center; color:#A0522D; font-size:0.85rem; margin-bottom:16px;">当日のご予約はお電話でお問い合わせください。</p>
+            
             <div class="sim-btn-group">
-                <button class="sim-btn-block sim-btn-secondary btn-prev" style="border:none;">戻る</button>
-                <button id="btn-submit-line" class="sim-btn-block" style="background:#06C755; color:#fff;">LINEで予約する</button>
+                <button class="sim-btn-block sim-btn-secondary btn-prev">戻る</button>
+                <button id="btn-submit-line" class="sim-btn-block sim-btn-primary">LINEで予約を送信する</button>
             </div>
         `;
 
