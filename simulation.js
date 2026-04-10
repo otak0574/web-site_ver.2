@@ -14,9 +14,8 @@ const ReservationSystem = {
             purpose: '', 
             people: { adult: 0, child: 0 },
             date: '', 
-            menus: { adultTeishoku: 0, adultTanpin: 0, childKids: 0, childCurry: 0 },
-            fish: { shioyaki: 0, gyoden: 0, karaage: 0 },
-            takeout: { rods: 0, fish: 0, method: '' } 
+            menus: { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 },            fish: { shioyaki: 0, gyoden: 0, karaage: 0 },
+            takeout: { rods: 0, fish: 0, method: '' }
         },
         
         simB: {
@@ -36,10 +35,12 @@ const ReservationSystem = {
 
     prices: {
         A: { 
-            teishoku: 2000, tanpin: 500, kids: 1100, curry: 1100,
-            shioyaki: 400, gyoden: 450, karaage: 480,
+            // ▼新しい料金設定（一品セットはすべて1500円で計算）
+            adultLunch: 2400, adultSashimi: 1500, adultTempura: 1500, adultPotato: 1500, adultYakiniku: 2200,
+            childKids: 1200, childLight: 750, childSashimi: 1100, childTempura: 1100,
+            shioyaki: 0, gyoden: 50, karaage: 80,
             takeoutRods: 1000,
-            methodRaw: 400, methodGut: 420, methodGrill: 440 
+            methodRaw: 400, methodGut: 420, methodGrill: 440
         },
         B: { 
             dogFee: 500,
@@ -186,7 +187,7 @@ const ReservationSystem = {
                 
                 if (group === 'A_purpose') {
                     this.state.simA.purpose = val;
-                    this.state.simA.menus = { adultTeishoku: 0, adultTanpin: 0, childKids: 0, childCurry: 0 };
+                    this.state.simA.menus = { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 };
                     this.state.simA.fish = { shioyaki: 0, gyoden: 0, karaage: 0 };
                     this.state.simA.takeout = { rods: 0, fish: 0, method: '' };
                 }
@@ -230,10 +231,13 @@ const ReservationSystem = {
         this.state.isLoading = false;
         
         this.state.simA = { 
-            purpose: '', people: { adult: 0, child: 0 }, date: '', 
-            menus: { adultTeishoku: 0, adultTanpin: 0, childKids: 0, childCurry: 0 }, 
-            fish: { shioyaki: 0, gyoden: 0, karaage: 0 },
-            takeout: { rods: 0, fish: 0, method: '' } 
+                purpose: '', 
+                people: { adult: 0, child: 0 },
+                date: '', 
+                // ▼新メニューに完全対応
+                menus: { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 },
+                fish: { shioyaki: 0, gyoden: 0, karaage: 0 },
+                takeout: { rods: 0, fish: 0, method: '' }
         };
         this.state.simB = { people: { adult: 0, child: 0, dog: 0 }, plan: '', drink: '', date: '' };
         this.state.simC = { people: { adult: 0, child: 0 }, date: '' };
@@ -269,13 +273,21 @@ const ReservationSystem = {
         if (action === 'plus') {
             if (path[0] === 'simA' && path[1] === 'menus') {
                 const sA = this.state.simA;
-                if (key === 'adultTeishoku' || key === 'adultTanpin') {
-                    const adultMenus = sA.menus.adultTeishoku + sA.menus.adultTanpin;
+                if (['adultLunch', 'adultSashimi', 'adultTempura', 'adultPotato', 'adultYakiniku'].includes(key)) {
+                    const adultMenus = sA.menus.adultLunch + sA.menus.adultSashimi + sA.menus.adultTempura + sA.menus.adultPotato + sA.menus.adultYakiniku;
                     if (adultMenus >= sA.people.adult) return; 
                 }
-                if (key === 'childKids' || key === 'childCurry') {
-                    const childMenus = sA.menus.childKids + sA.menus.childCurry;
+                if (['childKids', 'childLight', 'childSashimi', 'childTempura'].includes(key)) {
+                    const childMenus = sA.menus.childKids + sA.menus.childLight + sA.menus.childSashimi + sA.menus.childTempura;
                     if (childMenus >= sA.people.child) return; 
+                }
+                // ▼ここを変更：より強力な上限チェック
+                if (['shioyaki', 'gyoden', 'karaage'].includes(key)) {
+                    // 大人の人数から焼肉の数を引いた数 × 2 ＋ 子供の数
+                    const maxFish = (sA.people.adult - sA.menus.adultYakiniku) * 2 + sA.people.child;
+                    const currentFish = sA.fish.shioyaki + sA.fish.gyoden + sA.fish.karaage;
+                    // すでに上限に達している、または上限を超えてしまう場合はストップ
+                    if (currentFish >= maxFish) return; 
                 }
             }
             if (path[0] === 'simA' && path[1] === 'takeout' && key === 'rods') {
@@ -326,13 +338,14 @@ const ReservationSystem = {
             if (step === 3) {
                 const totalPeople = sA.people.adult + sA.people.child;
                 if (sA.purpose === 'eat_in') {
-                    const adultMenus = sA.menus.adultTeishoku + sA.menus.adultTanpin;
+                    const adultMenus = sA.menus.adultLunch + sA.menus.adultSashimi + sA.menus.adultTempura + sA.menus.adultPotato + sA.menus.adultYakiniku;
                     if (adultMenus !== sA.people.adult) {
                         this.showError(`大人は人数分（${sA.people.adult}名分）のオーダーが必要です。残り${sA.people.adult - adultMenus}名分のメニューを選択してください。`); return false;
                     }
+                    const baseFish = (sA.people.adult - sA.menus.adultYakiniku) * 2 + sA.people.child;
                     const totalFish = sA.fish.shioyaki + sA.fish.gyoden + sA.fish.karaage;
-                    if (totalFish < totalPeople) {
-                        this.showError(`お魚はご来場人数（最低${totalPeople}匹）以上釣っていただくルールとなっております。調理方法を合計${totalPeople}匹以上になるよう選択してください。`); return false;
+                    if (totalFish !== baseFish) {
+                        this.showError(`セットに含まれるお魚は合計 ${baseFish} 匹です。お魚の調理方法の合計がピッタリ ${baseFish} 匹になるように「＋・－」で選択してください。`); return false;
                     }
                 } else if (sA.purpose === 'takeout') {
                     if (sA.takeout.rods === 0) {
@@ -430,8 +443,8 @@ const ReservationSystem = {
             } else if (step === 2) {
                 html += `
                     <h4>ご来店人数</h4>
-                    ${this.createCounter('simA.people.adult', '大人(中学生以上)', this.state.simA.people.adult)}
-                    ${this.createCounter('simA.people.child', '子供(小学生)', this.state.simA.people.child)}
+                    ${this.createCounter('simA.people.adult', '大人', this.state.simA.people.adult)}
+                    ${this.createCounter('simA.people.child', 'お子さま(小学生以下)', this.state.simA.people.child)}
                     
                     <h4 style="margin-top:32px;">ご希望日</h4>
                     <input type="date" id="sim-date" class="sim-input" value="${this.state.simA.date}" min="${this.getTomorrowDateString()}">
@@ -445,23 +458,48 @@ const ReservationSystem = {
                 if (this.state.simA.purpose === 'eat_in') {
                     const pA = this.state.simA.people;
                     const mA = this.state.simA.menus;
-                    const adultRemain = pA.adult - (mA.adultTeishoku + mA.adultTanpin);
-                    const childRemain = pA.child - (mA.childKids + mA.childCurry);
+                    const adultRemain = pA.adult - (mA.adultLunch + mA.adultSashimi + mA.adultTempura + mA.adultPotato + mA.adultYakiniku);
+                    const childRemain = pA.child - (mA.childKids + mA.childLight + mA.childSashimi + mA.childTempura);
 
                     html += `
                         <h5 style="margin-top:0;">大人のメニュー</h5>
-                        ${this.createCounter('simA.menus.adultTeishoku', '定食', mA.adultTeishoku, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultTanpin', '単品・釣り体験のみ', mA.adultTanpin, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultLunch', '釣り体験2匹とランチセット', mA.adultLunch, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultSashimi', '釣り体験2匹とにじますの刺身', mA.adultSashimi, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultTempura', '釣り体験2匹と天ぷら盛り合わせ', mA.adultTempura, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultPotato', '釣り体験2匹と無農薬じゃがいものフライドポテト', mA.adultPotato, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultYakiniku', '魚が苦手な方へ：飛騨牛焼肉ランチ', mA.adultYakiniku, adultRemain === 0)}
                         
                         <h5>子供のメニュー</h5>
-                        ${this.createCounter('simA.menus.childKids', 'お子様ランチ', mA.childKids, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childCurry', 'カレー', mA.childCurry, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childKids', '釣り体験1匹とおこさまランチセット', mA.childKids, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childLight', '釣り体験1匹と無農薬じゃがいものフライドポテト(ミニ)', mA.childLight, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childSashimi', '釣り体験1匹とにじますの刺身', mA.childSashimi, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childTempura', '釣り体験1匹と天ぷら盛り合わせ', mA.childTempura, childRemain === 0)}
 
-                        <h5>釣ったお魚の調理方法</h5>
-                        ${this.createCounter('simA.fish.shioyaki', 'しお焼き', this.state.simA.fish.shioyaki)}
-                        ${this.createCounter('simA.fish.gyoden', 'ぎょでん・みそ', this.state.simA.fish.gyoden)}
-                        ${this.createCounter('simA.fish.karaage', 'からあげ', this.state.simA.fish.karaage)}
+                        <h5>お魚の調理変更 <span style="font-size:0.8rem; font-weight:normal; color:#666;">(※合計数を合わせてください)</span></h5>
+                        
+                        <div style="background:#FDFBF7; border:1px solid #D96D2B; padding:12px; border-radius:4px; margin-bottom:16px; font-size:0.85rem; color:#A0522D; text-align:left;">
+                            <strong>💡 セットのお魚は【 合計 ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹 】です！</strong><br>
+                            以下の「しお焼き」「ぎょでん」「からあげ」の合計がピッタリ ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹になるように選択してください。
+                        </div>
+
+                        ${(() => {
+                            const maxFish = (pA.adult - mA.adultYakiniku) * 2 + pA.child;
+                            const currentFish = this.state.simA.fish.shioyaki + this.state.simA.fish.gyoden + this.state.simA.fish.karaage;
+                            const isFishMaxed = currentFish >= maxFish;
+
+                            return `
+                                ${this.createCounter('simA.fish.shioyaki', 'しお焼き(追加料金なし)', this.state.simA.fish.shioyaki, isFishMaxed)}
+                                ${this.createCounter('simA.fish.gyoden', 'ぎょでんに変更(+50円)', this.state.simA.fish.gyoden, isFishMaxed)}
+                                ${this.createCounter('simA.fish.karaage', 'からあげに変更(+80円)', this.state.simA.fish.karaage, isFishMaxed)}
+                            `;
+                        })()}
+                        
+                        <p style="font-size:0.8rem; color:#666; text-align:left; margin-top:16px; line-height:1.6;">
+                            ※当日、もっと釣りを楽しみたい方は<strong>追加で釣ることも可能</strong>です！<br>
+                            （追加分のお魚は、別途調理代が1匹 400円〜 かかります）
+                        </p>
                     `;
+// --- ▲ ここまで書き換え ---
                 } else if (this.state.simA.purpose === 'takeout') {
                     const pA = this.state.simA.people;
                     const totalPeople = pA.adult + pA.child;
@@ -610,16 +648,26 @@ const ReservationSystem = {
                 const m = this.state.simA.menus;
                 const f = this.state.simA.fish;
                 const p = this.prices.A;
-                if (m.adultTeishoku > 0) { total += m.adultTeishoku * p.teishoku; receiptHtml += `<div class="sim-receipt-row"><span>定食 x${m.adultTeishoku}</span><span>¥${(m.adultTeishoku * p.teishoku).toLocaleString()}</span></div>`; }
-                if (m.adultTanpin > 0) { total += m.adultTanpin * p.tanpin; receiptHtml += `<div class="sim-receipt-row"><span>単品/体験 x${m.adultTanpin}</span><span>¥${(m.adultTanpin * p.tanpin).toLocaleString()}</span></div>`; }
-                if (m.childKids > 0) { total += m.childKids * p.kids; receiptHtml += `<div class="sim-receipt-row"><span>お子様ランチ x${m.childKids}</span><span>¥${(m.childKids * p.kids).toLocaleString()}</span></div>`; }
-                if (m.childCurry > 0) { total += m.childCurry * p.curry; receiptHtml += `<div class="sim-receipt-row"><span>カレー x${m.childCurry}</span><span>¥${(m.childCurry * p.curry).toLocaleString()}</span></div>`; }
                 
-                if (f.shioyaki > 0) { total += f.shioyaki * p.shioyaki; receiptHtml += `<div class="sim-receipt-row"><span>しお焼き x${f.shioyaki}</span><span>¥${(f.shioyaki * p.shioyaki).toLocaleString()}</span></div>`; }
-                if (f.gyoden > 0) { total += f.gyoden * p.gyoden; receiptHtml += `<div class="sim-receipt-row"><span>ぎょでん(みそ) x${f.gyoden}</span><span>¥${(f.gyoden * p.gyoden).toLocaleString()}</span></div>`; }
-                if (f.karaage > 0) { total += f.karaage * p.karaage; receiptHtml += `<div class="sim-receipt-row"><span>からあげ x${f.karaage}</span><span>¥${(f.karaage * p.karaage).toLocaleString()}</span></div>`; }
+                // ▼ 大人メニューの計算
+                if (m.adultLunch > 0) { total += m.adultLunch * p.adultLunch; receiptHtml += `<div class="sim-receipt-row"><span>大人 ランチセット x${m.adultLunch}</span><span>¥${(m.adultLunch * p.adultLunch).toLocaleString()}</span></div>`; }
+                if (m.adultSashimi > 0) { total += m.adultSashimi * p.adultSashimi; receiptHtml += `<div class="sim-receipt-row"><span>大人 刺身セット x${m.adultSashimi}</span><span>¥${(m.adultSashimi * p.adultSashimi).toLocaleString()}</span></div>`; }
+                if (m.adultTempura > 0) { total += m.adultTempura * p.adultTempura; receiptHtml += `<div class="sim-receipt-row"><span>大人 天ぷらセット x${m.adultTempura}</span><span>¥${(m.adultTempura * p.adultTempura).toLocaleString()}</span></div>`; }
+                if (m.adultPotato > 0) { total += m.adultPotato * p.adultPotato; receiptHtml += `<div class="sim-receipt-row"><span>大人 ポテトセット x${m.adultPotato}</span><span>¥${(m.adultPotato * p.adultPotato).toLocaleString()}</span></div>`; }
+                if (m.adultYakiniku > 0) { total += m.adultYakiniku * p.adultYakiniku; receiptHtml += `<div class="sim-receipt-row"><span>飛騨牛焼肉ランチ x${m.adultYakiniku}</span><span>¥${(m.adultYakiniku * p.adultYakiniku).toLocaleString()}</span></div>`; }
+                
+                // ▼ 子供メニューの計算
+                if (m.childKids > 0) { total += m.childKids * p.childKids; receiptHtml += `<div class="sim-receipt-row"><span>おこさまランチ x${m.childKids}</span><span>¥${(m.childKids * p.childKids).toLocaleString()}</span></div>`; }
+                if (m.childLight > 0) { total += m.childLight * p.childLight; receiptHtml += `<div class="sim-receipt-row"><span>こども ポテトorドリンク x${m.childLight}</span><span>¥${(m.childLight * p.childLight).toLocaleString()}</span></div>`; }
+                if (m.childSashimi > 0) { total += m.childSashimi * p.childSashimi; receiptHtml += `<div class="sim-receipt-row"><span>こども 刺身 x${m.childSashimi}</span><span>¥${(m.childSashimi * p.childSashimi).toLocaleString()}</span></div>`; }
+                if (m.childTempura > 0) { total += m.childTempura * p.childTempura; receiptHtml += `<div class="sim-receipt-row"><span>こども 天ぷら盛り合わせ x${m.childTempura}</span><span>¥${(m.childTempura * p.childTempura).toLocaleString()}</span></div>`; }
+                
+                // ▼ お魚（変更・追加分）の計算
+                if (f.shioyaki > 0) { total += f.shioyaki * p.shioyaki; receiptHtml += `<div class="sim-receipt-row"><span>お魚(しお焼き) x${f.shioyaki}</span><span>¥${(f.shioyaki * p.shioyaki).toLocaleString()}</span></div>`; }
+                if (f.gyoden > 0) { total += f.gyoden * p.gyoden; receiptHtml += `<div class="sim-receipt-row"><span>お魚(ぎょでん) x${f.gyoden}</span><span>¥${(f.gyoden * p.gyoden).toLocaleString()}</span></div>`; }
+                if (f.karaage > 0) { total += f.karaage * p.karaage; receiptHtml += `<div class="sim-receipt-row"><span>お魚(からあげ) x${f.karaage}</span><span>¥${(f.karaage * p.karaage).toLocaleString()}</span></div>`; }
 
-            } 
+            }
             else if (this.state.simA.purpose === 'takeout') {
                 const t = this.state.simA.takeout;
                 const p = this.prices.A;
