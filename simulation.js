@@ -716,7 +716,7 @@ const ReservationSystem = {
         receiptHtml += `
             <div style="padding:16px 0; text-align:center; border-bottom: 1px dashed #D8D2C4;">
                 <p style="color:#555; font-size:0.9rem; margin-bottom:4px;">
-                    もちろん、他にも美味しいドリンクやお料理たくさん用意してる。お店で会えるの楽しみにしてるね！
+                    もちろん、他にも美味しいドリンクやお料理を<br>たくさん用意してる。<br>お店で会えるの楽しみにしてるね！
                 </p>
             </div>
         `;

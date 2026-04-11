@@ -1117,3 +1117,11 @@ section:not(.page-hero):not(.dogrun-hero) .hero-text p {
     position: relative !important;
     z-index: 10 !important;
 }
+
+/* ========================================
+   ステップカード内のリストテキスト背景を馴染ませる
+======================================== */
+.step-card-content .menu-list .item-name,
+.step-card-content .menu-list .item-price {
+    background-color: #F9F9F9 !important; /* リストの箱の背景色と同じ色を指定 */
+}
