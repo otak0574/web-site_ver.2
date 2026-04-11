@@ -488,15 +488,15 @@ const ReservationSystem = {
                             const isFishMaxed = currentFish >= maxFish;
 
                             return `
-                                ${this.createCounter('simA.fish.shioyaki', 'しお焼き(追加料金なし)', this.state.simA.fish.shioyaki, isFishMaxed)}
-                                ${this.createCounter('simA.fish.gyoden', 'ぎょでんに変更(+50円)', this.state.simA.fish.gyoden, isFishMaxed)}
-                                ${this.createCounter('simA.fish.karaage', 'からあげに変更(+80円)', this.state.simA.fish.karaage, isFishMaxed)}
+                                ${this.createCounter('simA.fish.shioyaki', 'しお焼き<br>(追加料金なし)', this.state.simA.fish.shioyaki, isFishMaxed)}
+                                ${this.createCounter('simA.fish.gyoden', 'ぎょでんに変更(+¥50)', this.state.simA.fish.gyoden, isFishMaxed)}
+                                ${this.createCounter('simA.fish.karaage', 'からあげに変更(+¥80)', this.state.simA.fish.karaage, isFishMaxed)}
                             `;
                         })()}
                         
                         <p style="font-size:0.8rem; color:#666; text-align:left; margin-top:16px; line-height:1.6;">
                             ※当日、もっと釣りを楽しみたい方は<strong>追加で釣ることも可能</strong>です！<br>
-                            （追加分のお魚は、別途調理代が1匹 400円〜 かかります）
+                            （追加分のお魚は、別途調理代が1匹 ¥400〜 かかります）
                         </p>
                     `;
 // --- ▲ ここまで書き換え ---
@@ -550,9 +550,9 @@ const ReservationSystem = {
                 html += `
                     <h4>プランの選択</h4>
                     <div class="sim-panel-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
-                        <div class="sim-panel ${this.state.simB.plan === '3000' ? 'is-active' : ''}" data-group="B_plan" data-value="3000">スタンダード<br>（3,000円）</div>
-                        <div class="sim-panel ${this.state.simB.plan === '4000' ? 'is-active' : ''}" data-group="B_plan" data-value="4000">ボリューム<br>（4,000円）</div>
-                        <div class="sim-panel ${this.state.simB.plan === '5000' ? 'is-active' : ''}" data-group="B_plan" data-value="5000">プレミアム<br>（5,000円）</div>
+                        <div class="sim-panel ${this.state.simB.plan === '3000' ? 'is-active' : ''}" data-group="B_plan" data-value="3000">スタンダード<br>（¥3,000）</div>
+                        <div class="sim-panel ${this.state.simB.plan === '4000' ? 'is-active' : ''}" data-group="B_plan" data-value="4000">ボリューム<br>（¥4,000）</div>
+                        <div class="sim-panel ${this.state.simB.plan === '5000' ? 'is-active' : ''}" data-group="B_plan" data-value="5000">プレミアム<br>（¥5,000）</div>
                     </div>
                     <div class="sim-btn-group">
                         <button class="sim-btn-block sim-btn-secondary btn-prev">戻る</button>
@@ -755,7 +755,7 @@ const ReservationSystem = {
             <input type="date" id="sim-date" class="sim-input" value="${currentDate}" min="${this.getTomorrowDateString()}" style="margin-bottom:24px;">
 
             <label style="font-size:0.9rem; color:#444;">代表者名 <span style="color:#A0522D;">*</span></label>
-            <input type="text" id="user-name" class="sim-input" value="${this.state.userInfo.name}" placeholder="山田 太郎" style="margin-bottom:24px;">
+            <input type="text" id="user-name" class="sim-input" value="${this.state.userInfo.name}" placeholder="七宗 太郎" style="margin-bottom:24px;">
             
             <label style="font-size:0.9rem; color:#444;">電話番号 <span style="color:#A0522D;">*</span></label>
             <input type="tel" id="user-phone" class="sim-input" value="${this.state.userInfo.phone}" placeholder="09012345678" style="margin-bottom:32px;">
