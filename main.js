@@ -251,8 +251,8 @@ function initStickyButtonToggle() {
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
                 <div class="btn-text-wrapper" style="text-align: left; line-height: 1.2;">
-                    <span class="main-text" style="font-size: 1.1rem; font-weight: bold; display: block;">各種ご予約</span>
-                    <span class="sub-text" style="font-size: 0.7rem; opacity: 0.9; display: block;">料金シミュレーションも可能です</span>
+                    <span class="main-text" style="font-size: 1.1rem; font-weight: bold; display: block;">料金シミュレーション</span>
+                    <span class="sub-text" style="font-size: 0.7rem; opacity: 0.9; display: block;">簡単4STEP！ご予約も可能です</span>
                 </div>
             </button>
         </div>

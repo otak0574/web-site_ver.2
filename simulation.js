@@ -446,7 +446,8 @@ const ReservationSystem = {
                     ${this.createCounter('simA.people.adult', '大人', this.state.simA.people.adult)}
                     ${this.createCounter('simA.people.child', 'お子さま(小学生以下)', this.state.simA.people.child)}
                     
-                    <h4 style="margin-top:32px;">ご希望日</h4>
+                    <h4 style="margin-top:32px; margin-bottom:8px;">ご希望日</h4>
+                    <p style="font-size:0.85rem; color:#666; margin-top:0; margin-bottom:12px;">※料金シミュレーションをしたい方は記入なしでもOKです</p>
                     <input type="date" id="sim-date" class="sim-input" value="${this.state.simA.date}" min="${this.getTomorrowDateString()}">
                     
                     <div class="sim-btn-group">
@@ -539,9 +540,10 @@ const ReservationSystem = {
                     ${this.createCounter('simB.people.child', 'こども', this.state.simB.people.child)}
                     ${this.createCounter('simB.people.dog', 'わんちゃん', this.state.simB.people.dog)}
 
-                    <h4 style="margin-top:32px;">ご希望日</h4>
-                    <input type="date" id="sim-date" class="sim-input" value="${this.state.simB.date}" min="${this.getTomorrowDateString()}">
-                    
+                    <h4 style="margin-top:32px; margin-bottom:8px;">ご希望日</h4>
+                    <p style="font-size:0.85rem; color:#666; margin-top:0; margin-bottom:12px;">※料金シミュレーションをしたい方は記入なしでもOKです</p>
+                    <input type="date" id="sim-date" class="sim-input" value="${this.state.simA.date}" min="${this.getTomorrowDateString()}">
+
                     <div class="sim-btn-group">
                         <button class="sim-btn-block sim-btn-primary btn-next">次へ</button>
                     </div>

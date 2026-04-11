@@ -3,19 +3,33 @@
 /* ========================================
    CSS Variables (デザインルールの適用)
 ======================================== */
-:root {
-    --color-bg: #F7F5F0;       /* 和紙・土壁のオフホワイト */
-    --color-main: #2C4234;     /* 国有林の深緑 */
-    --color-accent: #D96D2B;   /* 炭火・ランタンのアンバー */
-    --color-text: #333333;     /* スミクロ */
+/*:root {
+    --color-bg: #F7F5F0;       
+    --color-main: #2C4234;     
+    --color-accent: #D96D2B;   
+    --color-text: #333333;     
     --color-white: #FFFFFF;
-
-    /* フォント設定（明朝とゴシックの切り分け） */
     --font-mincho: "游明朝", "Yu Mincho", "筑紫Aオールド明朝", serif;
     --font-body: "Noto Sans JP", "游ゴシック", "Yu Gothic", sans-serif;
     --font-body: "Zen Kaku Gothic New", sans-serif;
 }
+*/
 
+:root {
+  /* 背景を温かみのあるクリーム色に */
+  --color-bg: #FFF9F0;       
+  /* メインカラーを、明るく親しみやすい「森の緑」に */
+  --color-main: #4A7A59;     
+  /* アクセントを、元気でポップな「オレンジ」に */
+  --color-accent: #F5903D;   
+  /* 文字色を少し柔らかいダークグレーに */
+  --color-text: #4A4A4A;     
+  --color-white: #FFFFFF;
+
+  /* フォントをすべて「丸ゴシック」に統一！ */
+  --font-mincho: "Zen Maru Gothic", sans-serif;
+  --font-body: "Zen Maru Gothic", sans-serif;
+}
 /* ========================================
    Base / Reset
 ======================================== */
