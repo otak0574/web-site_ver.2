@@ -437,8 +437,8 @@ const ReservationSystem = {
                 html += `
                     <h4>ご利用目的</h4>
                     <div class="sim-panel-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
-                        <div class="sim-panel ${this.state.simA.purpose === 'takeout' ? 'is-active' : ''}" data-group="A_purpose" data-value="takeout">釣ってお持ち帰り</div>
                         <div class="sim-panel ${this.state.simA.purpose === 'eat_in' ? 'is-active' : ''}" data-group="A_purpose" data-value="eat_in">釣って店内で食事</div>
+                        <div class="sim-panel ${this.state.simA.purpose === 'takeout' ? 'is-active' : ''}" data-group="A_purpose" data-value="takeout">釣ってお持ち帰り</div>
                     </div>
                     <div class="sim-btn-group"><button class="sim-btn-block sim-btn-primary btn-next">次へ</button></div>
                 `;
