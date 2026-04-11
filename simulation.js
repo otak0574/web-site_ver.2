@@ -466,24 +466,24 @@ const ReservationSystem = {
 
                     html += `
                         <h5 style="margin-top:0;">大人のメニュー</h5>
-                        <p style="margin-top:0; font-size:0.6rem;">全員分のセットメニューのオーダーをお願いしております。<br>みんなでワイワイ、美味しい時間をシェアしましょう！</p>
-                        ${this.createCounter('simA.menus.adultLunch', 'お魚2匹釣れる！ランチセット', mA.adultLunch, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultSashimi', 'お魚2匹釣れる！にじますの刺身', mA.adultSashimi, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultTempura', 'お魚2匹釣れる！天ぷら盛り合わせ', mA.adultTempura, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultPotato', 'お魚2匹釣れる！無農薬じゃがいものフライドポテト', mA.adultPotato, adultRemain === 0)}
+                        <p style="margin-top:0; font-size:0.6rem;">お食事をご利用の方は<br>全員分のセットメニューのオーダーをお願いしております。<br>みんなでワイワイ、美味しい時間をシェアしましょう！</p>
+                        ${this.createCounter('simA.menus.adultLunch', 'お魚2匹釣れる！<br>ランチセット', mA.adultLunch, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultSashimi', 'お魚2匹釣れる！<br>にじますの刺身', mA.adultSashimi, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultTempura', 'お魚2匹釣れる！<br>天ぷら盛り合わせ', mA.adultTempura, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultPotato', 'お魚2匹釣れる！<br>無農薬じゃがいものフライドポテト', mA.adultPotato, adultRemain === 0)}
                         ${this.createCounter('simA.menus.adultYakiniku', '魚が苦手な方へ：飛騨牛焼肉ランチ', mA.adultYakiniku, adultRemain === 0)}
                         
                         <h5>子供のメニュー</h5>
-                        ${this.createCounter('simA.menus.childKids', 'お魚1匹釣れる！おこさまランチセット', mA.childKids, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childLight', 'お魚1匹釣れる！無農薬じゃがいものフライドポテト(ミニ)', mA.childLight, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childSashimi', 'お魚1匹釣れる！にじますの刺身', mA.childSashimi, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childTempura', 'お魚1匹釣れる！天ぷら盛り合わせ', mA.childTempura, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childKids', 'お魚1匹釣れる！<br>おこさまランチセット', mA.childKids, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childLight', 'お魚1匹釣れる！<br>無農薬じゃがいものフライドポテト(ミニ)', mA.childLight, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childSashimi', 'お魚1匹釣れる！<br>にじますの刺身', mA.childSashimi, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childTempura', 'お魚1匹釣れる！<br>天ぷら盛り合わせ', mA.childTempura, childRemain === 0)}
 
-                        <h5>お魚の調理変更 <span style="font-size:0.8rem; font-weight:normal; color:#666;">(※最低匹数を選んでください)</span></h5>
+                        <h5>お魚の調理変更</h5>
                         
                         <div style="background:#FDFBF7; border:1px solid #D96D2B; padding:12px; border-radius:4px; margin-bottom:16px; font-size:0.85rem; color:#A0522D; text-align:left;">
-                            <strong>💡 セットのお魚は【 合計 ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹 】です！</strong><br>
-                            以下の調理方法の合計が <strong>${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹以上</strong> になるように選択してください。<br>
+                            <strong>💡 セットのお魚は<br>【 合計 ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹 】です！<br></strong><br>
+                            調理方法の合計が <br><strong>${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹以上</strong><br> になるように選択してください。<br>
                             <span style="font-size:0.8rem; color:#666;">※セットの匹数を超えた分は、自動的に「追加料金」として計算されます。</span>
                         </div>
 
@@ -493,9 +493,9 @@ const ReservationSystem = {
                             const isFishMaxed = currentFish >= maxFish;
 
                             return `
-                                ${this.createCounter('simA.fish.shioyaki', 'しお焼き(基本0円 / 追加400円)', this.state.simA.fish.shioyaki)}
-                                ${this.createCounter('simA.fish.gyoden', 'ぎょでん(基本+50円 / 追加450円)', this.state.simA.fish.gyoden)}
-                                ${this.createCounter('simA.fish.karaage', 'からあげ(基本+80円 / 追加480円)', this.state.simA.fish.karaage)}
+                                ${this.createCounter('simA.fish.shioyaki', 'しお焼き(セット0円 / 追加400円)', this.state.simA.fish.shioyaki)}
+                                ${this.createCounter('simA.fish.gyoden', 'ぎょでん(セット+50円 / 追加450円)', this.state.simA.fish.gyoden)}
+                                ${this.createCounter('simA.fish.karaage', 'からあげ(セット+80円 / 追加480円)', this.state.simA.fish.karaage)}
                             `;
                         })()}
                     `;
