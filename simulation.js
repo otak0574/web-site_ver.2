@@ -39,6 +39,7 @@ const ReservationSystem = {
             adultLunch: 2400, adultSashimi: 1500, adultTempura: 1500, adultPotato: 1500, adultYakiniku: 2200,
             childKids: 1200, childLight: 750, childSashimi: 1100, childTempura: 1100,
             shioyaki: 0, gyoden: 50, karaage: 80,
+            extraShioyaki: 400, extraGyoden: 450, extraKaraage: 480,
             takeoutRods: 1000,
             methodRaw: 400, methodGut: 420, methodGrill: 440
         },
@@ -282,13 +283,13 @@ const ReservationSystem = {
                     if (childMenus >= sA.people.child) return; 
                 }
                 // ▼ここを変更：より強力な上限チェック
-                if (['shioyaki', 'gyoden', 'karaage'].includes(key)) {
+                /*if (['shioyaki', 'gyoden', 'karaage'].includes(key)) {
                     // 大人の人数から焼肉の数を引いた数 × 2 ＋ 子供の数
                     const maxFish = (sA.people.adult - sA.menus.adultYakiniku) * 2 + sA.people.child;
                     const currentFish = sA.fish.shioyaki + sA.fish.gyoden + sA.fish.karaage;
                     // すでに上限に達している、または上限を超えてしまう場合はストップ
                     if (currentFish >= maxFish) return; 
-                }
+                }*/
             }
             if (path[0] === 'simA' && path[1] === 'takeout' && key === 'rods') {
                 const pA = this.state.simA.people;
@@ -344,8 +345,9 @@ const ReservationSystem = {
                     }
                     const baseFish = (sA.people.adult - sA.menus.adultYakiniku) * 2 + sA.people.child;
                     const totalFish = sA.fish.shioyaki + sA.fish.gyoden + sA.fish.karaage;
-                    if (totalFish !== baseFish) {
-                        this.showError(`セットに含まれるお魚は合計 ${baseFish} 匹です。お魚の調理方法の合計がピッタリ ${baseFish} 匹になるように「＋・－」で選択してください。`); return false;
+                    // ピッタリ（!==）ではなく、下回った時（<）だけエラーを出すように変更
+                    if (totalFish < baseFish) {
+                        this.showError(`セットに含まれるお魚は合計 ${baseFish} 匹です。お魚の調理方法の合計が「最低 ${baseFish} 匹以上」になるように選択してください。`); return false;
                     }
                 } else if (sA.purpose === 'takeout') {
                     if (sA.takeout.rods === 0) {
@@ -464,23 +466,25 @@ const ReservationSystem = {
 
                     html += `
                         <h5 style="margin-top:0;">大人のメニュー</h5>
-                        ${this.createCounter('simA.menus.adultLunch', '釣り体験2匹とランチセット', mA.adultLunch, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultSashimi', '釣り体験2匹とにじますの刺身', mA.adultSashimi, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultTempura', '釣り体験2匹と天ぷら盛り合わせ', mA.adultTempura, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultPotato', '釣り体験2匹と無農薬じゃがいものフライドポテト', mA.adultPotato, adultRemain === 0)}
+                        <p style="margin-top:0; font-size:0.6rem;">全員分のセットメニューのオーダーをお願いしております。<br>みんなでワイワイ、美味しい時間をシェアしましょう！</p>
+                        ${this.createCounter('simA.menus.adultLunch', 'お魚2匹釣れる！ランチセット', mA.adultLunch, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultSashimi', 'お魚2匹釣れる！にじますの刺身', mA.adultSashimi, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultTempura', 'お魚2匹釣れる！天ぷら盛り合わせ', mA.adultTempura, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultPotato', 'お魚2匹釣れる！無農薬じゃがいものフライドポテト', mA.adultPotato, adultRemain === 0)}
                         ${this.createCounter('simA.menus.adultYakiniku', '魚が苦手な方へ：飛騨牛焼肉ランチ', mA.adultYakiniku, adultRemain === 0)}
                         
                         <h5>子供のメニュー</h5>
-                        ${this.createCounter('simA.menus.childKids', '釣り体験1匹とおこさまランチセット', mA.childKids, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childLight', '釣り体験1匹と無農薬じゃがいものフライドポテト(ミニ)', mA.childLight, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childSashimi', '釣り体験1匹とにじますの刺身', mA.childSashimi, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childTempura', '釣り体験1匹と天ぷら盛り合わせ', mA.childTempura, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childKids', 'お魚1匹釣れる！おこさまランチセット', mA.childKids, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childLight', 'お魚1匹釣れる！無農薬じゃがいものフライドポテト(ミニ)', mA.childLight, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childSashimi', 'お魚1匹釣れる！にじますの刺身', mA.childSashimi, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childTempura', 'お魚1匹釣れる！天ぷら盛り合わせ', mA.childTempura, childRemain === 0)}
 
-                        <h5>お魚の調理変更 <span style="font-size:0.8rem; font-weight:normal; color:#666;">(※合計数を合わせてください)</span></h5>
+                        <h5>お魚の調理変更 <span style="font-size:0.8rem; font-weight:normal; color:#666;">(※最低匹数を選んでください)</span></h5>
                         
                         <div style="background:#FDFBF7; border:1px solid #D96D2B; padding:12px; border-radius:4px; margin-bottom:16px; font-size:0.85rem; color:#A0522D; text-align:left;">
                             <strong>💡 セットのお魚は【 合計 ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹 】です！</strong><br>
-                            以下の「しお焼き」「ぎょでん」「からあげ」の合計がピッタリ ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹になるように選択してください。
+                            以下の調理方法の合計が <strong>${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹以上</strong> になるように選択してください。<br>
+                            <span style="font-size:0.8rem; color:#666;">※セットの匹数を超えた分は、自動的に「追加料金」として計算されます。</span>
                         </div>
 
                         ${(() => {
@@ -489,16 +493,11 @@ const ReservationSystem = {
                             const isFishMaxed = currentFish >= maxFish;
 
                             return `
-                                ${this.createCounter('simA.fish.shioyaki', 'しお焼き<br>(追加料金なし)', this.state.simA.fish.shioyaki, isFishMaxed)}
-                                ${this.createCounter('simA.fish.gyoden', 'ぎょでんに変更(+¥50)', this.state.simA.fish.gyoden, isFishMaxed)}
-                                ${this.createCounter('simA.fish.karaage', 'からあげに変更(+¥80)', this.state.simA.fish.karaage, isFishMaxed)}
+                                ${this.createCounter('simA.fish.shioyaki', 'しお焼き(基本0円 / 追加400円)', this.state.simA.fish.shioyaki)}
+                                ${this.createCounter('simA.fish.gyoden', 'ぎょでん(基本+50円 / 追加450円)', this.state.simA.fish.gyoden)}
+                                ${this.createCounter('simA.fish.karaage', 'からあげ(基本+80円 / 追加480円)', this.state.simA.fish.karaage)}
                             `;
                         })()}
-                        
-                        <p style="font-size:0.8rem; color:#666; text-align:left; margin-top:16px; line-height:1.6;">
-                            ※当日、もっと釣りを楽しみたい方は<strong>追加で釣ることも可能</strong>です！<br>
-                            （追加分のお魚は、別途調理代が1匹 ¥400〜 かかります）
-                        </p>
                     `;
 // --- ▲ ここまで書き換え ---
                 } else if (this.state.simA.purpose === 'takeout') {
@@ -664,11 +663,32 @@ const ReservationSystem = {
                 if (m.childSashimi > 0) { total += m.childSashimi * p.childSashimi; receiptHtml += `<div class="sim-receipt-row"><span>こども 刺身 x${m.childSashimi}</span><span>¥${(m.childSashimi * p.childSashimi).toLocaleString()}</span></div>`; }
                 if (m.childTempura > 0) { total += m.childTempura * p.childTempura; receiptHtml += `<div class="sim-receipt-row"><span>こども 天ぷら盛り合わせ x${m.childTempura}</span><span>¥${(m.childTempura * p.childTempura).toLocaleString()}</span></div>`; }
                 
-                // ▼ お魚（変更・追加分）の計算
-                if (f.shioyaki > 0) { total += f.shioyaki * p.shioyaki; receiptHtml += `<div class="sim-receipt-row"><span>お魚(しお焼き) x${f.shioyaki}</span><span>¥${(f.shioyaki * p.shioyaki).toLocaleString()}</span></div>`; }
-                if (f.gyoden > 0) { total += f.gyoden * p.gyoden; receiptHtml += `<div class="sim-receipt-row"><span>お魚(ぎょでん) x${f.gyoden}</span><span>¥${(f.gyoden * p.gyoden).toLocaleString()}</span></div>`; }
-                if (f.karaage > 0) { total += f.karaage * p.karaage; receiptHtml += `<div class="sim-receipt-row"><span>お魚(からあげ) x${f.karaage}</span><span>¥${(f.karaage * p.karaage).toLocaleString()}</span></div>`; }
+                // ▼ 魚の計算
+                const baseFishLimit = (this.state.simA.people.adult - m.adultYakiniku) * 2 + this.state.simA.people.child;
+                let remainBase = baseFishLimit; // セット枠の残り
 
+                // 順番にセット枠（無料・差額のみ）に魚を当てはめていく
+                const baseShioyaki = Math.min(remainBase, f.shioyaki);
+                const exShioyaki = f.shioyaki - baseShioyaki;
+                remainBase -= baseShioyaki;
+
+                const baseGyoden = Math.min(remainBase, f.gyoden);
+                const exGyoden = f.gyoden - baseGyoden;
+                remainBase -= baseGyoden;
+
+                const baseKaraage = Math.min(remainBase, f.karaage);
+                const exKaraage = f.karaage - baseKaraage;
+                remainBase -= baseKaraage;
+
+                // ▼ 基本セット分の明細出力
+                if (baseShioyaki > 0) { total += baseShioyaki * p.shioyaki; receiptHtml += `<div class="sim-receipt-row"><span>お魚(しお焼き) x${baseShioyaki}</span><span>¥${(baseShioyaki * p.shioyaki).toLocaleString()}</span></div>`; }
+                if (baseGyoden > 0) { total += baseGyoden * p.gyoden; receiptHtml += `<div class="sim-receipt-row"><span>お魚(ぎょでん変更) x${baseGyoden}</span><span>¥${(baseGyoden * p.gyoden).toLocaleString()}</span></div>`; }
+                if (baseKaraage > 0) { total += baseKaraage * p.karaage; receiptHtml += `<div class="sim-receipt-row"><span>お魚(からあげ変更) x${baseKaraage}</span><span>¥${(baseKaraage * p.karaage).toLocaleString()}</span></div>`; }
+
+                // ▼ 追加分の明細出力（パッと見でわかるようにオレンジ色で表示）
+                if (exShioyaki > 0) { total += exShioyaki * p.extraShioyaki; receiptHtml += `<div class="sim-receipt-row"><span style="color:var(--color-accent);">追加お魚(しお焼き) x${exShioyaki}</span><span>¥${(exShioyaki * p.extraShioyaki).toLocaleString()}</span></div>`; }
+                if (exGyoden > 0) { total += exGyoden * p.extraGyoden; receiptHtml += `<div class="sim-receipt-row"><span style="color:var(--color-accent);">追加お魚(ぎょでん) x${exGyoden}</span><span>¥${(exGyoden * p.extraGyoden).toLocaleString()}</span></div>`; }
+                if (exKaraage > 0) { total += exKaraage * p.extraKaraage; receiptHtml += `<div class="sim-receipt-row"><span style="color:var(--color-accent);">追加お魚(からあげ) x${exKaraage}</span><span>¥${(exKaraage * p.extraKaraage).toLocaleString()}</span></div>`; }
             }
             else if (this.state.simA.purpose === 'takeout') {
                 const t = this.state.simA.takeout;
