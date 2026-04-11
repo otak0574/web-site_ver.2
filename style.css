@@ -1072,7 +1072,7 @@ section.top-hero .hero-image {
     z-index: 1 !important; 
 }
 
-s/* ========================================
+/* ========================================
    各ページ固有：ヒーローセクションのフィルター色設定
 ======================================== */
 
@@ -1081,7 +1081,7 @@ section.page-hero::after {
   content: "";
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(26, 110, 138, 0.6); /* 透明感のある水色 */
+  background-color: rgba(26, 110, 138, 0.25); /* 透明感のある水色 */
   z-index: 2 !important; 
 }
 
@@ -1101,7 +1101,7 @@ section.restaurant-hero::after,
 section.story-hero::after,
 section.access-hero::after,
 section.top-hero::after {
-  background-color: rgba(0, 0, 0, 0.4); 
+  background-color: rgba(0, 0, 0, 0.3); 
 }
 
 /* フィルターを消したページで、文字が写真に紛れて読みにくい場合の対策 */
@@ -1109,7 +1109,7 @@ section:not(.page-hero):not(.dogrun-hero) .hero-text h2 {
   text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0, 0, 0, 0.5) !important;
 }
 section:not(.page-hero):not(.dogrun-hero) .hero-text p {
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8) !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* ★文字が背景の下に隠れないようにする最重要コード */
