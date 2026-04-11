@@ -40,6 +40,7 @@ function renderGlobalComponents() {
             
             <nav class="global-nav" id="global-nav">
                 <ul class="nav-list font-mincho">
+                    <li><a href="index.html">トップページ</a></li>
                     <li><a href="fishing.html">釣り堀案内</a></li>
                     <li><a href="restaurant.html">レストラン</a></li>
                     <li><a href="bbq.html">BBQ（プレミアム）</a></li>
