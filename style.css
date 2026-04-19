@@ -1139,3 +1139,289 @@ section:not(.page-hero):not(.dogrun-hero) .hero-text p {
 .step-card-content .menu-list .item-price {
     background-color: #F9F9F9 !important; /* リストの箱の背景色と同じ色を指定 */
 }
+
+/* ========================================
+   無限スクロールアルバム（保存防止＆アニメーション）
+======================================== */
+.film-album {
+  padding: 60px 0; /* 横幅いっぱいまで写真を流すため、左右の余白を0に */
+  background-color: #FFF9F0; /* 優しいクリーム色 */
+  text-align: center;
+  overflow: hidden;
+}
+.film-album .album-inner {
+  padding: 0 20px;
+  margin-bottom: 32px;
+}
+.film-loop-wrap {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* スクロールする写真の帯（トラック） */
+.film-track {
+  display: flex;
+  width: max-content; /* 中身の幅に合わせて広がる */
+  /* 20秒かけて左へ流れる（数字を変えると速度が変わります） */
+  animation: scrollFilm 20s linear infinite; 
+}
+
+/* 写真1枚1枚の枠設定 */
+.film-item {
+  position: relative;
+  width: 200px; /* 写真の横幅 */
+  height: 200px; /* 写真の縦幅（正方形） */
+  margin-right: 16px; /* 写真と写真の間の隙間 */
+  border-radius: 12px; /* 少し角を丸くして優しく */
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* 画像本体と保存防止バリア */
+.film-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+.film-item .glass-barrier {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 5;
+  background: transparent;
+}
+
+/* 無限スクロールのアニメーションの動き */
+@keyframes scrollFilm {
+  0% { transform: translateX(0); }
+  /* 50%（1セット目）の幅まで進んだら、一瞬で0に戻ることで無限に見せる */
+  100% { transform: translateX(-50%); } 
+}
+
+.film-item img,
+.film-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 枠いっぱいに広げる */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* ========================================
+   モザイク型アルバム（ドッグラン用）
+======================================== */
+.mosaic-album {
+  padding: 60px 16px;
+  background-color: #FFF9F0;
+  text-align: center;
+}
+.mosaic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* スマホは画面を縦に2分割 */
+  grid-auto-rows: 140px; /* 1マスの基本の高さを140pxに設定 */
+  gap: 12px; /* 写真と写真の隙間 */
+  max-width: 900px;
+  margin: 32px auto 0;
+  grid-auto-flow: dense;
+}
+
+/* 写真1枚1枚の枠設定 */
+.mosaic-item {
+  position: relative;
+  border-radius: 12px; /* 角を少し丸くして優しい印象に */
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.mosaic-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* ← 魔法を「contain」に変更！ */
+  background-color: #E8E4D9; /* 動画の上下左右に隙間ができた時のための背景色 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ▼ 大きさのバリエーションを作る魔法 ▼ */
+.item-large {
+  grid-column: span 2; /* 横に2マス分広げる */
+  grid-row: span 2;    /* 縦に2マス分広げる */
+}
+.item-wide {
+  grid-column: span 2; /* 横に2マス分広げる */
+}
+.item-tall {
+  grid-row: span 2;    /* 縦に2マス分広げる */
+}
+
+/* 画像本体と保存防止バリア */
+.mosaic-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 枠の形に合わせて綺麗に切り抜く */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+.mosaic-item .glass-barrier {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 5;
+  background: transparent;
+}
+
+/* パソコンやタブレットなど、画面が広い時は3列にする */
+@media screen and (min-width: 768px) {
+  .mosaic-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 180px;
+  }
+}
+
+/* ========================================
+   トコトコ足跡アニメーション（超軽量版）
+======================================== */
+.paw-path {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  overflow: hidden;
+  pointer-events: none; /* 足跡がクリックの邪魔にならないようにする魔法 */
+  z-index:10; /* 写真の奥（背景）に配置 */
+}
+
+.paw {
+  position: absolute;
+  font-size: 2.5rem;
+  /* 七宗遊園の雰囲気に合う、薄くて優しいブラウン色 */
+  color: rgba(160, 82, 45, 0.12); 
+  opacity: 0;
+  /* 6秒かけて現れて消えるアニメーションを無限ループ */
+  animation: pawFade 6s infinite;
+}
+
+/* 右斜め上に向かって歩くような配置と角度（animation-delayで表示タイミングをズラす） */
+.paw1 { bottom: 5%;  left: 5%;  transform: rotate(20deg); animation-delay: 0s; }
+.paw2 { bottom: 15%; left: 15%; transform: rotate(35deg); animation-delay: 0.6s; }
+.paw3 { bottom: 25%; left: 8%;  transform: rotate(15deg); animation-delay: 1.2s; }
+.paw4 { bottom: 35%; left: 20%; transform: rotate(25deg); animation-delay: 1.8s; }
+.paw5 { bottom: 45%; left: 12%; transform: rotate(10deg); animation-delay: 2.4s; }
+.paw6 { bottom: 55%; left: 25%; transform: rotate(30deg); animation-delay: 3.0s; }
+
+/* 足跡がポンッ、ポンッと踏みしめられるように現れるアニメーション */
+@keyframes pawFade {
+  0%   { opacity: 0; margin-bottom: -10px; } /* 少し下から */
+  10%  { opacity: 1; margin-bottom: 0; }     /* ポンッと現れる */
+  60%  { opacity: 1; }                       /* しばらく残る */
+  100% { opacity: 0; }                       /* スーッと消える */
+}
+
+/* ========================================
+   スライダー型アルバム（BBQ用）
+======================================== */
+.slider-album {
+  padding: 60px 16px;
+  background-color: #FDFBF7; /* いつもの優しい背景色に戻しました */
+  text-align: center;
+}
+
+.carousel-container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out; /* スルッと滑らかに動く魔法 */
+  width: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%; /* 1枚が画面の幅いっぱいになる */
+  position: relative;
+}
+
+/* 画像の設定と保存防止バリア */
+.carousel-slide img,
+.carousel-slide video {
+  width: 100%;
+  height: 400px; /* パソコン・タブレット用の高さ */
+  object-fit: cover;
+  display: block;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+@media screen and (max-width: 600px) {
+  .carousel-slide img,
+  .carousel-slide video {   /* ← ★スマホ用にも追加！ */
+      height: 300px; 
+  }
+}
+.carousel-slide .glass-barrier {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 5;
+  background: transparent;
+}
+
+/* 矢印ボタン */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  color: var(--color-main, #2C4234);
+  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+.carousel-btn:hover { background: #fff; }
+.prev-btn { left: 16px; }
+.next-btn { right: 16px; }
+
+/* ドットインジケーター */
+.carousel-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.dot.is-active {
+  background: #fff;
+  transform: scale(1.3);
+}
