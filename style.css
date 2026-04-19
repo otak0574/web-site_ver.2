@@ -1139,3 +1139,76 @@ section:not(.page-hero):not(.dogrun-hero) .hero-text p {
 .step-card-content .menu-list .item-price {
     background-color: #F9F9F9 !important; /* リストの箱の背景色と同じ色を指定 */
 }
+
+/* ========================================
+   無限スクロールアルバム（保存防止＆アニメーション）
+======================================== */
+.film-album {
+  padding: 60px 0; /* 横幅いっぱいまで写真を流すため、左右の余白を0に */
+  background-color: #FFF9F0; /* 優しいクリーム色 */
+  text-align: center;
+  overflow: hidden;
+}
+.film-album .album-inner {
+  padding: 0 20px;
+  margin-bottom: 32px;
+}
+.film-loop-wrap {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* スクロールする写真の帯（トラック） */
+.film-track {
+  display: flex;
+  width: max-content; /* 中身の幅に合わせて広がる */
+  /* 20秒かけて左へ流れる（数字を変えると速度が変わります） */
+  animation: scrollFilm 20s linear infinite; 
+}
+
+/* 写真1枚1枚の枠設定 */
+.film-item {
+  position: relative;
+  width: 200px; /* 写真の横幅 */
+  height: 200px; /* 写真の縦幅（正方形） */
+  margin-right: 16px; /* 写真と写真の間の隙間 */
+  border-radius: 12px; /* 少し角を丸くして優しく */
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* 画像本体と保存防止バリア */
+.film-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+.film-item .glass-barrier {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 5;
+  background: transparent;
+}
+
+/* 無限スクロールのアニメーションの動き */
+@keyframes scrollFilm {
+  0% { transform: translateX(0); }
+  /* 50%（1セット目）の幅まで進んだら、一瞬で0に戻ることで無限に見せる */
+  100% { transform: translateX(-50%); } 
+}
+
+.film-item img,
+.film-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 枠いっぱいに広げる */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
