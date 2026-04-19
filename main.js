@@ -267,17 +267,17 @@ function initDogrunMosaic() {
     // 1. 画像と動画のリストを用意する
     //   ※ 'type' で画像('img')か動画('video')かを指定します。
     const allMedia = [
-        { type: 'img', src: 'images/dogrun/dog1.jpg' },
-        { type: 'img', src: 'images/dogrun/dog2.jpg' },
-        { type: 'img', src: 'images/dogrun/dog3.jpg' },
-        { type: 'img', src: 'images/dogrun/dog4.jpg' },
-        { type: 'img', src: 'images/dogrun/dog5.jpg' },
-        { type: 'img', src: 'images/dogrun/dog6.jpg' },
-        { type: 'img', src: 'images/dogrun/dog7.jpg' },
+        { type: 'img', src: 'images/dogrun/dog1.JPG' },
+        { type: 'img', src: 'images/dogrun/dog2.JPG' },
+        { type: 'img', src: 'images/dogrun/dog3.JPG' },
+        { type: 'img', src: 'images/dogrun/dog4.JPG' },
+        { type: 'img', src: 'images/dogrun/dog5.JPG' },
+        { type: 'img', src: 'images/dogrun/dog6.JPG' },
+        { type: 'img', src: 'images/dogrun/dog7.JPG' },
         // ▼ ここに動画（MP4やMOV）を追加！
-        { type: 'video', src: 'images/dogrun/video2.mp4' },
-        { type: 'video', src: 'images/dogrun/video3.mp4' },
-        { type: 'video', src: 'images/dogrun/video4.mp4' },
+        { type: 'video', src: 'images/dogrun/video2.MP4' },
+        { type: 'video', src: 'images/dogrun/video3.MP4' },
+        { type: 'video', src: 'images/dogrun/video4.MP4' },
     ];
 
     // 2. 6つの形（クラス名）のリスト
