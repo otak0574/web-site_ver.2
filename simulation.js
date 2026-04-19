@@ -1,68 +1,28 @@
 /**
- * 七宗遊園 - 予約・料金シミュレーション＆LINE連携システム
- * （UI改善・入力自動化・3択ポータル・お食事シンプル予約 対応版）
+ * 七宗遊園 - 料金シミュレーション専用システム (別ページ用)
  */
 
 const ReservationSystem = {
     state: {
-        isOpen: false,
-        flow: null, // 'A'(釣り堀), 'B'(BBQ), 'C'(食事のみ), 'SELECT'(3択)
+        flow: 'SELECT', 
         step: 1,
         isLoading: false, 
         
-        simA: {
-            purpose: '', 
-            people: { adult: 0, child: 0 },
-            date: '', 
-            menus: { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 },            fish: { shioyaki: 0, gyoden: 0, karaage: 0 },
-            takeout: { rods: 0, fish: 0, method: '' }
-        },
-        
-        simB: {
-            people: { adult: 0, child: 0, dog: 0 },
-            plan: '', 
-            drink: '',
-            date: ''
-        },
-
-        simC: {
-            people: { adult: 0, child: 0 },
-            date: ''
-        },
-        
-        userInfo: { name: '', phone: '', policy: false }
+        simA: { purpose: '', people: { adult: 0, child: 0 }, menus: { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 }, fish: { shioyaki: 0, gyoden: 0, karaage: 0 }, takeout: { rods: 0, fish: 0, method: '' } },
+        simB: { people: { adult: 0, child: 0, dog: 0 }, plan: '', drink: '' }
     },
 
     prices: {
-        A: { 
-            // ▼新しい料金設定（一品セットはすべて1500円で計算）
-            adultLunch: 2400, adultSashimi: 1500, adultTempura: 1500, adultPotato: 1500, adultYakiniku: 2200,
-            childKids: 1200, childLight: 750, childSashimi: 1100, childTempura: 1100,
-            shioyaki: 0, gyoden: 50, karaage: 80,
-            extraShioyaki: 400, extraGyoden: 450, extraKaraage: 480,
-            takeoutRods: 1000,
-            methodRaw: 400, methodGut: 420, methodGrill: 440
-        },
-        B: { 
-            dogFee: 500,
-            drinkAlcohol: 2000,
-            drinkSoftAdult: 1500,
-            drinkSoftChild: 750
-        }
-    },
-
-    getTomorrowDateString() {
-        const tmr = new Date();
-        tmr.setDate(tmr.getDate() + 1);
-        const yyyy = tmr.getFullYear();
-        const mm = String(tmr.getMonth() + 1).padStart(2, '0');
-        const dd = String(tmr.getDate()).padStart(2, '0');
-        return `${yyyy}-${mm}-${dd}`;
+        A: { adultLunch: 2400, adultSashimi: 1500, adultTempura: 1500, adultPotato: 1500, adultYakiniku: 2200, childKids: 1200, childLight: 750, childSashimi: 1100, childTempura: 1100, shioyaki: 0, gyoden: 50, karaage: 80, extraShioyaki: 400, extraGyoden: 450, extraKaraage: 480, takeoutRods: 1000, methodRaw: 400, methodGut: 420, methodGrill: 440 },
+        B: { dogFee: 500, drinkAlcohol: 2000, drinkSoftAdult: 1500, drinkSoftChild: 750 }
     },
 
     init() {
+        // ▼ ページ内に専用のコンテナがある場合のみ作動する（エラー防止）
+        if (!document.getElementById('simulation-app')) return;
         this.injectStyles();
         this.bindEvents();
+        this.render(); // 初期画面を描画
     },
 
     injectStyles() {
@@ -70,113 +30,63 @@ const ReservationSystem = {
         const style = document.createElement('style');
         style.id = 'sim-styles';
         style.innerHTML = `
-            .simulation-form-placeholder { overflow-x: hidden; width: 100%; box-sizing: border-box; overflow-y: auto; padding: 24px 20px; color: #333; background-color: #FDFBF7; border: 1px solid #E8E4D9; border-radius: 4px; }
-            
-            /* 見出しを明朝体にして上品に */
-            .simulation-form-placeholder h4 { margin-top: 10px; margin-bottom: 24px; font-size: 1.15rem; font-family: '筑紫Aオールド明朝', 'YuMincho', serif; border-bottom: 1px solid rgba(44, 66, 52, 0.15); padding-bottom: 12px; color: var(--color-main, #2C4234); font-weight: normal; text-align: center; letter-spacing: 0.05em;}
-            .simulation-form-placeholder h5 { margin-top: 32px; margin-bottom: 16px; font-size: 1rem; font-family: '筑紫Aオールド明朝', 'YuMincho', serif; color: var(--color-main, #2C4234); font-weight: normal; letter-spacing: 0.05em;}
-            
-            /* パネル設定（選択肢） */
+            .simulation-app-container { overflow-x: hidden; width: 100%; box-sizing: border-box; padding: 32px 24px; color: #333; background-color: #ffffff; border: 1px solid #E8E4D9; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+            .simulation-app-container h4 { margin-top: 10px; margin-bottom: 24px; font-size: 1.25rem; border-bottom: 1px solid rgba(44, 66, 52, 0.15); padding-bottom: 12px; color: var(--color-main, #2C4234); font-weight: bold; text-align: center; }
+            .simulation-app-container h5 { margin-top: 32px; margin-bottom: 16px; font-size: 1.05rem; color: var(--color-main, #2C4234); font-weight: bold; }
             .sim-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; margin-bottom: 32px; }
-            .sim-panel { border: 1px solid #D8D2C4; border-radius: 4px; padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: #fff; font-size: 0.95rem; line-height: 1.6; display: flex; align-items: center; justify-content: center; min-height: 60px; margin-bottom: 0; color: #555; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+            .sim-panel { border: 1px solid #D8D2C4; border-radius: 8px; padding: 20px 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: #fff; font-size: 0.95rem; font-weight:bold; color: #555; }
             .sim-panel:hover { border-color: var(--color-main, #2C4234); background-color: #F9F9F9; }
-            .sim-panel.is-active { background: var(--color-main, #2C4234); color: #fff; border-color: var(--color-main, #2C4234); font-weight: normal; }
-            
-            /* カウンター周り */
+            .sim-panel.is-active { background: var(--color-main, #2C4234); color: #fff; border-color: var(--color-main, #2C4234); }
             .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #E8E4D9; }
             .sim-counter-label { font-size: 0.95rem; color: #444; }
             .sim-counter-controls { display: flex; align-items: center; gap: 16px; }
-            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; color: #555; font-size: 1.2rem; font-weight: 300; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; touch-action: manipulation; user-select: none; -webkit-user-select: none; }            .sim-btn-circle:active { background: #f0f0f0; }
-            .sim-btn-circle.is-disabled { opacity: 0.3; pointer-events: none; }
-            .sim-counter-val { font-size: 1.2rem; width: 30px; text-align: center; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333;}
-            
-            /* フォーム入力欄 */
-            .sim-input { width: 100%; padding: 16px 14px; border: 1px solid #D8D2C4; border-radius: 4px; margin-top: 8px; font-size: 16px !important; box-sizing: border-box !important; background: #fff; transition: border 0.3s; color: #333;}            
-            .sim-input:focus { border-color: var(--color-main, #2C4234); outline: none;}
-            input[type="date"].sim-input { -webkit-appearance: none; appearance: none; color: #333; font-family: inherit;}
-            
-            /* エラーメッセージ */
-            .sim-error-msg { color: #A0522D; padding: 0 0 20px 0; font-size: 0.9rem; display: none; font-weight: normal; text-align: center;}
-            
-            /* ボタン設定 */
-            .sim-btn-block { width: 100%; padding: 16px; border-radius: 4px; font-size: 1rem; cursor: pointer; border: none; transition: 0.3s; text-align: center; box-sizing: border-box !important; margin-bottom: 8px; letter-spacing: 0.1em; font-family: '筑紫Aオールド明朝', 'YuMincho', serif; touch-action: manipulation; user-select: none; -webkit-user-select: none; }            .sim-btn-primary { background: var(--color-main, #2C4234); color: #fff; }
-            .sim-btn-primary:active { background: #1E2E24; }
+            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+            .sim-btn-circle:active { background: #f0f0f0; }
+            .sim-counter-val { font-size: 1.2rem; width: 30px; text-align: center; font-weight: bold;}
+            .sim-error-msg { color: #A0522D; padding: 0 0 20px 0; font-size: 0.9rem; display: none; font-weight: bold; text-align: center;}
+            .sim-btn-block { width: 100%; padding: 16px; border-radius: 50px; font-size: 1.05rem; cursor: pointer; border: none; transition: 0.3s; text-align: center; font-weight: bold; letter-spacing: 0.05em;}
+            .sim-btn-primary { background: var(--color-main, #2C4234); color: #fff; }
             .sim-btn-secondary { background: #fff; border: 1px solid #D8D2C4; color: #555; }
-            .sim-btn-secondary:active { background: #F5F5F5; }
-            .sim-btn-group { display: flex; gap: 16px; margin-top: 40px; align-items: center; }
-            .sim-btn-group .sim-btn-block { margin-top: 0; margin-bottom: 0; width: auto; }
-            .sim-btn-group .btn-prev { flex: 1; padding: 16px 8px; font-size: 0.95rem; }
-            .sim-btn-group .btn-next, .sim-btn-group .btn-calculate { flex: 2; }
-            
-            /* レシート表示 */
-            .sim-receipt { background: #FDFBF7; padding: 24px; border-radius: 4px; margin-bottom: 32px; border: 1px solid #E8E4D9;}
-            .sim-receipt-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: #555;}
-            .sim-receipt-total { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid #D8D2C4; font-size: 1.3rem; color: var(--color-main, #2C4234); font-family: '筑紫Aオールド明朝', 'YuMincho', serif;}
-            
-            /* ローディング */
+            .sim-btn-group { display: flex; gap: 16px; margin-top: 40px; }
+            .sim-receipt { background: #FDFBF7; padding: 24px; border-radius: 8px; margin-bottom: 32px; border: 1px solid #E8E4D9;}
+            .sim-receipt-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: #555; font-weight: bold;}
             .sim-loading { text-align: center; padding: 60px 0; }
-            .sim-spinner { display: inline-block; width: 36px; height: 36px; border: 2px solid rgba(44, 66, 52, 0.1); border-radius: 50%; border-top-color: var(--color-main, #2C4234); animation: spin 1s ease-in-out infinite; margin-bottom: 24px; }
+            .sim-spinner { display: inline-block; width: 36px; height: 36px; border: 3px solid rgba(44, 66, 52, 0.1); border-radius: 50%; border-top-color: var(--color-main, #2C4234); animation: spin 1s infinite; margin-bottom: 24px; }
             @keyframes spin { to { transform: rotate(360deg); } }
-            
-            /* ステップアニメーション */
             @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-            .step-animation { animation: fadeInStep 0.5s ease forwards; }
+            .step-animation { animation: fadeInStep 0.4s ease forwards; }
         `;
         document.head.appendChild(style);
     },
 
     bindEvents() {
-        document.body.addEventListener('click', (e) => {
+        const container = document.getElementById('simulation-app');
+        container.addEventListener('click', (e) => {
             
-            // ▼ モーダルを開く処理
-            if (e.target.closest('#open-reservation-btn') || e.target.closest('#header-reserve-btn') || e.target.closest('#bottom-reservation-btn') || e.target.closest('#sticky-reservation-btn')) {
-                e.preventDefault();
-                // どのページからボタンを押しても、必ず「3択画面」を開く
-                this.startSimulation('SELECT'); 
-            }
-
-            if (e.target.closest('[data-modal-close]')) this.closeModal();
-
-            // ▼ 3択画面でプランを選んだときの処理
             if (e.target.closest('.sim-panel[data-action="select-plan"]')) {
                 const val = e.target.closest('.sim-panel').dataset.value;
-                if (val === 'fishing') {
-                    // 一番上：釣り堀（Flow A）※ステップ1から正しく開始するように修正
-                    this.startSimulation('A');
-                    this.render();
-                } else if (val === 'restaurant') {
-                    // 真ん中：食事のみ・シンプル予約（Flow C）
-                    this.startSimulation('C');
-                } else if (val === 'bbq') {
-                    // 一番下：手ぶらBBQ（Flow B）
-                    this.startSimulation('B');
-                }
+                if (val === 'fishing') this.startSimulation('A');
+                else if (val === 'bbq') this.startSimulation('B');
             }
 
-            // ▼ 次へ進むボタン
             if (e.target.closest('.btn-next')) {
-                if (this.validateCurrentStep()) {
-                    this.state.step++;
-                    this.render();
-                    // ※原因だった「2重に進むバグ」のコードを削除しました！
-                }
+                if (this.validateCurrentStep()) { this.state.step++; this.render(); }
             }
 
             if (e.target.closest('.btn-calculate')) {
                 if (this.validateCurrentStep()) {
-                    this.state.isLoading = true;
-                    this.render();
-                    setTimeout(() => {
-                        this.state.isLoading = false;
-                        this.state.step++;
-                        this.render();
-                    }, 1000); 
+                    this.state.isLoading = true; this.render();
+                    setTimeout(() => { this.state.isLoading = false; this.state.step++; this.render(); }, 800); 
                 }
             }
 
             if (e.target.closest('.btn-prev')) {
-                this.state.step--;
-                this.render();
+                if(this.state.step === 1) { this.state.flow = 'SELECT'; this.render(); }
+                else { this.state.step--; this.render(); }
+            }
+
+            if (e.target.closest('.btn-reset')) {
+                this.state.flow = 'SELECT'; this.state.step = 1; this.render();
             }
 
             if (e.target.closest('.sim-panel') && !e.target.closest('.sim-panel[data-action="select-plan"]')) {
@@ -200,193 +110,85 @@ const ReservationSystem = {
             if (e.target.closest('.sim-btn-circle')) {
                 const btn = e.target.closest('.sim-btn-circle');
                 if (btn.classList.contains('is-disabled')) return; 
-                const target = btn.dataset.target;
-                const action = btn.dataset.action;
-                this.handleCounter(target, action);
-            }
-
-            if (e.target.closest('#btn-submit-line')) {
-                this.sendToLine();
-            }
-        });
-
-        document.body.addEventListener('change', (e) => {
-            if (e.target.id === 'sim-date') {
-                if (this.state.flow === 'A') this.state.simA.date = e.target.value;
-                if (this.state.flow === 'B') this.state.simB.date = e.target.value;
-                if (this.state.flow === 'C') this.state.simC.date = e.target.value;
-            }
-            if (e.target.id === 'user-name') this.state.userInfo.name = e.target.value;
-            if (e.target.id === 'user-phone') this.state.userInfo.phone = e.target.value;
-            if (e.target.id === 'policy-check') this.state.userInfo.policy = e.target.checked;
-            
-            if (e.target.id === 'sim-date' && (this.state.step === 4 || this.state.flow === 'C')) {
-                this.hideError();
+                this.handleCounter(btn.dataset.target, btn.dataset.action);
             }
         });
     },
 
     startSimulation(flow) {
-        this.state.flow = flow;
-        this.state.step = 1;
-        this.state.isLoading = false;
-        
-        this.state.simA = { 
-                purpose: '', 
-                people: { adult: 0, child: 0 },
-                date: '', 
-                // ▼新メニューに完全対応
-                menus: { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 },
-                fish: { shioyaki: 0, gyoden: 0, karaage: 0 },
-                takeout: { rods: 0, fish: 0, method: '' }
-        };
-        this.state.simB = { people: { adult: 0, child: 0, dog: 0 }, plan: '', drink: '', date: '' };
-        this.state.simC = { people: { adult: 0, child: 0 }, date: '' };
-        this.state.userInfo = { name: '', phone: '', policy: false };
-        
-        this.state.isOpen = true;
-        const modal = document.getElementById('reservation-modal');
-        if(modal) {
-            modal.classList.add('is-open');
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-            this.render();
-        }
-    },
-
-    closeModal() {
-        this.state.isOpen = false;
-        const modal = document.getElementById('reservation-modal');
-        if(modal) {
-            modal.classList.remove('is-open');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        }
+        this.state.flow = flow; this.state.step = 1; this.state.isLoading = false;
+        this.state.simA = { purpose: '', people: { adult: 0, child: 0 }, menus: { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 }, fish: { shioyaki: 0, gyoden: 0, karaage: 0 }, takeout: { rods: 0, fish: 0, method: '' } };
+        this.state.simB = { people: { adult: 0, child: 0, dog: 0 }, plan: '', drink: '' };
+        this.render();
     },
 
     handleCounter(target, action) {
-        let path = target.split('.'); 
-        let obj = this.state[path[0]][path[1]];
-        let key = path[2];
-        
+        let path = target.split('.'); let obj = this.state[path[0]][path[1]]; let key = path[2];
         let currentVal = obj[key];
         
         if (action === 'plus') {
             if (path[0] === 'simA' && path[1] === 'menus') {
                 const sA = this.state.simA;
                 if (['adultLunch', 'adultSashimi', 'adultTempura', 'adultPotato', 'adultYakiniku'].includes(key)) {
-                    const adultMenus = sA.menus.adultLunch + sA.menus.adultSashimi + sA.menus.adultTempura + sA.menus.adultPotato + sA.menus.adultYakiniku;
-                    if (adultMenus >= sA.people.adult) return; 
+                    if ((sA.menus.adultLunch + sA.menus.adultSashimi + sA.menus.adultTempura + sA.menus.adultPotato + sA.menus.adultYakiniku) >= sA.people.adult) return; 
                 }
                 if (['childKids', 'childLight', 'childSashimi', 'childTempura'].includes(key)) {
-                    const childMenus = sA.menus.childKids + sA.menus.childLight + sA.menus.childSashimi + sA.menus.childTempura;
-                    if (childMenus >= sA.people.child) return; 
+                    if ((sA.menus.childKids + sA.menus.childLight + sA.menus.childSashimi + sA.menus.childTempura) >= sA.people.child) return; 
                 }
-                // ▼ここを変更：より強力な上限チェック
-                /*if (['shioyaki', 'gyoden', 'karaage'].includes(key)) {
-                    // 大人の人数から焼肉の数を引いた数 × 2 ＋ 子供の数
-                    const maxFish = (sA.people.adult - sA.menus.adultYakiniku) * 2 + sA.people.child;
-                    const currentFish = sA.fish.shioyaki + sA.fish.gyoden + sA.fish.karaage;
-                    // すでに上限に達している、または上限を超えてしまう場合はストップ
-                    if (currentFish >= maxFish) return; 
-                }*/
             }
             if (path[0] === 'simA' && path[1] === 'takeout' && key === 'rods') {
-                const pA = this.state.simA.people;
-                const totalPeople = pA.adult + pA.child; 
-                if (currentVal >= totalPeople) return; 
+                if (currentVal >= (this.state.simA.people.adult + this.state.simA.people.child)) return; 
             }
             obj[key]++;
         }
-        
-        if (action === 'minus' && currentVal > 0) {
-            obj[key]--;
-        }
-        
+        if (action === 'minus' && currentVal > 0) obj[key]--;
         this.render();
     },
 
     showError(msg) {
         const errDiv = document.getElementById('sim-error');
-        if (errDiv) {
-            errDiv.innerText = msg;
-            errDiv.style.display = 'block';
-            errDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-            alert(msg);
-        }
+        if (errDiv) { errDiv.innerText = msg; errDiv.style.display = 'block'; errDiv.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     },
-
     hideError() {
         const errDiv = document.getElementById('sim-error');
         if(errDiv) errDiv.style.display = 'none';
     },
 
     validateCurrentStep() {
-        this.hideError();
-        const step = this.state.step;
-        const sA = this.state.simA;
-        const sB = this.state.simB;
-        const sC = this.state.simC;
+        this.hideError(); const step = this.state.step; const sA = this.state.simA; const sB = this.state.simB;
 
         if (this.state.flow === 'A') {
-            if (step === 1 && !sA.purpose) {
-                this.showError('「持ち帰り」か「店内で食事」を選択してください。'); return false;
-            }
-            if (step === 2 && sA.people.adult < 1) {
-                this.showError('ご来場には、必ず大人（中学生以上）1名以上の同伴が必要です。'); return false;
-            }
+            if (step === 1 && !sA.purpose) { this.showError('「持ち帰り」か「店内で食事」を選択してください。'); return false; }
+            if (step === 2 && sA.people.adult < 1) { this.showError('ご来場には、大人（中学生以上）1名以上の同伴が必要です。'); return false; }
             if (step === 3) {
                 const totalPeople = sA.people.adult + sA.people.child;
                 if (sA.purpose === 'eat_in') {
                     const adultMenus = sA.menus.adultLunch + sA.menus.adultSashimi + sA.menus.adultTempura + sA.menus.adultPotato + sA.menus.adultYakiniku;
-                    if (adultMenus !== sA.people.adult) {
-                        this.showError(`大人は人数分（${sA.people.adult}名分）のオーダーが必要です。残り${sA.people.adult - adultMenus}名分のメニューを選択してください。`); return false;
-                    }
+                    if (adultMenus !== sA.people.adult) { this.showError(`大人は人数分（${sA.people.adult}名分）のオーダーが必要です。`); return false; }
                     const baseFish = (sA.people.adult - sA.menus.adultYakiniku) * 2 + sA.people.child;
                     const totalFish = sA.fish.shioyaki + sA.fish.gyoden + sA.fish.karaage;
-                    // ピッタリ（!==）ではなく、下回った時（<）だけエラーを出すように変更
-                    if (totalFish < baseFish) {
-                        this.showError(`セットに含まれるお魚は合計 ${baseFish} 匹です。お魚の調理方法の合計が「最低 ${baseFish} 匹以上」になるように選択してください。`); return false;
-                    }
+                    if (totalFish < baseFish) { this.showError(`お魚の調理方法の合計が「最低 ${baseFish} 匹以上」になるように選択してください。`); return false; }
                 } else if (sA.purpose === 'takeout') {
-                    if (sA.takeout.rods === 0) {
-                        this.showError('釣竿を1本以上選択してください。'); return false;
-                    }
-                    if (sA.takeout.fish < totalPeople) {
-                        this.showError(`お魚はご来場人数（最低${totalPeople}匹）以上釣っていただくルールとなっております。釣る予定の匹数を${totalPeople}匹以上に増やしてください。`); return false;
-                    }
-                    if (sA.takeout.fish > 0 && !sA.takeout.method) {
-                        this.showError('釣る予定のお魚の「調理方法」を選択してください。'); return false;
-                    }
+                    if (sA.takeout.rods === 0) { this.showError('釣竿を1本以上選択してください。'); return false; }
+                    if (sA.takeout.fish < totalPeople) { this.showError(`お魚はご来場人数（${totalPeople}匹）以上釣るルールとなっております。`); return false; }
+                    if (!sA.takeout.method) { this.showError('釣る予定のお魚の「調理方法」を選択してください。'); return false; }
                 }
             }
         }
-
         if (this.state.flow === 'B') {
-            if (step === 1 && sB.people.adult < 1) {
-                this.showError('ご来場には、必ずおとな1名以上の同伴が必要です。'); return false;
-            }
-            if (step === 2 && !sB.plan) {
-                this.showError('ご希望のプランを1つ選択してください。'); return false;
-            }
-        }
-
-        if (this.state.flow === 'C') {
-            if (step === 1 && sC.people.adult < 1) {
-                this.showError('ご来店には、必ず大人（中学生以上）1名以上の同伴が必要です。'); return false;
-            }
+            if (step === 1 && sB.people.adult < 1) { this.showError('ご来場には、おとな1名以上の同伴が必要です。'); return false; }
+            if (step === 2 && !sB.plan) { this.showError('ご希望のプランを1つ選択してください。'); return false; }
         }
         return true;
     },
 
     render() {
-        const container = document.querySelector('.simulation-form-placeholder');
+        const container = document.getElementById('simulation-app');
         if (!container) return;
 
         if (this.state.isLoading) {
             container.innerHTML = `
-                <div class="sim-loading step-animation">
+                <div class="simulation-app-container sim-loading step-animation">
                     <div class="sim-spinner"></div>
                     <p style="font-weight:bold; color:var(--color-main);">料金をお見積り中...</p>
                 </div>
@@ -398,60 +200,40 @@ const ReservationSystem = {
         const flow = this.state.flow;
         const step = this.state.step;
 
-        document.querySelector('.modal-title').innerText = 
-            flow === 'A' ? '釣り堀・レストラン 予約' : 
-            (flow === 'B' ? '手ぶらBBQ 予約' : 
-            (flow === 'C' ? 'お食事のみ 予約' : 'ご希望のプラン'));
-
-            // ▼ 追加：レストラン予約（C）と最初の3択画面（SELECT）ではシミュレーションの注意書きを隠す
-        const modalDesc = document.querySelector('.modal-desc');
-        if (modalDesc) {
-            if (flow === 'C' || flow === 'SELECT') {
-                modalDesc.style.display = 'none'; // 隠す
-            } else {
-                modalDesc.style.display = 'block'; // 釣り堀(A)とBBQ(B)の時だけ表示する
-            }
-        }
-
-            if (flow === 'SELECT') {
-                html += `
-                    <div class="sim-panel-grid" style="grid-template-columns: 1fr; margin-top:24px;">
-                        <div class="sim-panel" data-action="select-plan" data-value="fishing" style="display:flex; flex-direction:column; align-items:center; padding:24px;">
-                            <span style="font-family: '筑紫Aオールド明朝', 'YuMincho', serif; font-size:1.1rem; margin-bottom:8px; color: var(--color-main);">釣り堀・お食事</span>
-                            <span style="font-size:0.85rem; color:#666;">（釣って店内で食事・お持ち帰り）</span>
-                        </div>
-                        <div class="sim-panel" data-action="select-plan" data-value="restaurant" style="display:flex; flex-direction:column; align-items:center; padding:24px;">
-                            <span style="font-family: '筑紫Aオールド明朝', 'YuMincho', serif; font-size:1.1rem; margin-bottom:8px; color: var(--color-main);">レストラン</span>
-                            <span style="font-size:0.85rem; color:#666;">（お食事のみのご予約）</span>
-                        </div>
-                        <div class="sim-panel" data-action="select-plan" data-value="bbq" style="display:flex; flex-direction:column; align-items:center; padding:24px;">
-                            <span style="font-family: '筑紫Aオールド明朝', 'YuMincho', serif; font-size:1.1rem; margin-bottom:8px; color: var(--color-main);">手ぶらBBQ</span>
-                            <span style="font-size:0.85rem; color:#666;">（1日3組限定・愛犬同伴可）</span>
-                        </div>
+        if (flow === 'SELECT') {
+            html += `
+                <h4>シミュレーションするプラン</h4>
+                <div class="sim-panel-grid" style="grid-template-columns: 1fr; margin-top:24px;">
+                    <div class="sim-panel" data-action="select-plan" data-value="fishing" style="display:flex; flex-direction:column; align-items:center; padding:32px 24px;">
+                        <span style="font-size:1.3rem; margin-bottom:8px; color: var(--color-main);">釣り堀・お食事</span>
+                        <span style="font-size:0.85rem; color:#666; font-weight:normal;">釣って店内で食事・またはお持ち帰り</span>
                     </div>
-                `;
-            }
+                    <div class="sim-panel" data-action="select-plan" data-value="bbq" style="display:flex; flex-direction:column; align-items:center; padding:32px 24px;">
+                        <span style="font-size:1.3rem; margin-bottom:8px; color: var(--color-main);">手ぶらBBQ</span>
+                        <span style="font-size:0.85rem; color:#666; font-weight:normal;">1日3組限定・愛犬同伴可のBBQプラン</span>
+                    </div>
+                </div>
+            `;
+        }
 
         if (flow === 'A') {
             if (step === 1) {
                 html += `
-                    <h4>ご利用目的</h4>
+                    <h4>釣り堀のご利用目的</h4>
                     <div class="sim-panel-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
                         <div class="sim-panel ${this.state.simA.purpose === 'eat_in' ? 'is-active' : ''}" data-group="A_purpose" data-value="eat_in">釣って店内で食事</div>
                         <div class="sim-panel ${this.state.simA.purpose === 'takeout' ? 'is-active' : ''}" data-group="A_purpose" data-value="takeout">釣ってお持ち帰り</div>
                     </div>
-                    <div class="sim-btn-group"><button class="sim-btn-block sim-btn-primary btn-next">次へ</button></div>
+                    <div class="sim-btn-group">
+                        <button class="sim-btn-block sim-btn-secondary btn-prev">最初に戻る</button>
+                        <button class="sim-btn-block sim-btn-primary btn-next">次へ</button>
+                    </div>
                 `;
             } else if (step === 2) {
                 html += `
                     <h4>ご来店人数</h4>
                     ${this.createCounter('simA.people.adult', '大人', this.state.simA.people.adult)}
                     ${this.createCounter('simA.people.child', 'お子さま(小学生以下)', this.state.simA.people.child)}
-                    
-                    <h4 style="margin-top:32px; margin-bottom:8px;">ご希望日</h4>
-                    <p style="font-size:0.85rem; color:#666; margin-top:0; margin-bottom:12px;">※料金シミュレーションをしたい方は記入なしでもOKです</p>
-                    <input type="date" id="sim-date" class="sim-input" value="${this.state.simA.date}" min="${this.getTomorrowDateString()}">
-                    
                     <div class="sim-btn-group">
                         <button class="sim-btn-block sim-btn-secondary btn-prev">戻る</button>
                         <button class="sim-btn-block sim-btn-primary btn-next">次へ</button>
@@ -459,39 +241,31 @@ const ReservationSystem = {
                 `;
             } else if (step === 3) {
                 if (this.state.simA.purpose === 'eat_in') {
-                    const pA = this.state.simA.people;
-                    const mA = this.state.simA.menus;
+                    const pA = this.state.simA.people; const mA = this.state.simA.menus;
                     const adultRemain = pA.adult - (mA.adultLunch + mA.adultSashimi + mA.adultTempura + mA.adultPotato + mA.adultYakiniku);
                     const childRemain = pA.child - (mA.childKids + mA.childLight + mA.childSashimi + mA.childTempura);
 
                     html += `
                         <h5 style="margin-top:0;">大人のメニュー</h5>
-                        <p style="margin-top:0; font-size:0.6rem;">お食事をご利用の方は<br>全員分のセットメニューのオーダーをお願いしております。<br>みんなでワイワイ、美味しい時間をシェアしましょう！</p>
-                        ${this.createCounter('simA.menus.adultLunch', 'お魚2匹釣れる！<br>ランチセット', mA.adultLunch, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultSashimi', 'お魚2匹釣れる！<br>にじますの刺身', mA.adultSashimi, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultTempura', 'お魚2匹釣れる！<br>天ぷら盛り合わせ', mA.adultTempura, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultPotato', 'お魚2匹釣れる！<br>無農薬じゃがいものフライドポテト', mA.adultPotato, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultYakiniku', '魚が苦手な方へ：飛騨牛焼肉ランチ', mA.adultYakiniku, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultLunch', 'ランチセット(魚2匹)', mA.adultLunch, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultSashimi', 'にじます刺身(魚2匹)', mA.adultSashimi, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultTempura', '天ぷら盛り合わせ(魚2匹)', mA.adultTempura, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultPotato', 'フライドポテト(魚2匹)', mA.adultPotato, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultYakiniku', '飛騨牛焼肉ランチ(※魚なし)', mA.adultYakiniku, adultRemain === 0)}
                         
                         <h5>子供のメニュー</h5>
-                        ${this.createCounter('simA.menus.childKids', 'お魚1匹釣れる！<br>おこさまランチセット', mA.childKids, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childLight', 'お魚1匹釣れる！<br>無農薬じゃがいものフライドポテト(ミニ)', mA.childLight, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childSashimi', 'お魚1匹釣れる！<br>にじますの刺身', mA.childSashimi, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childTempura', 'お魚1匹釣れる！<br>天ぷら盛り合わせ', mA.childTempura, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childKids', 'おこさまランチ(魚1匹)', mA.childKids, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childLight', 'ポテト(ミニ)(魚1匹)', mA.childLight, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childSashimi', 'にじます刺身(魚1匹)', mA.childSashimi, childRemain === 0)}
+                        ${this.createCounter('simA.menus.childTempura', '天ぷら盛り合わせ(魚1匹)', mA.childTempura, childRemain === 0)}
 
                         <h5>お魚の調理変更</h5>
-                        
-                        <div style="background:#FDFBF7; border:1px solid #D96D2B; padding:12px; border-radius:4px; margin-bottom:16px; font-size:0.85rem; color:#A0522D; text-align:left;">
-                            <strong>💡 セットのお魚は<br>【 合計 ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹 】です！<br></strong><br>
-                            調理方法の合計が <br><strong>${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹以上</strong><br> になるように選択してください。<br>
-                            <span style="font-size:0.8rem; color:#666;">※セットの匹数を超えた分は、自動的に「追加料金」として計算されます。</span>
+                        <div style="background:#FDFBF7; border:1px solid #D96D2B; padding:12px; border-radius:4px; margin-bottom:16px; font-size:0.85rem; color:#A0522D;">
+                            <strong>💡 セットのお魚は【 合計 ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹 】です！</strong><br>
+                            合計 ${(pA.adult - mA.adultYakiniku) * 2 + pA.child} 匹以上 になるように選択してください。<br>
+                            <small>※超えた分は自動的に「追加料金」として計算されます。</small>
                         </div>
-
                         ${(() => {
-                            const maxFish = (pA.adult - mA.adultYakiniku) * 2 + pA.child;
-                            const currentFish = this.state.simA.fish.shioyaki + this.state.simA.fish.gyoden + this.state.simA.fish.karaage;
-                            const isFishMaxed = currentFish >= maxFish;
-
                             return `
                                 ${this.createCounter('simA.fish.shioyaki', 'しお焼き(セット0円 / 追加400円)', this.state.simA.fish.shioyaki)}
                                 ${this.createCounter('simA.fish.gyoden', 'ぎょでん(セット+50円 / 追加450円)', this.state.simA.fish.gyoden)}
@@ -499,19 +273,13 @@ const ReservationSystem = {
                             `;
                         })()}
                     `;
-// --- ▲ ここまで書き換え ---
                 } else if (this.state.simA.purpose === 'takeout') {
-                    const pA = this.state.simA.people;
-                    const totalPeople = pA.adult + pA.child;
-                    const isRodMaxed = this.state.simA.takeout.rods >= totalPeople; 
-
+                    const pA = this.state.simA.people; const totalPeople = pA.adult + pA.child;
                     html += `
                         <h5 style="margin-top:0;">釣りの道具</h5>
-                        ${this.createCounter('simA.takeout.rods', '竿の本数', this.state.simA.takeout.rods, isRodMaxed)}
-                        
+                        ${this.createCounter('simA.takeout.rods', '竿の本数', this.state.simA.takeout.rods, this.state.simA.takeout.rods >= totalPeople)}
                         <h5>お魚の匹数</h5>
                         ${this.createCounter('simA.takeout.fish', '釣る予定の匹数（目安）', this.state.simA.takeout.fish)}
-                        
                         <h5 style="margin-bottom:16px;">ご希望の調理方法</h5>
                         <div class="sim-panel-grid" style="grid-template-columns: 1fr;">
                             <div class="sim-panel ${this.state.simA.takeout.method === 'raw' ? 'is-active' : ''}" data-group="A_method" data-value="raw">そのまま生で</div>
@@ -534,16 +302,12 @@ const ReservationSystem = {
         if (flow === 'B') {
             if (step === 1) {
                 html += `
-                    <h4>ご来店人数</h4>
+                    <h4>BBQ ご来店人数</h4>
                     ${this.createCounter('simB.people.adult', 'おとな', this.state.simB.people.adult)}
                     ${this.createCounter('simB.people.child', 'こども', this.state.simB.people.child)}
                     ${this.createCounter('simB.people.dog', 'わんちゃん', this.state.simB.people.dog)}
-
-                    <h4 style="margin-top:32px; margin-bottom:8px;">ご希望日</h4>
-                    <p style="font-size:0.85rem; color:#666; margin-top:0; margin-bottom:12px;">※料金シミュレーションをしたい方は記入なしでもOKです</p>
-                    <input type="date" id="sim-date" class="sim-input" value="${this.state.simA.date}" min="${this.getTomorrowDateString()}">
-
                     <div class="sim-btn-group">
+                        <button class="sim-btn-block sim-btn-secondary btn-prev">最初に戻る</button>
                         <button class="sim-btn-block sim-btn-primary btn-next">次へ</button>
                     </div>
                 `;
@@ -566,12 +330,10 @@ const ReservationSystem = {
                     <div class="sim-panel-grid" style="grid-template-columns: 1fr; gap: 12px;">
                         <div class="sim-panel ${this.state.simB.drink === 'none' ? 'is-active' : ''}" data-group="B_drink" data-value="none">なし（単品注文）</div>
                         <div class="sim-panel ${this.state.simB.drink === 'alcohol' ? 'is-active' : ''}" data-group="B_drink" data-value="alcohol" style="flex-direction:column;">
-                            <span>アルコール飲み放題</span>
-                            <small style="font-weight:normal; font-size:0.8rem;">（大人はアルコール、子供はソフトドリンク）</small>
+                            <span>アルコール飲み放題</span><small style="font-weight:normal;">（大人はアルコール、子供はソフト）</small>
                         </div>
                         <div class="sim-panel ${this.state.simB.drink === 'soft' ? 'is-active' : ''}" data-group="B_drink" data-value="soft" style="flex-direction:column;">
-                            <span>ソフトドリンク飲み放題</span>
-                            <small style="font-weight:normal; font-size:0.8rem;">（全員ソフトドリンク）</small>
+                            <span>ソフトドリンク飲み放題</span><small style="font-weight:normal;">（全員ソフトドリンク）</small>
                         </div>
                     </div>
                     <div class="sim-btn-group">
@@ -584,47 +346,10 @@ const ReservationSystem = {
             }
         }
 
-        if (flow === 'C') {
-            if (step === 1) {
-                html += `
-                    <h4>ご来店人数</h4>
-                    ${this.createCounter('simC.people.adult', '大人(中学生以上)', this.state.simC.people.adult)}
-                    ${this.createCounter('simC.people.child', '子供(小学生)', this.state.simC.people.child)}
-                    
-                    <div class="sim-btn-group">
-                        <button class="sim-btn-block sim-btn-primary btn-next">次へ</button>
-                    </div>
-                `;
-            } else if (step === 2) {
-                html += `
-                    <h4>ご予約者情報の入力</h4>
-                    
-                    <label style="font-size:0.85rem; font-weight:bold; color:var(--color-main);">ご来店日</label>
-                    <input type="date" id="sim-date" class="sim-input" value="${this.state.simC.date}" min="${this.getTomorrowDateString()}" style="margin-bottom:20px;">
-
-                    <label style="font-size:0.85rem; font-weight:bold; color:var(--color-main);">代表者名</label>
-                    <input type="text" id="user-name" class="sim-input" value="${this.state.userInfo.name}" placeholder="山田 太郎" style="margin-bottom:20px;">
-                    
-                    <label style="font-size:0.85rem; font-weight:bold; color:var(--color-main);">電話番号</label>
-                    <input type="tel" id="user-phone" class="sim-input" value="${this.state.userInfo.phone}" placeholder="09012345678" style="margin-bottom:32px;">
-
-                    <label style="display:flex; align-items:center; justify-content:center; gap:10px; cursor:pointer; font-size:0.95rem; font-weight:bold; margin-bottom:16px;">
-                        <input type="checkbox" id="policy-check" style="transform:scale(1.3);" ${this.state.userInfo.policy ? 'checked' : ''}>
-                        <span>キャンセルポリシーに同意する</span>
-                    </label>
-
-                    <div class="sim-btn-group" style="margin-top:16px;">
-                        <button class="sim-btn-block sim-btn-secondary btn-prev" style="border:none;">戻る</button>
-                        <button id="btn-submit-line" class="sim-btn-block" style="background:#06C755; color:#fff; box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);">LINEで予約する</button>
-                    </div>
-                `;
-            }
-        }
-
         const animationClass = this.state._prevStep !== step ? 'step-animation' : '';
         this.state._prevStep = step;
 
-        container.innerHTML = `<div class="${animationClass}">${html}</div>`;
+        container.innerHTML = `<div class="simulation-app-container ${animationClass}">${html}</div>`;
     },
 
     createCounter(targetPath, label, val, isMaxed = false) {
@@ -633,7 +358,7 @@ const ReservationSystem = {
                 <span class="sim-counter-label">${label}</span>
                 <div class="sim-counter-controls">
                     <button class="sim-btn-circle" data-action="minus" data-target="${targetPath}">－</button>
-                    <span class="sim-counter-val" id="count-${targetPath.replace(/\./g, '-')}">${val}</span>
+                    <span class="sim-counter-val">${val}</span>
                     <button class="sim-btn-circle ${isMaxed ? 'is-disabled' : ''}" data-action="plus" data-target="${targetPath}">＋</button>
                 </div>
             </div>
@@ -646,56 +371,38 @@ const ReservationSystem = {
 
         if (flow === 'A') {
             if (this.state.simA.purpose === 'eat_in') {
-                const m = this.state.simA.menus;
-                const f = this.state.simA.fish;
-                const p = this.prices.A;
+                const m = this.state.simA.menus; const f = this.state.simA.fish; const p = this.prices.A;
                 
-                // ▼ 大人メニューの計算
                 if (m.adultLunch > 0) { total += m.adultLunch * p.adultLunch; receiptHtml += `<div class="sim-receipt-row"><span>大人 ランチセット x${m.adultLunch}</span><span>¥${(m.adultLunch * p.adultLunch).toLocaleString()}</span></div>`; }
                 if (m.adultSashimi > 0) { total += m.adultSashimi * p.adultSashimi; receiptHtml += `<div class="sim-receipt-row"><span>大人 刺身セット x${m.adultSashimi}</span><span>¥${(m.adultSashimi * p.adultSashimi).toLocaleString()}</span></div>`; }
                 if (m.adultTempura > 0) { total += m.adultTempura * p.adultTempura; receiptHtml += `<div class="sim-receipt-row"><span>大人 天ぷらセット x${m.adultTempura}</span><span>¥${(m.adultTempura * p.adultTempura).toLocaleString()}</span></div>`; }
                 if (m.adultPotato > 0) { total += m.adultPotato * p.adultPotato; receiptHtml += `<div class="sim-receipt-row"><span>大人 ポテトセット x${m.adultPotato}</span><span>¥${(m.adultPotato * p.adultPotato).toLocaleString()}</span></div>`; }
                 if (m.adultYakiniku > 0) { total += m.adultYakiniku * p.adultYakiniku; receiptHtml += `<div class="sim-receipt-row"><span>飛騨牛焼肉ランチ x${m.adultYakiniku}</span><span>¥${(m.adultYakiniku * p.adultYakiniku).toLocaleString()}</span></div>`; }
                 
-                // ▼ 子供メニューの計算
                 if (m.childKids > 0) { total += m.childKids * p.childKids; receiptHtml += `<div class="sim-receipt-row"><span>おこさまランチ x${m.childKids}</span><span>¥${(m.childKids * p.childKids).toLocaleString()}</span></div>`; }
                 if (m.childLight > 0) { total += m.childLight * p.childLight; receiptHtml += `<div class="sim-receipt-row"><span>こども ポテトorドリンク x${m.childLight}</span><span>¥${(m.childLight * p.childLight).toLocaleString()}</span></div>`; }
                 if (m.childSashimi > 0) { total += m.childSashimi * p.childSashimi; receiptHtml += `<div class="sim-receipt-row"><span>こども 刺身 x${m.childSashimi}</span><span>¥${(m.childSashimi * p.childSashimi).toLocaleString()}</span></div>`; }
-                if (m.childTempura > 0) { total += m.childTempura * p.childTempura; receiptHtml += `<div class="sim-receipt-row"><span>こども 天ぷら盛り合わせ x${m.childTempura}</span><span>¥${(m.childTempura * p.childTempura).toLocaleString()}</span></div>`; }
+                if (m.childTempura > 0) { total += m.childTempura * p.childTempura; receiptHtml += `<div class="sim-receipt-row"><span>こども 天ぷら x${m.childTempura}</span><span>¥${(m.childTempura * p.childTempura).toLocaleString()}</span></div>`; }
                 
-                // ▼ 魚の計算
                 const baseFishLimit = (this.state.simA.people.adult - m.adultYakiniku) * 2 + this.state.simA.people.child;
-                let remainBase = baseFishLimit; // セット枠の残り
+                let remainBase = baseFishLimit; 
 
-                // 順番にセット枠（無料・差額のみ）に魚を当てはめていく
-                const baseShioyaki = Math.min(remainBase, f.shioyaki);
-                const exShioyaki = f.shioyaki - baseShioyaki;
-                remainBase -= baseShioyaki;
+                const baseShioyaki = Math.min(remainBase, f.shioyaki); const exShioyaki = f.shioyaki - baseShioyaki; remainBase -= baseShioyaki;
+                const baseGyoden = Math.min(remainBase, f.gyoden); const exGyoden = f.gyoden - baseGyoden; remainBase -= baseGyoden;
+                const baseKaraage = Math.min(remainBase, f.karaage); const exKaraage = f.karaage - baseKaraage; remainBase -= baseKaraage;
 
-                const baseGyoden = Math.min(remainBase, f.gyoden);
-                const exGyoden = f.gyoden - baseGyoden;
-                remainBase -= baseGyoden;
-
-                const baseKaraage = Math.min(remainBase, f.karaage);
-                const exKaraage = f.karaage - baseKaraage;
-                remainBase -= baseKaraage;
-
-                // ▼ 基本セット分の明細出力
                 if (baseShioyaki > 0) { total += baseShioyaki * p.shioyaki; receiptHtml += `<div class="sim-receipt-row"><span>お魚(しお焼き) x${baseShioyaki}</span><span>¥${(baseShioyaki * p.shioyaki).toLocaleString()}</span></div>`; }
                 if (baseGyoden > 0) { total += baseGyoden * p.gyoden; receiptHtml += `<div class="sim-receipt-row"><span>お魚(ぎょでん変更) x${baseGyoden}</span><span>¥${(baseGyoden * p.gyoden).toLocaleString()}</span></div>`; }
                 if (baseKaraage > 0) { total += baseKaraage * p.karaage; receiptHtml += `<div class="sim-receipt-row"><span>お魚(からあげ変更) x${baseKaraage}</span><span>¥${(baseKaraage * p.karaage).toLocaleString()}</span></div>`; }
 
-                // ▼ 追加分の明細出力（パッと見でわかるようにオレンジ色で表示）
-                if (exShioyaki > 0) { total += exShioyaki * p.extraShioyaki; receiptHtml += `<div class="sim-receipt-row"><span style="color:var(--color-accent);">追加お魚(しお焼き) x${exShioyaki}</span><span>¥${(exShioyaki * p.extraShioyaki).toLocaleString()}</span></div>`; }
-                if (exGyoden > 0) { total += exGyoden * p.extraGyoden; receiptHtml += `<div class="sim-receipt-row"><span style="color:var(--color-accent);">追加お魚(ぎょでん) x${exGyoden}</span><span>¥${(exGyoden * p.extraGyoden).toLocaleString()}</span></div>`; }
-                if (exKaraage > 0) { total += exKaraage * p.extraKaraage; receiptHtml += `<div class="sim-receipt-row"><span style="color:var(--color-accent);">追加お魚(からあげ) x${exKaraage}</span><span>¥${(exKaraage * p.extraKaraage).toLocaleString()}</span></div>`; }
+                if (exShioyaki > 0) { total += exShioyaki * p.extraShioyaki; receiptHtml += `<div class="sim-receipt-row"><span style="color:#D96D2B;">追加お魚(しお焼き) x${exShioyaki}</span><span>¥${(exShioyaki * p.extraShioyaki).toLocaleString()}</span></div>`; }
+                if (exGyoden > 0) { total += exGyoden * p.extraGyoden; receiptHtml += `<div class="sim-receipt-row"><span style="color:#D96D2B;">追加お魚(ぎょでん) x${exGyoden}</span><span>¥${(exGyoden * p.extraGyoden).toLocaleString()}</span></div>`; }
+                if (exKaraage > 0) { total += exKaraage * p.extraKaraage; receiptHtml += `<div class="sim-receipt-row"><span style="color:#D96D2B;">追加お魚(からあげ) x${exKaraage}</span><span>¥${(exKaraage * p.extraKaraage).toLocaleString()}</span></div>`; }
             }
             else if (this.state.simA.purpose === 'takeout') {
-                const t = this.state.simA.takeout;
-                const p = this.prices.A;
+                const t = this.state.simA.takeout; const p = this.prices.A;
                 if (t.rods > 0) {
-                    const rodCost = t.rods * p.takeoutRods;
-                    total += rodCost;
+                    const rodCost = t.rods * p.takeoutRods; total += rodCost;
                     receiptHtml += `<div class="sim-receipt-row"><span>釣竿 x${t.rods}</span><span>¥${rodCost.toLocaleString()}</span></div>`;
                 }
                 if (t.fish > 0) {
@@ -704,134 +411,54 @@ const ReservationSystem = {
                     if (t.method === 'gut') { methodPrice = p.methodGut; methodLabel = 'お腹出し'; }
                     if (t.method === 'grill') { methodPrice = p.methodGrill; methodLabel = '焼き'; }
                     
-                    const fishCost = t.fish * (methodPrice * 0.8);
-                    total += fishCost;
+                    const fishCost = t.fish * (methodPrice * 0.8); total += fishCost;
                     receiptHtml += `<div class="sim-receipt-row"><span>お魚（${methodLabel}） x約${t.fish}匹</span><span>約 ¥${fishCost.toLocaleString()}</span></div>`;
-                    receiptHtml += `<p style="font-size:0.75rem; color:#666; margin-top:4px;">※お魚は1匹約80gとして計算しています（通常70〜100g）。実際の重さにより金額は前後します。</p>`;
                 }
             }
         } 
         else if (flow === 'B') {
-            const pB = this.state.simB.people;
-            const pbPrices = this.prices.B;
-            const basePrice = parseInt(this.state.simB.plan, 10);
-            
-            const adultMeal = pB.adult * basePrice;
-            const childMeal = pB.child * (basePrice / 2); 
+            const pB = this.state.simB.people; const pbPrices = this.prices.B; const basePrice = parseInt(this.state.simB.plan, 10);
+            const adultMeal = pB.adult * basePrice; const childMeal = pB.child * (basePrice / 2); 
             total += adultMeal + childMeal;
             receiptHtml += `<div class="sim-receipt-row"><span>BBQプラン(大人) x${pB.adult}</span><span>¥${adultMeal.toLocaleString()}</span></div>`;
             receiptHtml += `<div class="sim-receipt-row"><span>BBQプラン(子供) x${pB.child}</span><span>¥${childMeal.toLocaleString()}</span></div>`;
             
             if (this.state.simB.drink === 'alcohol') {
-                const alcTotal = (pB.adult * pbPrices.drinkAlcohol) + (pB.child * pbPrices.drinkSoftChild);
-                total += alcTotal;
+                const alcTotal = (pB.adult * pbPrices.drinkAlcohol) + (pB.child * pbPrices.drinkSoftChild); total += alcTotal;
                 receiptHtml += `<div class="sim-receipt-row"><span>アルコール放題(大人) x${pB.adult}</span><span>¥${(pB.adult * pbPrices.drinkAlcohol).toLocaleString()}</span></div>`;
                 receiptHtml += `<div class="sim-receipt-row"><span>ソフトドリンク(子供) x${pB.child}</span><span>¥${(pB.child * pbPrices.drinkSoftChild).toLocaleString()}</span></div>`;
             } else if (this.state.simB.drink === 'soft') {
-                const softTotal = (pB.adult * pbPrices.drinkSoftAdult) + (pB.child * pbPrices.drinkSoftChild);
-                total += softTotal;
+                const softTotal = (pB.adult * pbPrices.drinkSoftAdult) + (pB.child * pbPrices.drinkSoftChild); total += softTotal;
                 receiptHtml += `<div class="sim-receipt-row"><span>ソフトドリンク(大人) x${pB.adult}</span><span>¥${(pB.adult * pbPrices.drinkSoftAdult).toLocaleString()}</span></div>`;
                 receiptHtml += `<div class="sim-receipt-row"><span>ソフトドリンク(子供) x${pB.child}</span><span>¥${(pB.child * pbPrices.drinkSoftChild).toLocaleString()}</span></div>`;
             }
         }
         
-        receiptHtml += `
-            <div style="padding:16px 0; text-align:center; border-bottom: 1px dashed #D8D2C4;">
-                <p style="color:#555; font-size:0.9rem; margin-bottom:4px;">
-                    もちろん、他にも美味しいドリンクやお料理を<br>たくさん用意してる。<br>お店で会えるの楽しみにしてるね！
-                </p>
-            </div>
-        `;
-
-        // ▼ 人数の合計を計算する（大人＋子供 ※BBQのわんちゃんは人間ではないので割る数から除外）
-        let totalPeople = 0;
-        if (flow === 'A') {
-            totalPeople = this.state.simA.people.adult + this.state.simA.people.child;
-        } else if (flow === 'B') {
-            totalPeople = this.state.simB.people.adult + this.state.simB.people.child;
-        }
-
-        // ▼ 一人あたりの金額を計算（四捨五入）
+        let totalPeople = (flow === 'A') ? (this.state.simA.people.adult + this.state.simA.people.child) : (this.state.simB.people.adult + this.state.simB.people.child);
         const perPerson = totalPeople > 0 ? Math.round(total / totalPeople) : 0;
 
-        // ▼ 合計を小さく、一人あたりを大きく目立たせるデザイン
         receiptHtml += `
             <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid #D8D2C4; font-size: 0.95rem; color: #666;">
-                <span>合計目安</span>
-                <span>¥${total.toLocaleString()}</span>
+                <span>合計目安</span><span>¥${total.toLocaleString()}</span>
             </div>
-            <div class="sim-receipt-total" style="margin-top: 8px; padding-top: 0; border-top: none; font-weight: bold;">
-                <span style="font-size: 1.05rem;">お一人様あたり</span>
-                <span style="font-size: 1.6rem;">約 ¥${perPerson.toLocaleString()}</span>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px; font-weight: bold; color:var(--color-main);">
+                <span style="font-size: 1.05rem;">お一人様あたり</span><span style="font-size: 1.6rem;">約 ¥${perPerson.toLocaleString()}</span>
             </div>
         </div>`;
 
-        const currentDate = flow === 'A' ? this.state.simA.date : this.state.simB.date;
-        const dateAlertHtml = !currentDate ? `<div style="color:#A0522D; font-size:0.85rem; margin-bottom:12px;">※ご予約日を選択してください</div>` : '';
-
-        const formHtml = `
-            <h4 style="margin-bottom:24px; color:var(--color-main);">ご予約情報の入力</h4>
-            
-            ${dateAlertHtml}
-            <label style="font-size:0.9rem; color:#444;">ご予約日 <span style="color:#A0522D;">*</span></label>
-            <input type="date" id="sim-date" class="sim-input" value="${currentDate}" min="${this.getTomorrowDateString()}" style="margin-bottom:24px;">
-
-            <label style="font-size:0.9rem; color:#444;">代表者名 <span style="color:#A0522D;">*</span></label>
-            <input type="text" id="user-name" class="sim-input" value="${this.state.userInfo.name}" placeholder="七宗 太郎" style="margin-bottom:24px;">
-            
-            <label style="font-size:0.9rem; color:#444;">電話番号 <span style="color:#A0522D;">*</span></label>
-            <input type="tel" id="user-phone" class="sim-input" value="${this.state.userInfo.phone}" placeholder="09012345678" style="margin-bottom:32px;">
-
-            <div style="background:#F9F9F9; padding:20px; border-radius:4px; margin-bottom:32px; border:1px solid #E8E4D9;">
-                <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer; font-size:0.9rem; line-height:1.6; color:#444;">
-                    <input type="checkbox" id="policy-check" style="margin-top:4px; transform:scale(1.2);" ${this.state.userInfo.policy ? 'checked' : ''}>
-                    <span>キャンセルポリシーに同意する<br><small style="color:#777;">※前日までのキャンセル・変更を受け付けます。</small></span>
-                </label>
-            </div>
-            
-            <p style="text-align:center; color:#A0522D; font-size:0.85rem; margin-bottom:16px;">当日のご予約はお電話でお問い合わせください。</p>
-            
-            <div class="sim-btn-group">
-                <button class="sim-btn-block sim-btn-secondary btn-prev">戻る</button>
-                <button id="btn-submit-line" class="sim-btn-block sim-btn-primary">LINEで予約を送信する</button>
+        // ▼ モーダルを開くためのボタン（個人情報の入力フォームはここから消しました）
+        const actionHtml = `
+            <div class="sim-btn-group" style="flex-direction: column; gap: 12px;">
+                <button id="open-reservation-btn" class="sim-btn-block sim-btn-primary" style="background:var(--color-accent); font-size:1.1rem;">📝 このプランでWEB予約に進む</button>
+                <button class="sim-btn-block sim-btn-secondary btn-reset">シミュレーションをやり直す</button>
             </div>
         `;
 
-        return receiptHtml + formHtml;
-    },
-
-    sendToLine() {
-        this.hideError();
-        const u = this.state.userInfo;
-        const flow = this.state.flow;
-        const currentDate = flow === 'A' ? this.state.simA.date : (flow === 'B' ? this.state.simB.date : this.state.simC.date);
-        
-        if (!currentDate) { this.showError('ご予約日を選択してください。'); return; }
-        if (currentDate < this.getTomorrowDateString()) { this.showError('当日のご予約は承っておりません。お電話でお問い合わせください。'); return; }
-        if (!u.name.trim() || !u.phone.trim()) { this.showError('お名前と電話番号を入力してください。'); return; }
-        
-        const phoneRegex = /^[0-9]{10,11}$/;
-        if (!phoneRegex.test(u.phone.trim())) { this.showError('電話番号はハイフンなしの半角数字（10桁または11桁）で入力してください。例：09012345678'); return; }
-        
-        if (!u.policy) { this.showError('キャンセルポリシーへの同意チェックが必要です。'); return; }
-
-        let planStr = flow === 'A' ? `釣り堀・レストラン（${this.state.simA.purpose === 'takeout' ? '持ち帰り' : '店内飲食'}）` : (flow === 'B' ? `バーベキュー（${this.state.simB.plan}円プラン）` : `レストラン（お食事のみ）`);
-        
-        let details = [];
-        if (flow === 'A') {
-            const p = this.state.simA.people;
-            details.push(`大人${p.adult}名/子供${p.child}名`);
-        } else if (flow === 'B') {
-            const p = this.state.simB.people;
-            details.push(`大人${p.adult}名/子供${p.child}名/犬${p.dog}頭`);
-        } else if (flow === 'C') {
-            const p = this.state.simC.people;
-            details.push(`大人${p.adult}名/子供${p.child}名`);
-        }
-
-        const textMessage = `【七宗遊園 予約・お問い合わせ】\n以下の内容で予約を依頼します。\n■ ご利用施設：${planStr}\n■ ご予約日：${currentDate}\n■ 人数・内訳：${details.join('、')}\n■ 代表者名：${u.name} 様\n■ お電話番号：${u.phone}`;
-        const encodedText = encodeURIComponent(textMessage);
-        const lineUrl = `https://line.me/R/oaMessage/@543grrmg/?${encodedText}`;
-        window.open(lineUrl, '_blank');
+        return receiptHtml + actionHtml;
     }
 };
+
+// ページの読み込みが終わったらシミュレーションを起動
+document.addEventListener('DOMContentLoaded', () => {
+    ReservationSystem.init();
+});

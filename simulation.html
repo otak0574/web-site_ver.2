@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>料金シミュレーション | 七宗遊園</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main id="main-content">
+        <section class="page-hero" style="min-height: 300px; height: 40vh;">
+            <img src="images/fishing1.jpg" alt="シミュレーション" loading="lazy" class="hero-image">
+            <div class="hero-text step-animation" style="z-index: 3; text-align: center; color: #ffffff; padding: 0 20px;">
+                <h2 class="font-mincho" style="font-size: 2rem; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); font-weight: bold; color: #ffffff;">
+                    料金シミュレーション
+                </h2>
+                <p class="font-body" style="font-size: 0.95rem; margin-top: 16px;">事前にメニューを選んで、金額の目安を確認できます。</p>
+            </div>
+        </section>
+
+        <section style="max-width: 700px; margin: 40px auto; padding: 0 20px;">
+            <div id="simulation-app"></div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+    <script src="main.js" defer></script>
+    <script src="simulation.js" defer></script>
+</body>
+</html>
