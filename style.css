@@ -1095,7 +1095,7 @@ section.page-hero::after {
   content: "";
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(26, 110, 138, 0.25); /* 透明感のある水色 */
+  background-color: rgba(26, 110, 138, 0.4); /* 透明感のある水色 */
   z-index: 2 !important; 
 }
 
@@ -1105,7 +1105,7 @@ section.dogrun-hero::after {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
   /* 七宗遊園のアクセントカラーに近い、暖かみのある赤茶色 */
-  background-color: rgba(217, 109, 43, 0.5); 
+  background-color: rgba(217, 109, 43, 0.3); 
   z-index: 2 !important; 
 }
 
