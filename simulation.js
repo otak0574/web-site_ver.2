@@ -40,8 +40,7 @@ const ReservationSystem = {
             .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #E8E4D9; }
             .sim-counter-label { font-size: 0.95rem; color: #444; }
             .sim-counter-controls { display: flex; align-items: center; gap: 16px; }
-            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-            .sim-btn-circle:active { background: #f0f0f0; }
+            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; touch-action: manipulation; -webkit-user-select: none; user-select: none;}            .sim-btn-circle:active { background: #f0f0f0; }
             .sim-counter-val { font-size: 1.2rem; width: 30px; text-align: center; font-weight: bold;}
             .sim-error-msg { color: #A0522D; padding: 0 0 20px 0; font-size: 0.9rem; display: none; font-weight: bold; text-align: center;}
             .sim-btn-block { width: 100%; padding: 16px; border-radius: 50px; font-size: 1.05rem; cursor: pointer; border: none; transition: 0.3s; text-align: center; font-weight: bold; letter-spacing: 0.05em;}
