@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initStickyButtonToggle(); 
     initDogrunMosaic();
     initCarousel();
+    initWeatherWidget();
+    initBusinessStatus();
   });
   
   function renderGlobalComponents() {
@@ -401,4 +403,209 @@ function initCarousel() {
             resetInterval();
         }
     }, {passive: true});
+}
+
+// ▼ 七宗遊園の天気予報（現在・24時間・1週間）とメッセージを自動取得
+async function initWeatherWidget() {
+    const weatherContainer = document.getElementById('weather-container');
+    if (!weatherContainer) return; 
+
+    const lat = 35.54;
+    const lon = 137.12;
+    
+    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=temperature_2m,weathercode&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo`;
+
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error('天気の取得に失敗');
+        const data = await response.json();
+        
+        // --- 1. 天気コードを絵文字とテキストに変換する辞書 ---
+        const getIcon = (code) => {
+            const map = {
+                0: { t: "快晴", i: "☀️" }, 1: { t: "晴れ", i: "🌤️" }, 2: { t: "一部曇り", i: "⛅" },
+                3: { t: "曇り", i: "☁️" }, 45: { t: "霧", i: "🌫️" }, 48: { t: "霧氷", i: "🌫️" },
+                51: { t: "小雨", i: "🌧️" }, 53: { t: "雨", i: "🌧️" }, 55: { t: "大雨", i: "🌧️" },
+                61: { t: "小雨", i: "☔" }, 63: { t: "雨", i: "☔" }, 65: { t: "大雨", i: "☔" },
+                71: { t: "小雪", i: "⛄" }, 73: { t: "雪", i: "⛄" }, 75: { t: "大雪", i: "⛄" },
+                95: { t: "雷雨", i: "⚡" }
+            };
+            return map[code] || { t: "晴時々曇", i: "⛅" };
+        };
+
+        // --- 2. お天気に合わせたオリジナルメッセージの判定 ---
+        const getMessage = (code) => {
+            // 晴れ・快晴 (0, 1)
+            if ([0, 1].includes(code)) return "絶好の釣り日和！🐟✨";
+            // 曇り・霧 (2, 3, 45, 48)
+            if ([2, 3, 45, 48].includes(code)) return "暑すぎず過ごしやすいお天気！☁️";
+            // 普通の雨・小雨 (51, 53, 61, 63)
+            if ([51, 53, 61, 63].includes(code)) return "温かいお料理でホッと一息つきませんか？🍲";
+            // 豪雨・雷雨 (55, 65, 95)
+            if ([55, 65, 95].includes(code)) return "この天気でお越しいただけるなんてスゴイです…！くれぐれも運転お気をつけて！🚗💦";
+            // 雪 (71, 73, 75)
+            if ([71, 73, 75].includes(code)) return "キンと冷えた山の空気が心地よい❄️";
+            
+            return "大自然の中で思いっきりリフレッシュ！🌲"; // 該当しない場合の予備
+        };
+
+        // --- 3. 現在の天気を作成 ---
+        const current = data.current_weather;
+        const currInfo = getIcon(current.weathercode);
+        const weatherMessage = getMessage(current.weathercode); // ★ここでメッセージを取得
+        const todayMax = Math.round(data.daily.temperature_2m_max[0]);
+        const todayMin = Math.round(data.daily.temperature_2m_min[0]);
+        
+        let html = `
+            <div class="weather-current step-animation" style="flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+                    <div class="w-icon">${currInfo.i}</div>
+                    <div>
+                        <div class="w-desc">${currInfo.t} <span style="font-size:0.9rem; font-weight:normal; color:#666;">(${Math.round(current.temperature)}°C)</span></div>
+                        <div class="w-temps"><span class="t-max">最高 ${todayMax}°C</span> <span class="t-min">最低 ${todayMin}°C</span></div>
+                    </div>
+                </div>
+                <div style="background-color: #FFF9F0; color: var(--color-accent); font-weight: bold; padding: 12px 16px; border-radius: 8px; font-size: 0.95rem; width: 100%;">
+                    ${weatherMessage}
+                </div>
+            </div>
+        `;
+
+        // --- 4. 1時間ごとの天気（これから24時間分）を作成 ---
+        const now = new Date();
+        const currentHourStr = now.toISOString().slice(0,14) + "00"; 
+        let startIndex = data.hourly.time.findIndex(t => t >= currentHourStr);
+        if (startIndex === -1) startIndex = 0;
+
+        html += `<div class="weather-hourly-wrap step-animation" style="animation-delay: 0.1s;">
+                    <div class="weather-sub-title">🕒 1時間ごとの予報 (24時間)</div>
+                    <div class="weather-hourly-scroll">`;
+        
+        for (let i = startIndex; i < startIndex + 24; i++) {
+            if(!data.hourly.time[i]) break;
+            const timeStr = data.hourly.time[i].substring(11, 16);
+            const temp = Math.round(data.hourly.temperature_2m[i]);
+            const icon = getIcon(data.hourly.weathercode[i]).i;
+            html += `
+                <div class="hourly-item">
+                    <span class="hourly-time">${timeStr}</span>
+                    <span class="hourly-icon">${icon}</span>
+                    <span class="hourly-temp">${temp}°C</span>
+                </div>`;
+        }
+        html += `</div></div>`;
+
+        // --- 5. 1週間の天気を作成 ---
+        const days = ["日", "月", "火", "水", "木", "金", "土"];
+        html += `<div class="weather-hourly-wrap step-animation" style="animation-delay: 0.2s; margin-bottom: 0;">
+                    <div class="weather-sub-title">📅 週間予報</div>
+                    <div class="weather-daily-list">`;
+        
+        for (let i = 0; i < 7; i++) {
+            const dateObj = new Date(data.daily.time[i]);
+            const dateStr = `${dateObj.getMonth() + 1}/${dateObj.getDate()}(${days[dateObj.getDay()]})`;
+            const displayDate = (i === 0) ? "今日" : (i === 1) ? "明日" : dateStr;
+            
+            const max = Math.round(data.daily.temperature_2m_max[i]);
+            const min = Math.round(data.daily.temperature_2m_min[i]);
+            const icon = getIcon(data.daily.weathercode[i]).i;
+            
+            html += `
+                <div class="daily-item">
+                    <div class="daily-date">${displayDate}</div>
+                    <div class="daily-icon">${icon}</div>
+                    <div class="daily-temps">
+                        <span class="t-max">${max}°</span> / <span class="t-min">${min}°</span>
+                    </div>
+                </div>`;
+        }
+        html += `</div></div>`;
+
+        weatherContainer.classList.remove('weather-loading');
+        weatherContainer.innerHTML = html;
+
+    } catch (error) {
+        console.error("Weather Fetch Error:", error);
+        weatherContainer.classList.remove('weather-loading');
+        weatherContainer.innerHTML = `<p class="weather-error">現在、お天気データを取得できません。<br>外の空気を吸って確かめてみましょう！🌲</p>`;
+    }
+}
+
+// ========================================
+  // ⚙️ 管理者用：営業スケジュール設定パネル ⚙️
+  // ========================================
+  const BusinessSettings = {
+    openHour: 10,
+    closeHour: 17,
+
+    // 1. 隔週火曜日の判定用：基準となる「休みだった火曜日」を1つ指定
+    // ここで指定した日から「2週間ごと」が自動的に休みになります
+    baseOffTuesday: "2024-04-09", 
+
+    // 2. 特別営業日：祝日・GW・お盆など「火曜だけど営業する日」
+    // ここに日付を入れると、隔週の休みよりも優先して「営業中」になります
+    forceOpenDates: [
+        "2024-04-29", "2024-04-30", "2024-05-03", "2024-05-04", "2024-05-05", "2024-05-06", // GW
+        "2024-07-15", "2024-08-12", "2024-08-13", "2024-08-14", "2024-08-15", // お盆・祝日
+        "2024-09-16", "2024-09-23", "2024-10-14", "2024-11-04" 
+    ],
+
+    // 3. 臨時休業日（どうしても休む日があれば追加）
+    specialHolidays: [],
+
+    // 4. 緊急停止ボタン（trueにすると即座に「臨時休業」表示になります）
+    emergencyClose: false 
+};
+// ========================================
+
+function initBusinessStatus() {
+    const container = document.getElementById('business-status-container');
+    if (!container) return;
+
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentDay = now.getDay(); // 0:日, 2:火
+    
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+    // --- 判定ロジック ---
+    let isOpen = true;
+    let statusMessage = "ただいま営業中！";
+
+    // 1. 隔週火曜日の判定
+    const baseDate = new Date(BusinessSettings.baseOffTuesday);
+    const diffTime = now.getTime() - baseDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const isOffTuesday = (currentDay === 2 && Math.floor(diffDays / 7) % 2 === 0);
+
+    // 2. 営業・休止の優先順位判定
+    if (BusinessSettings.emergencyClose) {
+        isOpen = false;
+        statusMessage = "本日は臨時休業です";
+    } else if (BusinessSettings.specialHolidays.includes(todayStr)) {
+        isOpen = false;
+        statusMessage = "本日は休業日です";
+    } else if (BusinessSettings.forceOpenDates.includes(todayStr)) {
+        // ★祝日などで「火曜だけど営業」のリストにある場合
+        isOpen = (currentHour >= BusinessSettings.openHour && currentHour < BusinessSettings.closeHour);
+        statusMessage = isOpen ? "祝日も元気に営業中！" : "本日の営業は終了しました";
+    } else if (isOffTuesday) {
+        // 定休日の判定
+        isOpen = false;
+        statusMessage = "本日は定休日です";
+    } else if (currentHour < BusinessSettings.openHour) {
+        isOpen = false;
+        statusMessage = `本日は${BusinessSettings.openHour}時から営業！`;
+    } else if (currentHour >= BusinessSettings.closeHour) {
+        isOpen = false;
+        statusMessage = "本日の営業は終了しました";
+    }
+
+    // バッジ表示
+    container.innerHTML = `
+        <div class="status-badge ${isOpen ? 'status-open' : 'status-closed'}">
+            <div class="status-dot"></div>
+            <span>${statusMessage}</span>
+        </div>
+    `;
 }
