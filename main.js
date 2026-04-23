@@ -95,12 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
                               <option value="手ぶらBBQ">手ぶらBBQ（1日3組限定）</option>
                           </select>
 
-                          <div style="display:flex; gap:16px; margin-bottom:16px;">
-                              <div style="flex:1;">
+                          <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
+                              <div style="flex:1 1 45%; min-width:140px;">
                                   <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望日 <span style="color:#D96D2B;">*</span></label>
                                   <input type="date" id="res-date" min="${minDate}" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
                               </div>
-                              <div style="flex:1;">
+                              <div style="flex:1 1 45%; min-width:140px;">
                                   <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望時間 <span style="color:#D96D2B;">*</span></label>
                                   <select id="res-time" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
                                       <option value="" disabled selected>時間を選択</option>
@@ -118,12 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
                               </div>
                           </div>
 
-                          <div style="display:flex; gap:16px; margin-bottom:16px;">
-                              <div style="flex:1;">
+                          <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
+                              <div style="flex:1 1 45%; min-width:140px;">
                                   <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">大人</label>
                                   <input type="number" id="res-adult" min="1" value="2" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
                               </div>
-                              <div style="flex:1;">
+                              <div style="flex:1 1 45%; min-width:140px;">
                                   <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">子供</label>
                                   <input type="number" id="res-child" min="0" value="0" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
                               </div>
@@ -136,22 +136,23 @@ document.addEventListener('DOMContentLoaded', () => {
                           <input type="tel" id="res-phone" placeholder="09012345678" style="width:100%; padding:12px; margin-bottom:24px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
 
                           <div style="background:#FDFBF7; padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid #D8D2C4;">
-                          <details style="margin-bottom:16px; font-size:0.85rem;">
-                              <summary style="cursor:pointer; color:var(--color-main); font-weight:bold; outline:none; display: flex; align-items: center; gap: 8px;">
-                                  <span style="font-size:1.2rem; color:var(--color-accent);">▼</span> キャンセルポリシー（タップして確認）
-                              </summary>
-                              <div style="padding-top:12px; color:#555; line-height:1.6; border-top:1px dashed #ccc; margin-top:12px;">
-                                  ・ご予約の変更・キャンセルは<strong>前日の15:00まで</strong>にお願いいたします。<br>
-                                  ・当日のキャンセルや無断キャンセルの場合、規定のキャンセル料（100%）が発生する場合がございます。<br>
-                                  ・悪天候等で施設が休業となる場合は、キャンセル料は発生いたしません。<br>
-                                  <small style="color:#A0522D; display:block; margin-top:8px;">※当日のご予約はお電話にて承ります。</small>
-                              </div>
-                          </details>
-                          <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.95rem; line-height:1.4; cursor:pointer;">
-                              <input type="checkbox" id="res-policy" style="transform:scale(1.3); margin-top:2px;">
-                              <span style="font-weight:bold; color:#333;">キャンセルポリシーを確認し、同意します</span>
-                          </label>
-                      </div>
+                              <details style="margin-bottom:16px; font-size:0.85rem;">
+                                  <summary style="cursor:pointer; color:var(--color-main); font-weight:bold; outline:none; display: flex; align-items: flex-start; gap: 8px;">
+                                      <span style="font-size:1.2rem; color:var(--color-accent); line-height: 1.2; flex-shrink: 0;">▼</span> 
+                                      <span style="line-height: 1.4;">キャンセルポリシー（タップして確認）</span>
+                                  </summary>
+                                  <div style="padding-top:12px; color:#555; line-height:1.6; border-top:1px dashed #ccc; margin-top:12px;">
+                                      ・ご予約の変更・キャンセルは<strong>前日の15:00まで</strong>にお願いいたします。<br>
+                                      ・当日のキャンセルや無断キャンセルの場合、規定のキャンセル料（100%）が発生する場合がございます。<br>
+                                      ・悪天候等で施設が休業となる場合は、キャンセル料は発生いたしません。<br>
+                                      <small style="color:#A0522D; display:block; margin-top:8px;">※当日のご予約はお電話にて承ります。</small>
+                                  </div>
+                              </details>
+                              <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.95rem; line-height:1.4; cursor:pointer;">
+                                  <input type="checkbox" id="res-policy" style="width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; accent-color: var(--color-main);">
+                                  <span style="font-weight:bold; color:#333;">キャンセルポリシーを確認し、同意します</span>
+                              </label>
+                          </div>
 
                           <button id="res-submit-btn" style="width:100%; background:var(--color-accent); color:#fff; border:none; padding:16px; font-size:1.1rem; font-weight:bold; border-radius:50px; cursor:pointer;">LINEで予約を送信する</button>
                           <p id="res-error" style="color:#D96D2B; font-size:0.85rem; text-align:center; margin-top:12px; display:none;"></p>
