@@ -213,6 +213,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', (e) => {
         if (e.target.closest('#open-reservation-btn') || e.target.closest('#header-reserve-btn') || e.target.closest('#bottom-reservation-btn') || e.target.closest('#sticky-reservation-btn')) { 
             e.preventDefault();
+            
+            // ★追加：モーダルを開くたびに「明日」の日付を計算し直して、カレンダーの過去日をブロック
+            const dateInput = document.getElementById('res-date');
+            if (dateInput) {
+                const tmr = new Date();
+                tmr.setDate(tmr.getDate() + 1);
+                const yyyy = tmr.getFullYear();
+                const mm = String(tmr.getMonth() + 1).padStart(2, '0');
+                const dd = String(tmr.getDate()).padStart(2, '0');
+                dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+            }
+
             modal.classList.add('is-open');
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden'; 
@@ -229,8 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', (e) => {
         if (e.target.id === 'res-submit-btn') {
             const plan = document.getElementById('modal-plan') ? document.getElementById('modal-plan').value : document.getElementById('res-plan').value;
-            const date = document.getElementById('res-date').value;
-            const time = document.getElementById('res-time').value; // ★時間を取得
+            const dateInput = document.getElementById('res-date');
+            const date = dateInput.value;
+            const minDate = dateInput.getAttribute('min'); // ★設定された「明日」を取得
+            const time = document.getElementById('res-time').value;
             const adult = document.getElementById('res-adult').value;
             const child = document.getElementById('res-child').value;
             const name = document.getElementById('res-name').value;
@@ -240,12 +254,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             errorLabel.style.display = 'none';
 
-            // ★日付か時間が空っぽの場合はエラーを出す
-            if (!date || !time) { errorLabel.innerText = "ご希望日とご希望時間を選択してください。"; errorLabel.style.display = "block"; return; }
+            // ★修正：未入力、または「明日」より前の日付（当日や過去）が選ばれている場合はエラー
+            if (!date || date < minDate) { 
+                errorLabel.innerText = "明日以降の日付を選択してください。"; 
+                errorLabel.style.display = "block"; 
+                return; 
+            }
+            if (!time) { errorLabel.innerText = "ご希望時間を選択してください。"; errorLabel.style.display = "block"; return; }
             if (!name.trim() || !phone.trim()) { errorLabel.innerText = "お名前と電話番号を入力してください。"; errorLabel.style.display = "block"; return; }
             if (!policy) { errorLabel.innerText = "キャンセルポリシーへの同意が必要です。"; errorLabel.style.display = "block"; return; }
 
-            // ★メッセージに時間を追加
             const textMessage = `【七宗遊園 WEB予約リクエスト】\n■ 希望プラン: ${plan}\n■ 希望日時: ${date} ${time}\n■ 人数: 大人${adult}名 / 子供${child}名\n■ 代表者名: ${name} 様\n■ 電話番号: ${phone}\n------------------------\n※上記の内容で予約をお願いします。`;
             const encodedText = encodeURIComponent(textMessage);
             const lineUrl = `https://line.me/R/oaMessage/@543grrmg/?${encodedText}`;
