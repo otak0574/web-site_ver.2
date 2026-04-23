@@ -89,20 +89,20 @@ document.addEventListener('DOMContentLoaded', () => {
                       
                       <div class="simple-reservation-form">
                           <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望のプラン</label>
-                          <select id="res-plan" style="width:100%; padding:12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                          <select id="res-plan" style="width:100%; padding:12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
                               <option value="釣り堀・お食事">釣り堀・お食事（店内・持ち帰り）</option>
                               <option value="レストラン">レストラン（お食事のみ）</option>
                               <option value="手ぶらBBQ">手ぶらBBQ（1日3組限定）</option>
                           </select>
 
-                          <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
-                              <div style="flex:1 1 45%; min-width:140px;">
+                          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:16px;">
+                              <div>
                                   <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望日 <span style="color:#D96D2B;">*</span></label>
-                                  <input type="date" id="res-date" min="${minDate}" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                                  <input type="date" id="res-date" min="${minDate}" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
                               </div>
-                              <div style="flex:1 1 45%; min-width:140px;">
+                              <div>
                                   <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望時間 <span style="color:#D96D2B;">*</span></label>
-                                  <select id="res-time" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                                  <select id="res-time" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
                                       <option value="" disabled selected>時間を選択</option>
                                       <option value="10:00">10:00</option>
                                       <option value="10:30">10:30</option>
@@ -118,22 +118,22 @@ document.addEventListener('DOMContentLoaded', () => {
                               </div>
                           </div>
 
-                          <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
-                              <div style="flex:1 1 45%; min-width:140px;">
+                          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:16px; margin-bottom:16px;">
+                              <div>
                                   <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">大人</label>
-                                  <input type="number" id="res-adult" min="1" value="2" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                                  <input type="number" id="res-adult" min="1" value="2" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
                               </div>
-                              <div style="flex:1 1 45%; min-width:140px;">
+                              <div>
                                   <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">子供</label>
-                                  <input type="number" id="res-child" min="0" value="0" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                                  <input type="number" id="res-child" min="0" value="0" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
                               </div>
                           </div>
 
                           <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">代表者名 <span style="color:#D96D2B;">*</span></label>
-                          <input type="text" id="res-name" placeholder="山田 太郎" style="width:100%; padding:12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                          <input type="text" id="res-name" placeholder="山田 太郎" style="width:100%; padding:12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
                           
                           <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">電話番号 <span style="color:#D96D2B;">*</span></label>
-                          <input type="tel" id="res-phone" placeholder="09012345678" style="width:100%; padding:12px; margin-bottom:24px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                          <input type="tel" id="res-phone" placeholder="09012345678" style="width:100%; padding:12px; margin-bottom:24px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
 
                           <div style="background:#FDFBF7; padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid #D8D2C4;">
                               <details style="margin-bottom:16px; font-size:0.85rem;">
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                               </label>
                           </div>
 
-                          <button id="res-submit-btn" style="width:100%; background:var(--color-accent); color:#fff; border:none; padding:16px; font-size:1.1rem; font-weight:bold; border-radius:50px; cursor:pointer;">LINEで予約を送信する</button>
+                          <button id="res-submit-btn" style="width:100%; background:var(--color-accent); color:#fff; border:none; padding:16px; font-size:1.1rem; font-weight:bold; border-radius:50px; cursor:pointer; box-sizing: border-box; margin-bottom: 20px;">LINEで予約を送信する</button>
                           <p id="res-error" style="color:#D96D2B; font-size:0.85rem; text-align:center; margin-top:12px; display:none;"></p>
                       </div>
                   </div>
