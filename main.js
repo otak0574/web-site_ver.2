@@ -38,13 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
               
               <nav class="global-nav" id="global-nav">
                   <ul class="nav-list font-mincho">
-                      <li><a href="index.html">トップページ</a></li>
-                      <li><a href="fishing.html">釣り堀案内</a></li>
-                      <li><a href="restaurant.html">レストラン</a></li>
-                      <li><a href="bbq.html">BBQ（プレミアム）</a></li>
-                      <li><a href="dogrun.html">ドッグラン</a></li>
-                      <li><a href="story.html">こだわりとストーリー</a></li>
-                      <li><a href="access.html">アクセス</a></li>
+                      <li><a href="index">トップページ</a></li>
+                      <li><a href="fishing">釣り堀案内</a></li>
+                      <li><a href="restaurant">レストラン</a></li>
+                      <li><a href="bbq">BBQ（プレミアム）</a></li>
+                      <li><a href="dogrun">ドッグラン</a></li>
+                      <li><a href="story">こだわりとストーリー</a></li>
+                      <li><a href="access">アクセス</a></li>
                       <li style="margin-top: 24px; border-top: 1px dashed var(--color-main); padding-top: 24px;"><a href="simulation.html" style="color: var(--color-accent); font-weight: bold;">料金シミュレーション</a></li>
                   </ul>
               </nav>
@@ -95,8 +95,28 @@ document.addEventListener('DOMContentLoaded', () => {
                               <option value="手ぶらBBQ">手ぶらBBQ（1日3組限定）</option>
                           </select>
 
-                          <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望日 <span style="color:#D96D2B;">*</span></label>
-                          <input type="date" id="res-date" min="${minDate}" style="width:100%; padding:12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                          <div style="display:flex; gap:16px; margin-bottom:16px;">
+                              <div style="flex:1;">
+                                  <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望日 <span style="color:#D96D2B;">*</span></label>
+                                  <input type="date" id="res-date" min="${minDate}" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                              </div>
+                              <div style="flex:1;">
+                                  <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望時間 <span style="color:#D96D2B;">*</span></label>
+                                  <select id="res-time" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                                      <option value="" disabled selected>時間を選択</option>
+                                      <option value="10:00">10:00</option>
+                                      <option value="10:30">10:30</option>
+                                      <option value="11:00">11:00</option>
+                                      <option value="11:30">11:30</option>
+                                      <option value="12:00">12:00</option>
+                                      <option value="12:30">12:30</option>
+                                      <option value="13:00">13:00</option>
+                                      <option value="13:30">13:30</option>
+                                      <option value="14:00">14:00</option>
+                                      <option value="14:30">14:30</option>
+                                  </select>
+                              </div>
+                          </div>
 
                           <div style="display:flex; gap:16px; margin-bottom:16px;">
                               <div style="flex:1;">
@@ -205,30 +225,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function initSimpleReservation() {
-      document.body.addEventListener('click', (e) => {
-          if (e.target.id === 'res-submit-btn') {
-              const plan = document.getElementById('modal-plan') ? document.getElementById('modal-plan').value : document.getElementById('res-plan').value;
-              const date = document.getElementById('res-date').value;
-              const adult = document.getElementById('res-adult').value;
-              const child = document.getElementById('res-child').value;
-              const name = document.getElementById('res-name').value;
-              const phone = document.getElementById('res-phone').value;
-              const policy = document.getElementById('res-policy').checked;
-              const errorLabel = document.getElementById('res-error');
+    document.body.addEventListener('click', (e) => {
+        if (e.target.id === 'res-submit-btn') {
+            const plan = document.getElementById('modal-plan') ? document.getElementById('modal-plan').value : document.getElementById('res-plan').value;
+            const date = document.getElementById('res-date').value;
+            const time = document.getElementById('res-time').value; // ★時間を取得
+            const adult = document.getElementById('res-adult').value;
+            const child = document.getElementById('res-child').value;
+            const name = document.getElementById('res-name').value;
+            const phone = document.getElementById('res-phone').value;
+            const policy = document.getElementById('res-policy').checked;
+            const errorLabel = document.getElementById('res-error');
 
-              errorLabel.style.display = 'none';
+            errorLabel.style.display = 'none';
 
-              if (!date) { errorLabel.innerText = "ご希望日を選択してください。"; errorLabel.style.display = "block"; return; }
-              if (!name.trim() || !phone.trim()) { errorLabel.innerText = "お名前と電話番号を入力してください。"; errorLabel.style.display = "block"; return; }
-              if (!policy) { errorLabel.innerText = "キャンセルポリシーへの同意が必要です。"; errorLabel.style.display = "block"; return; }
+            // ★日付か時間が空っぽの場合はエラーを出す
+            if (!date || !time) { errorLabel.innerText = "ご希望日とご希望時間を選択してください。"; errorLabel.style.display = "block"; return; }
+            if (!name.trim() || !phone.trim()) { errorLabel.innerText = "お名前と電話番号を入力してください。"; errorLabel.style.display = "block"; return; }
+            if (!policy) { errorLabel.innerText = "キャンセルポリシーへの同意が必要です。"; errorLabel.style.display = "block"; return; }
 
-              const textMessage = `【七宗遊園 WEB予約リクエスト】\n■ 希望プラン: ${plan}\n■ 希望日時: ${date}\n■ 人数: 大人${adult}名 / 子供${child}名\n■ 代表者名: ${name} 様\n■ 電話番号: ${phone}\n------------------------\n※上記の内容で予約をお願いします。`;
-              const encodedText = encodeURIComponent(textMessage);
-              const lineUrl = `https://line.me/R/oaMessage/@543grrmg/?${encodedText}`;
-              window.open(lineUrl, '_blank');
-          }
-      });
-  }
+            // ★メッセージに時間を追加
+            const textMessage = `【七宗遊園 WEB予約リクエスト】\n■ 希望プラン: ${plan}\n■ 希望日時: ${date} ${time}\n■ 人数: 大人${adult}名 / 子供${child}名\n■ 代表者名: ${name} 様\n■ 電話番号: ${phone}\n------------------------\n※上記の内容で予約をお願いします。`;
+            const encodedText = encodeURIComponent(textMessage);
+            const lineUrl = `https://line.me/R/oaMessage/@543grrmg/?${encodedText}`;
+            window.open(lineUrl, '_blank');
+        }
+    });
+}
   
   function initStickyButtonToggle() {
       const stickyContainer = document.getElementById('sticky-btn-container');
@@ -442,7 +465,7 @@ async function initWeatherWidget() {
             // 普通の雨・小雨 (51, 53, 61, 63)
             if ([51, 53, 61, 63].includes(code)) return "温かいお料理でホッと一息つきませんか？🍲";
             // 豪雨・雷雨 (55, 65, 95)
-            if ([55, 65, 95].includes(code)) return "この天気でお越しいただけるなんてスゴイです…！くれぐれも運転お気をつけて！🚗💦";
+            if ([55, 65, 95].includes(code)) return "この天気でお越しいただけるなんてスゴイです…！<br>くれぐれも運転お気をつけて！🚗💦";
             // 雪 (71, 73, 75)
             if ([71, 73, 75].includes(code)) return "キンと冷えた山の空気が心地よい❄️";
             
