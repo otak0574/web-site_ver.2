@@ -587,13 +587,13 @@ async function initWeatherWidget() {
     // 2. 特別営業日：祝日・GW・お盆など「火曜だけど営業する日」
     // ここに日付を入れると、隔週の休みよりも優先して「営業中」になります
     forceOpenDates: [
-        "2024-04-29", "2024-04-30", "2024-05-03", "2024-05-04", "2024-05-05", "2024-05-06", // GW
-        "2024-07-15", "2024-08-12", "2024-08-13", "2024-08-14", "2024-08-15", // お盆・祝日
-        "2024-09-16", "2024-09-23", "2024-10-14", "2024-11-04" 
+        "2026-04-29", "2026-04-30", "2026-05-03", "2026-05-04", "2026-05-05", "2026-05-06", // GW
+        "2026-07-15", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15", // お盆・祝日
+        "2026-09-16", "2026-09-23", "2026-10-14", "2026-11-04",  
     ],
 
     // 3. 臨時休業日（どうしても休む日があれば追加）
-    specialHolidays: [],
+    specialHolidays: ["2026-04-27"],
 
     // 4. 緊急停止ボタン（trueにすると即座に「臨時休業」表示になります）
     emergencyClose: false 
@@ -626,7 +626,7 @@ function initBusinessStatus() {
         statusMessage = "本日は臨時休業です";
     } else if (BusinessSettings.specialHolidays.includes(todayStr)) {
         isOpen = false;
-        statusMessage = "本日は休業日です";
+        statusMessage = "本日は休業です";
     } else if (BusinessSettings.forceOpenDates.includes(todayStr)) {
         // ★祝日などで「火曜だけど営業」のリストにある場合
         isOpen = (currentHour >= BusinessSettings.openHour && currentHour < BusinessSettings.closeHour);
