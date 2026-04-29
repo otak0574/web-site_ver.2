@@ -8,21 +8,22 @@ const ReservationSystem = {
         step: 1,
         isLoading: false, 
         
-        simA: { purpose: '', people: { adult: 0, child: 0 }, menus: { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 }, fish: { shioyaki: 0, gyoden: 0, karaage: 0 }, takeout: { rods: 0, fish: 0, method: '' } },
+        // ★修正：使わないメニューを完全に削除し、adultRiceSetを追加しました
+        simA: { purpose: '', people: { adult: 0, child: 0 }, menus: { adultLunch: 0, adultSashimi: 0, adultRiceSet: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0 }, fish: { shioyaki: 0, gyoden: 0, karaage: 0 }, takeout: { rods: 0, fish: 0, method: '' } },
         simB: { people: { adult: 0, child: 0, dog: 0 }, plan: '', drink: '' }
     },
 
     prices: {
-        A: { adultLunch: 2400, adultSashimi: 1500, adultTempura: 1500, adultPotato: 1500, adultYakiniku: 2200, childKids: 1200, childLight: 750, childSashimi: 1100, childTempura: 1100, shioyaki: 0, gyoden: 50, karaage: 80, extraShioyaki: 400, extraGyoden: 450, extraKaraage: 480, takeoutRods: 1000, methodRaw: 400, methodGut: 420, methodGrill: 440 },
+        // ★修正：使わない料金を整理しました
+        A: { adultLunch: 2400, adultSashimi: 1500, adultRiceSet: 1500, adultPotato: 1500, adultYakiniku: 2200, childKids: 1200, childLight: 750, shioyaki: 0, gyoden: 50, karaage: 80, extraShioyaki: 400, extraGyoden: 450, extraKaraage: 480, takeoutRods: 1000, methodRaw: 400, methodGut: 420, methodGrill: 440 },
         B: { dogFee: 500, drinkAlcohol: 2000, drinkSoftAdult: 1500, drinkSoftChild: 750 }
     },
 
     init() {
-        // ▼ ページ内に専用のコンテナがある場合のみ作動する（エラー防止）
         if (!document.getElementById('simulation-app')) return;
         this.injectStyles();
         this.bindEvents();
-        this.render(); // 初期画面を描画
+        this.render(); 
     },
 
     injectStyles() {
@@ -40,7 +41,8 @@ const ReservationSystem = {
             .sim-counter-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #E8E4D9; }
             .sim-counter-label { font-size: 0.95rem; color: #444; }
             .sim-counter-controls { display: flex; align-items: center; gap: 16px; }
-            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; touch-action: manipulation; -webkit-user-select: none; user-select: none;}            .sim-btn-circle:active { background: #f0f0f0; }
+            .sim-btn-circle { width: 36px; height: 36px; border-radius: 4px; border: 1px solid #D8D2C4; background: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; touch-action: manipulation; -webkit-user-select: none; user-select: none;}
+            .sim-btn-circle:active { background: #f0f0f0; }
             .sim-counter-val { font-size: 1.2rem; width: 30px; text-align: center; font-weight: bold;}
             .sim-error-msg { color: #A0522D; padding: 0 0 20px 0; font-size: 0.9rem; display: none; font-weight: bold; text-align: center;}
             .sim-btn-block { width: 100%; padding: 16px; border-radius: 50px; font-size: 1.05rem; cursor: pointer; border: none; transition: 0.3s; text-align: center; font-weight: bold; letter-spacing: 0.05em;}
@@ -97,7 +99,8 @@ const ReservationSystem = {
                 
                 if (group === 'A_purpose') {
                     this.state.simA.purpose = val;
-                    this.state.simA.menus = { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 };
+                    // ★修正：初期化の時にもadultRiceSetを追加し、古いメニューを消去
+                    this.state.simA.menus = { adultLunch: 0, adultSashimi: 0, adultRiceSet: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0};
                     this.state.simA.fish = { shioyaki: 0, gyoden: 0, karaage: 0 };
                     this.state.simA.takeout = { rods: 0, fish: 0, method: '' };
                 }
@@ -116,7 +119,8 @@ const ReservationSystem = {
 
     startSimulation(flow) {
         this.state.flow = flow; this.state.step = 1; this.state.isLoading = false;
-        this.state.simA = { purpose: '', people: { adult: 0, child: 0 }, menus: { adultLunch: 0, adultSashimi: 0, adultTempura: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0, childSashimi: 0, childTempura: 0 }, fish: { shioyaki: 0, gyoden: 0, karaage: 0 }, takeout: { rods: 0, fish: 0, method: '' } };
+        // ★修正：開始時にもadultRiceSetを追加し、古いメニューを消去
+        this.state.simA = { purpose: '', people: { adult: 0, child: 0 }, menus: { adultLunch: 0, adultSashimi: 0, adultRiceSet: 0, adultPotato: 0, adultYakiniku: 0, childKids: 0, childLight: 0 }, fish: { shioyaki: 0, gyoden: 0, karaage: 0 }, takeout: { rods: 0, fish: 0, method: '' } };
         this.state.simB = { people: { adult: 0, child: 0, dog: 0 }, plan: '', drink: '' };
         this.render();
     },
@@ -128,11 +132,13 @@ const ReservationSystem = {
         if (action === 'plus') {
             if (path[0] === 'simA' && path[1] === 'menus') {
                 const sA = this.state.simA;
-                if (['adultLunch', 'adultSashimi', 'adultTempura', 'adultPotato', 'adultYakiniku'].includes(key)) {
-                    if ((sA.menus.adultLunch + sA.menus.adultSashimi + sA.menus.adultTempura + sA.menus.adultPotato + sA.menus.adultYakiniku) >= sA.people.adult) return; 
+                if (['adultLunch', 'adultRiceSet','adultSashimi', 'adultPotato', 'adultYakiniku'].includes(key)) {
+                    // ★修正：裏側の足し算に adultRiceSet を追加し、古いものを消去
+                    if ((sA.menus.adultLunch + sA.menus.adultRiceSet + sA.menus.adultSashimi + sA.menus.adultPotato + sA.menus.adultYakiniku) >= sA.people.adult) return; 
                 }
-                if (['childKids', 'childLight', 'childSashimi', 'childTempura'].includes(key)) {
-                    if ((sA.menus.childKids + sA.menus.childLight + sA.menus.childSashimi + sA.menus.childTempura) >= sA.people.child) return; 
+                if (['childKids', 'childLight'].includes(key)) {
+                    // ★修正：子供の足し算からも古いものを消去
+                    if ((sA.menus.childKids + sA.menus.childLight) >= sA.people.child) return; 
                 }
             }
             if (path[0] === 'simA' && path[1] === 'takeout' && key === 'rods') {
@@ -162,7 +168,8 @@ const ReservationSystem = {
             if (step === 3) {
                 const totalPeople = sA.people.adult + sA.people.child;
                 if (sA.purpose === 'eat_in') {
-                    const adultMenus = sA.menus.adultLunch + sA.menus.adultSashimi + sA.menus.adultTempura + sA.menus.adultPotato + sA.menus.adultYakiniku;
+                    // ★修正：エラーチェック用の足し算に adultRiceSet を追加
+                    const adultMenus = sA.menus.adultLunch + sA.menus.adultRiceSet + sA.menus.adultSashimi + sA.menus.adultPotato + sA.menus.adultYakiniku;
                     if (adultMenus !== sA.people.adult) { this.showError(`大人は人数分（${sA.people.adult}名分）のオーダーが必要です。`); return false; }
                     const baseFish = (sA.people.adult - sA.menus.adultYakiniku) * 2 + sA.people.child;
                     const totalFish = sA.fish.shioyaki + sA.fish.gyoden + sA.fish.karaage;
@@ -241,22 +248,21 @@ const ReservationSystem = {
             } else if (step === 3) {
                 if (this.state.simA.purpose === 'eat_in') {
                     const pA = this.state.simA.people; const mA = this.state.simA.menus;
-                    const adultRemain = pA.adult - (mA.adultLunch + mA.adultSashimi + mA.adultTempura + mA.adultPotato + mA.adultYakiniku);
-                    const childRemain = pA.child - (mA.childKids + mA.childLight + mA.childSashimi + mA.childTempura);
+                    // ★修正：画面の「＋」ボタンが押せるかどうかの判定式に adultRiceSet を追加
+                    const adultRemain = pA.adult - (mA.adultLunch + mA.adultRiceSet + mA.adultSashimi + mA.adultPotato + mA.adultYakiniku);
+                    const childRemain = pA.child - (mA.childKids + mA.childLight);
 
                     html += `
                         <h5 style="margin-top:0;">大人のメニュー</h5>
                         ${this.createCounter('simA.menus.adultLunch', 'ランチセット(魚2匹)', mA.adultLunch, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultRiceSet', 'ご飯・味噌汁セット(魚2匹)', mA.adultRiceSet, adultRemain === 0)}
                         ${this.createCounter('simA.menus.adultSashimi', 'にじます刺身(魚2匹)', mA.adultSashimi, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultTempura', '天ぷら盛り合わせ(魚2匹)', mA.adultTempura, adultRemain === 0)}
-                        ${this.createCounter('simA.menus.adultPotato', 'フライドポテト(魚2匹)', mA.adultPotato, adultRemain === 0)}
+                        ${this.createCounter('simA.menus.adultPotato', 'こだわりフライドポテト(魚2匹)', mA.adultPotato, adultRemain === 0)}
                         ${this.createCounter('simA.menus.adultYakiniku', '飛騨牛焼肉ランチ(※魚なし)', mA.adultYakiniku, adultRemain === 0)}
                         
                         <h5>子供のメニュー</h5>
                         ${this.createCounter('simA.menus.childKids', 'おこさまランチ(魚1匹)', mA.childKids, childRemain === 0)}
                         ${this.createCounter('simA.menus.childLight', 'ポテト(ミニ)(魚1匹)', mA.childLight, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childSashimi', 'にじます刺身(魚1匹)', mA.childSashimi, childRemain === 0)}
-                        ${this.createCounter('simA.menus.childTempura', '天ぷら盛り合わせ(魚1匹)', mA.childTempura, childRemain === 0)}
 
                         <h5>お魚の調理変更</h5>
                         <div style="background:#FDFBF7; border:1px solid #D96D2B; padding:12px; border-radius:4px; margin-bottom:16px; font-size:0.85rem; color:#A0522D;">
@@ -372,16 +378,14 @@ const ReservationSystem = {
             if (this.state.simA.purpose === 'eat_in') {
                 const m = this.state.simA.menus; const f = this.state.simA.fish; const p = this.prices.A;
                 
-                if (m.adultLunch > 0) { total += m.adultLunch * p.adultLunch; receiptHtml += `<div class="sim-receipt-row"><span>大人 ランチセット x${m.adultLunch}</span><span>¥${(m.adultLunch * p.adultLunch).toLocaleString()}</span></div>`; }
-                if (m.adultSashimi > 0) { total += m.adultSashimi * p.adultSashimi; receiptHtml += `<div class="sim-receipt-row"><span>大人 刺身セット x${m.adultSashimi}</span><span>¥${(m.adultSashimi * p.adultSashimi).toLocaleString()}</span></div>`; }
-                if (m.adultTempura > 0) { total += m.adultTempura * p.adultTempura; receiptHtml += `<div class="sim-receipt-row"><span>大人 天ぷらセット x${m.adultTempura}</span><span>¥${(m.adultTempura * p.adultTempura).toLocaleString()}</span></div>`; }
-                if (m.adultPotato > 0) { total += m.adultPotato * p.adultPotato; receiptHtml += `<div class="sim-receipt-row"><span>大人 ポテトセット x${m.adultPotato}</span><span>¥${(m.adultPotato * p.adultPotato).toLocaleString()}</span></div>`; }
+                if (m.adultLunch > 0) { total += m.adultLunch * p.adultLunch; receiptHtml += `<div class="sim-receipt-row"><span>ランチセット x${m.adultLunch}</span><span>¥${(m.adultLunch * p.adultLunch).toLocaleString()}</span></div>`; }
+                if (m.adultRiceSet > 0) { total += m.adultRiceSet * p.adultRiceSet; receiptHtml += `<div class="sim-receipt-row"><span>大人 ご飯味噌汁セット x${m.adultRiceSet}</span><span>¥${(m.adultRiceSet * p.adultRiceSet).toLocaleString()}</span></div>`; }
+                if (m.adultSashimi > 0) { total += m.adultSashimi * p.adultSashimi; receiptHtml += `<div class="sim-receipt-row"><span>刺身セット x${m.adultSashimi}</span><span>¥${(m.adultSashimi * p.adultSashimi).toLocaleString()}</span></div>`; }
+                if (m.adultPotato > 0) { total += m.adultPotato * p.adultPotato; receiptHtml += `<div class="sim-receipt-row"><span>こだわりフライドポテトセット x${m.adultPotato}</span><span>¥${(m.adultPotato * p.adultPotato).toLocaleString()}</span></div>`; }
                 if (m.adultYakiniku > 0) { total += m.adultYakiniku * p.adultYakiniku; receiptHtml += `<div class="sim-receipt-row"><span>飛騨牛焼肉ランチ x${m.adultYakiniku}</span><span>¥${(m.adultYakiniku * p.adultYakiniku).toLocaleString()}</span></div>`; }
                 
-                if (m.childKids > 0) { total += m.childKids * p.childKids; receiptHtml += `<div class="sim-receipt-row"><span>おこさまランチ x${m.childKids}</span><span>¥${(m.childKids * p.childKids).toLocaleString()}</span></div>`; }
-                if (m.childLight > 0) { total += m.childLight * p.childLight; receiptHtml += `<div class="sim-receipt-row"><span>こども ポテトorドリンク x${m.childLight}</span><span>¥${(m.childLight * p.childLight).toLocaleString()}</span></div>`; }
-                if (m.childSashimi > 0) { total += m.childSashimi * p.childSashimi; receiptHtml += `<div class="sim-receipt-row"><span>こども 刺身 x${m.childSashimi}</span><span>¥${(m.childSashimi * p.childSashimi).toLocaleString()}</span></div>`; }
-                if (m.childTempura > 0) { total += m.childTempura * p.childTempura; receiptHtml += `<div class="sim-receipt-row"><span>こども 天ぷら x${m.childTempura}</span><span>¥${(m.childTempura * p.childTempura).toLocaleString()}</span></div>`; }
+                if (m.childKids > 0) { total += m.childKids * p.childKids; receiptHtml += `<div class="sim-receipt-row"><span>お子様ランチ x${m.childKids}</span><span>¥${(m.childKids * p.childKids).toLocaleString()}</span></div>`; }
+                if (m.childLight > 0) { total += m.childLight * p.childLight; receiptHtml += `<div class="sim-receipt-row"><span>お子様フライドポテト x${m.childLight}</span><span>¥${(m.childLight * p.childLight).toLocaleString()}</span></div>`; }
                 
                 const baseFishLimit = (this.state.simA.people.adult - m.adultYakiniku) * 2 + this.state.simA.people.child;
                 let remainBase = baseFishLimit; 
@@ -445,7 +449,6 @@ const ReservationSystem = {
             </div>
         </div>`;
 
-        // ▼ モーダルを開くためのボタン（個人情報の入力フォームはここから消しました）
         const actionHtml = `
             <div class="sim-btn-group" style="flex-direction: column; gap: 12px;">
                 <button id="open-reservation-btn" class="sim-btn-block sim-btn-primary" style="background:var(--color-accent); font-size:1.1rem;">📝 このプランでWEB予約に進む</button>
@@ -457,7 +460,6 @@ const ReservationSystem = {
     }
 };
 
-// ページの読み込みが終わったらシミュレーションを起動
 document.addEventListener('DOMContentLoaded', () => {
     ReservationSystem.init();
 });
