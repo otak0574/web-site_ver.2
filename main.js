@@ -518,7 +518,12 @@ async function initWeatherWidget() {
         if (!isBusinessHours && currentHour >= 17) {
             targetDate.setDate(targetDate.getDate() + 1);
         }
-        const targetDateStr = targetDate.toISOString().slice(0, 10); // "YYYY-MM-DD"
+        
+        // ★修正：世界標準時の時差バグを防ぐため、日本時間のまま文字列を作る
+        const yyyy = targetDate.getFullYear();
+        const mm = String(targetDate.getMonth() + 1).padStart(2, '0');
+        const dd = String(targetDate.getDate()).padStart(2, '0');
+        const targetDateStr = `${yyyy}-${mm}-${dd}`;
 
         const hourlyTitle = (currentHour >= 17) ? "🕒 明日の天気 (9:00-17:00)" : "🕒 今日の天気 (9:00-17:00)";
 
