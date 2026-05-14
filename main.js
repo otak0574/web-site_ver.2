@@ -17,152 +17,168 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   function renderGlobalComponents() {
-      const headerHTML = `
-          <header class="global-header">
-              <div class="header-inner">
-                  <h1 class="header-logo font-mincho">
-                      <a href="index.html">七宗遊園
-                      <div class="header-logo-image">
-                          <img src="images/logo2.png" alt="七宗遊園" loading="lazy">
-                      </div>
-                      </a>
-                  </h1>
-                  <div class="header-actions">
-                      <button class="hamburger-btn" id="hamburger-btn" aria-label="メニューを開閉する">
-                          <span class="hamburger-line"></span>
-                          <span class="hamburger-line"></span>
-                          <span class="hamburger-line"></span>
-                      </button>
-                  </div>
-              </div>
-              
-              <nav class="global-nav" id="global-nav">
-                  <ul class="nav-list font-mincho">
-                      <li><a href="index">トップページ</a></li>
-                      <li><a href="fishing">釣り堀案内</a></li>
-                      <li><a href="restaurant">レストラン</a></li>
-                      <li><a href="bbq">BBQ（プレミアム）</a></li>
-                      <li><a href="dogrun">ドッグラン</a></li>
-                      <li><a href="story">こだわりとストーリー</a></li>
-                      <li><a href="access">アクセス</a></li>
-                      <li style="margin-top: 24px; border-top: 1px dashed var(--color-main); padding-top: 24px;"><a href="simulation.html" style="color: var(--color-accent); font-weight: bold;">料金シミュレーション</a></li>
-                  </ul>
-              </nav>
-          </header>
-      `;
-    
-      const footerHTML = `
-          <footer class="global-footer">
-              <div class="footer-inner">
-                  <h2 class="footer-logo font-mincho">七宗遊園</h2>
-                  <div class="footer-info">
-                      <p>〒509-0511<br>岐阜県加茂郡七宗町神渕4183-4</p>
-                      <p class="footer-tel">TEL: <a href="tel:0574461128">0574-46-1128</a></p>
-                      <p>営業時間: 10:00 ～ 15:00<br>定休日: 第二・第四火曜</p>
-                  </div>
-                  <div class="footer-link">
-                      <a href="access.html" class="btn-access">アクセスを見る</a>
-                  </div>
-                  <p class="footer-copyright">&copy; Hichiso Yuen All Rights Reserved.</p>
-              </div>
-          </footer>
-      `;
-    
-      const headerContainer = document.getElementById('header-container');
-      const footerContainer = document.getElementById('footer-container');
-    
-      if (headerContainer) headerContainer.innerHTML = headerHTML;
-      if (footerContainer) footerContainer.innerHTML = footerHTML;
-    
-      // ▼ シンプルになった予約モーダル
-      if (!document.getElementById('reservation-modal')) {
-          const tmr = new Date(); tmr.setDate(tmr.getDate() + 1);
-          const yyyy = tmr.getFullYear(); const mm = String(tmr.getMonth() + 1).padStart(2, '0'); const dd = String(tmr.getDate()).padStart(2, '0');
-          const minDate = `${yyyy}-${mm}-${dd}`;
+    const headerHTML = `
+        <header class="global-header">
+            <div class="header-inner">
+                <h1 class="header-logo font-mincho">
+                    <a href="index.html">七宗遊園
+                    <div class="header-logo-image">
+                        <img src="images/logo2.png" alt="七宗遊園" loading="lazy">
+                    </div>
+                    </a>
+                </h1>
+                <div class="header-actions">
+                    <button class="hamburger-btn" id="hamburger-btn" aria-label="メニューを開閉する">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <nav class="global-nav" id="global-nav">
+                <ul class="nav-list font-mincho">
+                    <li><a href="index">トップページ</a></li>
+                    <li><a href="fishing">釣り堀案内</a></li>
+                    <li><a href="restaurant">レストラン</a></li>
+                    <li><a href="bbq">BBQ（プレミアム）</a></li>
+                    <li><a href="dogrun">ドッグラン</a></li>
+                    <li><a href="story">こだわりとストーリー</a></li>
+                    <li><a href="access">アクセス</a></li>
+                    <li style="margin-top: 24px; border-top: 1px dashed var(--color-main); padding-top: 24px;"><a href="simulation.html" style="color: var(--color-accent); font-weight: bold;">料金シミュレーション</a></li>
+                </ul>
+            </nav>
+        </header>
+    `;
+  
+    const footerHTML = `
+        <footer class="global-footer">
+            <div class="footer-inner">
+                <h2 class="footer-logo font-mincho">七宗遊園</h2>
+                <div class="footer-info">
+                    <p>〒509-0511<br>岐阜県加茂郡七宗町神渕4183-4</p>
+                    <p class="footer-tel">TEL: <a href="tel:0574461128">0574-46-1128</a></p>
+                    <p>営業時間: 10:00 ～ 15:00<br>定休日: 第二・第四火曜</p>
+                </div>
+                <div class="footer-link">
+                    <a href="access.html" class="btn-access">アクセスを見る</a>
+                </div>
+                <p class="footer-copyright">&copy; Hichiso Yuen All Rights Reserved.</p>
+            </div>
+        </footer>
+    `;
+  
+    const headerContainer = document.getElementById('header-container');
+    const footerContainer = document.getElementById('footer-container');
+  
+    if (headerContainer) headerContainer.innerHTML = headerHTML;
+    if (footerContainer) footerContainer.innerHTML = footerHTML;
+  
+    if (!document.getElementById('reservation-modal')) {
+        const tmr = new Date(); tmr.setDate(tmr.getDate() + 1);
+        const yyyy = tmr.getFullYear(); const mm = String(tmr.getMonth() + 1).padStart(2, '0'); const dd = String(tmr.getDate()).padStart(2, '0');
+        const minDate = `${yyyy}-${mm}-${dd}`;
 
-          const modalHTML = `
-              <div id="reservation-modal" class="modal" aria-hidden="true">
-                  <div class="modal-overlay" data-modal-close></div>
-                  <div class="modal-content" style="background:#FDFBF7;">
-                      <button class="modal-close-btn" data-modal-close aria-label="閉じる">×</button>
-                      <h3 class="font-mincho modal-title" style="margin-bottom: 24px; font-size:1.4rem; border-bottom:1px solid #ccc; padding-bottom:12px;">WEBご予約</h3>
-                      
-                      <div class="simple-reservation-form">
-                          <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望のプラン</label>
-                          <select id="res-plan" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
-                              <option value="釣り堀・お食事">釣り堀・お食事（店内・持ち帰り）</option>
-                              <option value="レストラン">レストラン（お食事のみ）</option>
-                              <option value="手ぶらBBQ">手ぶらBBQ（1日3組限定）</option>
-                          </select>
+        const modalHTML = `
+            <div id="reservation-modal" class="modal" aria-hidden="true">
+                <div class="modal-overlay" data-modal-close></div>
+                <div class="modal-content" style="background:#FDFBF7;">
+                    <button class="modal-close-btn" data-modal-close aria-label="閉じる">×</button>
+                    <h3 class="font-mincho modal-title" style="margin-bottom: 24px; font-size:1.4rem; border-bottom:1px solid #ccc; padding-bottom:12px;">WEBご予約</h3>
+                    
+                    <div class="simple-reservation-form">
+                        <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望のプラン</label>
+                        <select id="res-plan" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
+                            <option value="釣り堀・お食事">釣り堀・お食事（店内・持ち帰り）</option>
+                            <option value="レストラン">レストラン（お食事のみ）</option>
+                            <option value="手ぶらBBQ">手ぶらBBQ（1日3組限定）</option>
+                        </select>
 
-                          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:16px; margin-bottom:16px;">
-                              <div style="min-width: 0;">
-                                  <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望日 <span style="color:#D96D2B;">*</span></label>
-                                  <input type="date" id="res-date" min="${minDate}" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box; appearance:none;">
-                              </div>
-                              <div style="min-width: 0;">
-                                  <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望時間 <span style="color:#D96D2B;">*</span></label>
-                                  <select id="res-time" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
-                                      <option value="" disabled selected>時間を選択</option>
-                                      <option value="10:00">10:00</option>
-                                      <option value="10:30">10:30</option>
-                                      <option value="11:00">11:00</option>
-                                      <option value="11:30">11:30</option>
-                                      <option value="12:00">12:00</option>
-                                      <option value="12:30">12:30</option>
-                                      <option value="13:00">13:00</option>
-                                      <option value="13:30">13:30</option>
-                                      <option value="14:00">14:00</option>
-                                      <option value="14:30">14:30</option>
-                                  </select>
-                              </div>
-                          </div>
+                        <div id="bbq-plan-options" style="display:none; margin-bottom:16px;">
+                            <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">BBQプラン <span style="color:#D96D2B;">*</span></label>
+                            <select id="res-bbq-plan" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
+                                <option value="" disabled selected>プランを選択してください</option>
+                                <option value="スタンダード（3,000円）">スタンダード（3,000円）</option>
+                                <option value="ボリューム（4,000円）">ボリューム（4,000円）</option>
+                                <option value="プレミアム（5,000円）">プレミアム（5,000円）</option>
+                            </select>
+                        </div>
 
-                          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:16px; margin-bottom:16px;">
-                              <div style="min-width: 0;">
-                                  <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">大人</label>
-                                  <input type="number" id="res-adult" min="1" value="2" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
-                              </div>
-                              <div style="min-width: 0;">
-                                  <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">子供</label>
-                                  <input type="number" id="res-child" min="0" value="0" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
-                              </div>
-                          </div>
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:16px; margin-bottom:16px;">
+                            <div style="min-width: 0;">
+                                <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望日 <span style="color:#D96D2B;">*</span></label>
+                                <input type="date" id="res-date" min="${minDate}" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box; appearance:none;">
+                            </div>
+                            <div style="min-width: 0;">
+                                <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">ご希望時間 <span style="color:#D96D2B;">*</span></label>
+                                <select id="res-time" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
+                                    <option value="" disabled selected>時間を選択</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="10:30">10:30</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="11:30">11:30</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="12:30">12:30</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="13:30">13:30</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="14:30">14:30</option>
+                                </select>
+                            </div>
+                        </div>
 
-                          <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">代表者名 <span style="color:#D96D2B;">*</span></label>
-                          <input type="text" id="res-name" placeholder="山田 太郎" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
-                          
-                          <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">電話番号 <span style="color:#D96D2B;">*</span></label>
-                          <input type="tel" id="res-phone" placeholder="09012345678" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; margin-bottom:24px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:16px; margin-bottom:16px;">
+                            <div style="min-width: 0;">
+                                <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">大人</label>
+                                <input type="number" id="res-adult" min="1" value="2" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
+                            </div>
+                            <div style="min-width: 0;">
+                                <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">子供</label>
+                                <input type="number" id="res-child" min="0" value="0" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
+                            </div>
+                        </div>
+                        
+                        <div id="dog-count-grid" style="display:none; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:16px; margin-bottom:16px;">
+                            <div style="min-width: 0;">
+                                <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">わんちゃんの頭数</label>
+                                <input type="number" id="res-dog" min="0" value="0" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
+                            </div>
+                        </div>
 
-                          <div style="background:#FDFBF7; padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid #D8D2C4;">
-                              <details style="margin-bottom:16px; font-size:0.85rem;">
-                                  <summary style="cursor:pointer; color:var(--color-main); font-weight:bold; outline:none; display: flex; align-items: flex-start; gap: 8px;">
-                                      <span style="font-size:1.2rem; color:var(--color-accent); line-height: 1.2; flex-shrink: 0;">▼</span> 
-                                      <span style="line-height: 1.4;">キャンセルポリシー（タップして確認）</span>
-                                  </summary>
-                                  <div style="padding-top:12px; color:#555; line-height:1.6; border-top:1px dashed #ccc; margin-top:12px;">
-                                      ・ご予約の変更・キャンセルは<strong>前日の15:00まで</strong>にお願いいたします。<br>
-                                      ・当日のキャンセルや無断キャンセルの場合、規定のキャンセル料（100%）が発生する場合がございます。<br>
-                                      ・悪天候等で施設が休業となる場合は、キャンセル料は発生いたしません。<br>
-                                      <small style="color:#A0522D; display:block; margin-top:8px;">※当日のご予約はお電話にて承ります。</small>
-                                  </div>
-                              </details>
-                              <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.95rem; line-height:1.4; cursor:pointer;">
-                                  <input type="checkbox" id="res-policy" style="width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; accent-color: var(--color-main);">
-                                  <span style="font-weight:bold; color:#333;">キャンセルポリシーを確認し、同意します</span>
-                              </label>
-                          </div>
+                        <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">代表者名 <span style="color:#D96D2B;">*</span></label>
+                        <input type="text" id="res-name" placeholder="山田 太郎" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
+                        
+                        <label style="font-size:0.9rem; font-weight:bold; color:var(--color-main); display:block; margin-bottom:4px;">電話番号 <span style="color:#D96D2B;">*</span></label>
+                        <input type="tel" id="res-phone" placeholder="09012345678" style="height:50px; width:100%; max-width:100%; min-width:0; padding:0 12px; margin-bottom:24px; border:1px solid #ccc; border-radius:4px; font-size:1rem; box-sizing: border-box;">
 
-                          <button id="res-submit-btn" style="width:100%; max-width:100%; background:var(--color-accent); color:#fff; border:none; padding:16px; font-size:1.1rem; font-weight:bold; border-radius:50px; cursor:pointer; box-sizing: border-box; margin-bottom: 20px;">LINEで予約を送信する</button>
-                          <p id="res-error" style="color:#D96D2B; font-size:0.85rem; text-align:center; margin-top:12px; display:none;"></p>
-                      </div>
-                  </div>
-              </div>
-          `;
-          document.body.insertAdjacentHTML('beforeend', modalHTML);
-      }
-  }
+                        <div style="background:#FDFBF7; padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid #D8D2C4;">
+                            <details style="margin-bottom:16px; font-size:0.85rem;">
+                                <summary style="cursor:pointer; color:var(--color-main); font-weight:bold; outline:none; display: flex; align-items: flex-start; gap: 8px;">
+                                    <span style="font-size:1.2rem; color:var(--color-accent); line-height: 1.2; flex-shrink: 0;">▼</span> 
+                                    <span style="line-height: 1.4;">キャンセルポリシー（タップして確認）</span>
+                                </summary>
+                                <div style="padding-top:12px; color:#555; line-height:1.6; border-top:1px dashed #ccc; margin-top:12px;">
+                                    ・ご予約の変更・キャンセルは<strong>前日の15:00まで</strong>にお願いいたします。<br>
+                                    ・当日のキャンセルや無断キャンセルの場合、規定のキャンセル料（100%）が発生する場合がございます。<br>
+                                    ・悪天候等で施設が休業となる場合は、キャンセル料は発生いたしません。<br>
+                                    <small style="color:#A0522D; display:block; margin-top:8px;">※当日のご予約はお電話にて承ります。</small>
+                                </div>
+                            </details>
+                            <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.95rem; line-height:1.4; cursor:pointer;">
+                                <input type="checkbox" id="res-policy" style="width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; accent-color: var(--color-main);">
+                                <span style="font-weight:bold; color:#333;">キャンセルポリシーを確認し、同意します</span>
+                            </label>
+                        </div>
+
+                        <button id="res-submit-btn" style="width:100%; max-width:100%; background:var(--color-accent); color:#fff; border:none; padding:16px; font-size:1.1rem; font-weight:bold; border-radius:50px; cursor:pointer; box-sizing: border-box; margin-bottom: 20px;">LINEで予約を送信する</button>
+                        <p id="res-error" style="color:#D96D2B; font-size:0.85rem; text-align:center; margin-top:12px; display:none;"></p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+}
   
   function initHamburgerMenu() {
     const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -238,33 +254,74 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function initSimpleReservation() {
+    // ★追加：プランの選択が切り替わったときに、BBQプランと犬の入力欄の表示/非表示を切り替える魔法
+    document.body.addEventListener('change', (e) => {
+        if (e.target.id === 'res-plan') {
+            const bbqPlanOptions = document.getElementById('bbq-plan-options');
+            const dogCountGrid = document.getElementById('dog-count-grid');
+            if (bbqPlanOptions && dogCountGrid) {
+                // 「手ぶらBBQ」が選ばれていたらBBQプランと犬の入力欄を表示
+                const isBBQ = (e.target.value === '手ぶらBBQ');
+                bbqPlanOptions.style.display = isBBQ ? 'block' : 'none';
+                dogCountGrid.style.display = isBBQ ? 'grid' : 'none'; // グリッドなのでgridで表示
+            }
+        }
+    });
+
     document.body.addEventListener('click', (e) => {
         if (e.target.id === 'res-submit-btn') {
             const plan = document.getElementById('modal-plan') ? document.getElementById('modal-plan').value : document.getElementById('res-plan').value;
             const dateInput = document.getElementById('res-date');
             const date = dateInput.value;
-            const minDate = dateInput.getAttribute('min'); // ★設定された「明日」を取得
+            const minDate = dateInput.getAttribute('min');
             const time = document.getElementById('res-time').value;
             const adult = document.getElementById('res-adult').value;
             const child = document.getElementById('res-child').value;
             const name = document.getElementById('res-name').value;
             const phone = document.getElementById('res-phone').value;
             const policy = document.getElementById('res-policy').checked;
-            const errorLabel = document.getElementById('res-error');
+            
+            // ★追加：BBQ専用の入力データを取得する
+            const isBBQ = (plan === '手ぶらBBQ');
+            const bbqPlan = document.getElementById('res-bbq-plan') ? document.getElementById('res-bbq-plan').value : '';
+            const dog = document.getElementById('res-dog') ? document.getElementById('res-dog').value : 0;
 
+            const errorLabel = document.getElementById('res-error');
             errorLabel.style.display = 'none';
 
-            // ★修正：未入力、または「明日」より前の日付（当日や過去）が選ばれている場合はエラー
+            // エラーチェック（バリデーション）
             if (!date || date < minDate) { 
                 errorLabel.innerText = "明日以降の日付を選択してください。"; 
                 errorLabel.style.display = "block"; 
                 return; 
             }
             if (!time) { errorLabel.innerText = "ご希望時間を選択してください。"; errorLabel.style.display = "block"; return; }
+            
+            // ★追加：BBQを選んでいるのに「BBQプラン」を選んでいなかったらエラーを出す
+            if (isBBQ && !bbqPlan) { 
+                errorLabel.innerText = "BBQプランを選択してください。"; 
+                errorLabel.style.display = "block"; 
+                return; 
+            }
+
             if (!name.trim() || !phone.trim()) { errorLabel.innerText = "お名前と電話番号を入力してください。"; errorLabel.style.display = "block"; return; }
             if (!policy) { errorLabel.innerText = "キャンセルポリシーへの同意が必要です。"; errorLabel.style.display = "block"; return; }
 
-            const textMessage = `【七宗遊園 WEB予約リクエスト】\n■ 希望プラン: ${plan}\n■ 希望日時: ${date} ${time}\n■ 人数: 大人${adult}名 / 子供${child}名\n■ 代表者名: ${name} 様\n■ 電話番号: ${phone}\n------------------------\n※上記の内容で予約をお願いします。`;
+            // ★追加：LINEへ送るメッセージの組み立て（BBQなら内容を増やす）
+            let textMessage = `【七宗遊園 WEB予約リクエスト】\n■${plan}\n`;
+            if (isBBQ) {
+                textMessage += `■ BBQコース: ${bbqPlan}\n`;
+            }
+            textMessage += `■ 希望日時: ${date} ${time}\n`;
+            
+            if (isBBQ && dog > 0) {
+                textMessage += `■ 人数: 大人${adult}名 / 子供${child}名 / わんちゃん${dog}頭\n`;
+            } else {
+                textMessage += `■ 人数: 大人${adult}名 / 子供${child}名\n`;
+            }
+            
+            textMessage += `■ 代表者名: ${name} 様\n■ 電話番号: ${phone}\n------------------------\n※上記の内容で予約をお願いします。`;
+
             const encodedText = encodeURIComponent(textMessage);
             const lineUrl = `https://line.me/R/oaMessage/@543grrmg/?${encodedText}`;
             window.open(lineUrl, '_blank');
@@ -318,6 +375,7 @@ function initDogrunMosaic() {
         { type: 'img', src: 'images/dogrun/dog5.JPG' },
         { type: 'img', src: 'images/dogrun/dog6.JPG' },
         { type: 'img', src: 'images/dogrun/dog7.JPG' },
+        { type: 'img', src: 'images/dogrun/dogrun.JPG' },
         // ▼ ここに動画（MP4やMOV）を追加！
         { type: 'video', src: 'images/dogrun/video2.MP4' },
         { type: 'video', src: 'images/dogrun/video3.MP4' },
@@ -620,53 +678,49 @@ function initBusinessStatus() {
 
     const now = new Date();
     const currentHour = now.getHours();
-    const currentMinutes = now.getMinutes(); // ★「何分か」を取得
-    const timeFloat = currentHour + (currentMinutes / 60); // ★ 14:30 なら「14.5」として計算
+    const currentMinutes = now.getMinutes(); 
+    const timeFloat = currentHour + (currentMinutes / 60); // 14:30 なら「14.5」
     const currentDay = now.getDay(); // 0:日, 2:火
     
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-
-    // --- 判定ロジック ---
-    let isOpen = true;
-    let statusMessage = "ただいま営業中！";
-
-    // ★追加：14:30〜17:00（閉店）までの間はメッセージを上書き
-    if (timeFloat >= 14.5 && timeFloat < BusinessSettings.closeHour) {
-        statusMessage = "本日の釣り堀の受付は終了しました";
-    }
 
     // 1. 隔週火曜日の判定
     const baseDate = new Date(BusinessSettings.baseOffTuesday);
     const diffTime = now.getTime() - baseDate.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     const isOffTuesday = (currentDay === 2 && Math.floor(diffDays / 7) % 2 === 0);
+    
+    // 今日が特別営業日（祝日・GWなど）かどうか
+    const isForceOpen = BusinessSettings.forceOpenDates.includes(todayStr);
 
-    // 2. 営業・休止の優先順位判定
+    let isOpen = false;
+    let statusMessage = "";
+
+    // --- 2. 時間と状況に応じた完璧な判定ロジック ---
     if (BusinessSettings.emergencyClose) {
-        isOpen = false;
         statusMessage = "本日は臨時休業です";
     } else if (BusinessSettings.specialHolidays.includes(todayStr)) {
-        isOpen = false;
         statusMessage = "本日は休業です";
-    } else if (BusinessSettings.forceOpenDates.includes(todayStr)) {
-        // ★祝日などで「火曜だけど営業」のリストにある場合
-        isOpen = (currentHour >= BusinessSettings.openHour && currentHour < BusinessSettings.closeHour);
-        if (isOpen) {
-            // 祝日でも14:30を過ぎていたら受付終了の文字にする
-            statusMessage = (timeFloat >= 14.5) ? "本日の釣り堀の受付は終了しました" : "祝日も元気に営業中！";
-        } else {
-            statusMessage = "本日の営業は終了しました";
-        }
-    } else if (isOffTuesday) {
-        // 定休日の判定
-        isOpen = false;
+    } else if (isOffTuesday && !isForceOpen) {
+        // 定休日（祝日などで特別に開ける日ではない場合）
         statusMessage = "本日は定休日です";
     } else if (currentHour < BusinessSettings.openHour) {
-        isOpen = false;
-        statusMessage = `本日は${BusinessSettings.openHour}時から営業！`;
+        // ★ 午前0:00 〜 9:59（開店前）の表示
+        statusMessage = `本日の営業時間は${BusinessSettings.openHour}:00からです`;
     } else if (currentHour >= BusinessSettings.closeHour) {
-        isOpen = false;
+        // ★ 17:00 〜 23:59（閉店後）の表示
         statusMessage = "本日の営業は終了しました";
+    } else {
+        // ★ 10:00 〜 16:59（営業時間内）の表示
+        isOpen = true;
+        
+        if (timeFloat >= 14.5) {
+            statusMessage = "本日の釣り堀の受付は終了しました";
+        } else if (isForceOpen) {
+            statusMessage = "祝日も元気に営業中！";
+        } else {
+            statusMessage = "ただいま営業中！";
+        }
     }
 
     // バッジ表示
