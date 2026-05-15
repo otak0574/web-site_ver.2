@@ -254,16 +254,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function initSimpleReservation() {
-    // ★追加：プランの選択が切り替わったときに、BBQプランと犬の入力欄の表示/非表示を切り替える魔法
+    // プランや日付の変更を監視する魔法
     document.body.addEventListener('change', (e) => {
+        // 1. BBQプランと犬の入力欄の表示切替
         if (e.target.id === 'res-plan') {
             const bbqPlanOptions = document.getElementById('bbq-plan-options');
             const dogCountGrid = document.getElementById('dog-count-grid');
             if (bbqPlanOptions && dogCountGrid) {
-                // 「手ぶらBBQ」が選ばれていたらBBQプランと犬の入力欄を表示
                 const isBBQ = (e.target.value === '手ぶらBBQ');
                 bbqPlanOptions.style.display = isBBQ ? 'block' : 'none';
-                dogCountGrid.style.display = isBBQ ? 'grid' : 'none'; // グリッドなのでgridで表示
+                dogCountGrid.style.display = isBBQ ? 'grid' : 'none';
+            }
+        }
+
+        // ★追加：2. カレンダーで定休日を選んだら瞬時にブロックする！
+        if (e.target.id === 'res-date') {
+            const selectedDate = e.target.value;
+            const errorLabel = document.getElementById('res-error');
+            
+            // BusinessSettingsの休業日リストに、選んだ日付が入っているかチェック
+            if (BusinessSettings && BusinessSettings.fixedHolidays.includes(selectedDate)) {
+                e.target.value = ''; // 入力を強制的に空（リセット）にする
+                if (errorLabel) {
+                    errorLabel.innerText = "選択された日は定休日のため、ご予約いただけません。別の日をお選びください。";
+                    errorLabel.style.display = "block";
+                }
+            } else {
+                if (errorLabel) errorLabel.style.display = "none"; // 問題なければエラーを消す
             }
         }
     });
@@ -281,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = document.getElementById('res-phone').value;
             const policy = document.getElementById('res-policy').checked;
             
-            // ★追加：BBQ専用の入力データを取得する
             const isBBQ = (plan === '手ぶらBBQ');
             const bbqPlan = document.getElementById('res-bbq-plan') ? document.getElementById('res-bbq-plan').value : '';
             const dog = document.getElementById('res-dog') ? document.getElementById('res-dog').value : 0;
@@ -295,9 +311,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorLabel.style.display = "block"; 
                 return; 
             }
+            
+            // ★追加：万が一エラーをすり抜けて送信ボタンを押されても、ここで最終ブロック！
+            if (BusinessSettings && BusinessSettings.fixedHolidays.includes(date)) {
+                errorLabel.innerText = "選択された日は定休日のため、ご予約いただけません。"; 
+                errorLabel.style.display = "block"; 
+                return; 
+            }
+
             if (!time) { errorLabel.innerText = "ご希望時間を選択してください。"; errorLabel.style.display = "block"; return; }
             
-            // ★追加：BBQを選んでいるのに「BBQプラン」を選んでいなかったらエラーを出す
             if (isBBQ && !bbqPlan) { 
                 errorLabel.innerText = "BBQプランを選択してください。"; 
                 errorLabel.style.display = "block"; 
@@ -307,8 +330,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!name.trim() || !phone.trim()) { errorLabel.innerText = "お名前と電話番号を入力してください。"; errorLabel.style.display = "block"; return; }
             if (!policy) { errorLabel.innerText = "キャンセルポリシーへの同意が必要です。"; errorLabel.style.display = "block"; return; }
 
-            // ★追加：LINEへ送るメッセージの組み立て（BBQなら内容を増やす）
-            let textMessage = `【七宗遊園 WEB予約リクエスト】\n■${plan}\n`;
+            // LINEへ送るメッセージの組み立て
+            let textMessage = `【七宗遊園 WEB予約リクエスト】\n■ 希望プラン: ${plan}\n`;
             if (isBBQ) {
                 textMessage += `■ BBQコース: ${bbqPlan}\n`;
             }
@@ -646,32 +669,39 @@ async function initWeatherWidget() {
 }
 
 // ========================================
-  // ⚙️ 管理者用：営業スケジュール設定パネル ⚙️
-  // ========================================
-  const BusinessSettings = {
+// ⚙️ 管理者用：定休日リスト（2027年2月末まで） ⚙️
+// ========================================
+const BusinessSettings = {
     openHour: 10,
     closeHour: 17,
 
-    // 1. 隔週火曜日の判定用：基準となる「休みだった火曜日」を1つ指定
-    // ここで指定した日から「2週間ごと」が自動的に休みになります
-    baseOffTuesday: "2024-04-09", 
+    // ★ 営業する日はリストから削除し、休む日はリストに追加しています
+    fixedHolidays: [
+        // --- 2026年：第2・第4火曜日 ---
+        "2026-05-26", "2026-06-09", "2026-06-23", "2026-07-14", 
+        // (7/28, 8/11, 8/25 は夏休み営業のためリストから削除しました)
+        "2026-09-08", 
+        // (9/22 は祝日のためリストから削除しました)
+        "2026-10-13", "2026-10-27", "2026-11-10", "2026-11-24",
 
-    // 2. 特別営業日：祝日・GW・お盆など「火曜だけど営業する日」
-    // ここに日付を入れると、隔週の休みよりも優先して「営業中」になります
-    forceOpenDates: [
-        "2026-04-29", "2026-04-30", "2026-05-03", "2026-05-04", "2026-05-05", "2026-05-06", // GW
-        "2026-07-15", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15", // お盆・祝日
-        "2026-09-16", "2026-09-23", "2026-10-14", "2026-11-04",  
+        // --- 年末年始休暇（12/31 〜 1/3） ---
+        "2026-12-31", "2027-01-01", "2027-01-02", "2027-01-03",
+
+        // --- 2026年12月〜2027年2月：毎週火・水曜日 ---
+        "2026-12-01", "2026-12-02", "2026-12-08", "2026-12-09", "2026-12-15", "2026-12-16", "2026-12-22", "2026-12-23", "2026-12-29", "2026-12-30",
+        "2027-01-05", "2027-01-06", "2027-01-12", "2027-01-13", "2027-01-19", "2027-01-20", "2027-01-26", "2027-01-27",
+        "2027-02-02", "2027-02-03", "2027-02-09", "2027-02-10", "2027-02-16", "2027-02-17", 
+        // (2/23 は祝日のためリストから削除しました)
+        "2027-02-24",
+
+        // --- 振替休日 ---
+        "2027-02-25"
     ],
 
-    // 3. 臨時休業日（どうしても休む日があれば追加）
-    specialHolidays: ["2026-04-27"],
-
-    // 4. 緊急停止ボタン（trueにすると即座に「臨時休業」表示になります）
     emergencyClose: false 
 };
-// ========================================
 
+// ▼ 営業ステータスを自動判定して表示する機能（手動リスト対応版）
 function initBusinessStatus() {
     const container = document.getElementById('business-status-container');
     if (!container) return;
@@ -679,51 +709,41 @@ function initBusinessStatus() {
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinutes = now.getMinutes(); 
-    const timeFloat = currentHour + (currentMinutes / 60); // 14:30 なら「14.5」
-    const currentDay = now.getDay(); // 0:日, 2:火
+    const timeFloat = currentHour + (currentMinutes / 60); 
     
+    // 今日の日付を文字列にする（例："2026-05-15"）
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-
-    // 1. 隔週火曜日の判定
-    const baseDate = new Date(BusinessSettings.baseOffTuesday);
-    const diffTime = now.getTime() - baseDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const isOffTuesday = (currentDay === 2 && Math.floor(diffDays / 7) % 2 === 0);
-    
-    // 今日が特別営業日（祝日・GWなど）かどうか
-    const isForceOpen = BusinessSettings.forceOpenDates.includes(todayStr);
 
     let isOpen = false;
     let statusMessage = "";
 
-    // --- 2. 時間と状況に応じた完璧な判定ロジック ---
+    // 1. 強制休業ボタンのチェック
     if (BusinessSettings.emergencyClose) {
         statusMessage = "本日は臨時休業です";
-    } else if (BusinessSettings.specialHolidays.includes(todayStr)) {
-        statusMessage = "本日は休業です";
-    } else if (isOffTuesday && !isForceOpen) {
-        // 定休日（祝日などで特別に開ける日ではない場合）
+    } 
+    // 2. 今日の日付が「定休日リスト」に入っているかチェック
+    else if (BusinessSettings.fixedHolidays.includes(todayStr)) {
         statusMessage = "本日は定休日です";
-    } else if (currentHour < BusinessSettings.openHour) {
-        // ★ 午前0:00 〜 9:59（開店前）の表示
+    } 
+    // 3. 営業時間前のチェック
+    else if (currentHour < BusinessSettings.openHour) {
         statusMessage = `本日の営業時間は${BusinessSettings.openHour}:00からです`;
-    } else if (currentHour >= BusinessSettings.closeHour) {
-        // ★ 17:00 〜 23:59（閉店後）の表示
+    } 
+    // 4. 営業時間終了のチェック
+    else if (currentHour >= BusinessSettings.closeHour) {
         statusMessage = "本日の営業は終了しました";
-    } else {
-        // ★ 10:00 〜 16:59（営業時間内）の表示
+    } 
+    // 5. 営業中の表示
+    else {
         isOpen = true;
-        
         if (timeFloat >= 14.5) {
             statusMessage = "本日の釣り堀の受付は終了しました";
-        } else if (isForceOpen) {
-            statusMessage = "祝日も元気に営業中！";
         } else {
             statusMessage = "ただいま営業中！";
         }
     }
 
-    // バッジ表示
+    // 表示を反映
     container.innerHTML = `
         <div class="status-badge ${isOpen ? 'status-open' : 'status-closed'}">
             <div class="status-dot"></div>
