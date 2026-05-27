@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>夜専用うなぎ弁当の宅配｜七宗遊園</title>
+  <meta name="description" content="七宗町内配達無料。三河産うなぎ弁当 税込2,500円。木曜・金曜限定、前日17:00までの完全予約制。" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ivory: #FCFAF6;
+      --ink: #333333;
+      --gold: #C1A173;
+      --line: #06C755;
+      --soft: #F4EFE6;
+      --white: #FFFFFF;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(193, 161, 115, 0.07), transparent 28%),
+        radial-gradient(circle at 85% 35%, rgba(193, 161, 115, 0.06), transparent 30%),
+        linear-gradient(135deg, #FCFAF6 0%, #FBF7EF 48%, #FCFAF6 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        radial-gradient(rgba(51,51,51,0.08) 0.5px, transparent 0.5px);
+      background-size: 5px 5px;
+      mix-blend-mode: multiply;
+      z-index: 0;
+    }
+
+    main, header, footer, .floating-cta, .modal-layer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .serif {
+      font-family: 'Noto Serif JP', serif;
+    }
+
+    .vertical-title {
+      font-family: 'Noto Serif JP', serif;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: 0.16em;
+      line-height: 1.9;
+    }
+
+    .gold-line {
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    }
+
+    .btn-refined {
+      background: #fff;
+      border: 1px solid rgba(193, 161, 115, 0.75);
+      color: var(--ink);
+      transition: all 0.25s ease;
+    }
+
+    .btn-refined:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 34px rgba(89, 70, 43, 0.08);
+      border-color: var(--gold);
+    }
+
+    .photo-frame {
+      background:
+        linear-gradient(135deg, rgba(193,161,115,0.16), rgba(255,255,255,0.2)),
+        #F1E8D8;
+      border: 1px solid rgba(193, 161, 115, 0.25);
+    }
+
+    .image-placeholder {
+      background:
+        linear-gradient(135deg, rgba(74, 49, 31, 0.08), rgba(193, 161, 115, 0.16)),
+        url("unagi1.png");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .unagi-placeholder {
+      background:
+        linear-gradient(135deg, rgba(74, 49, 31, 0.08), rgba(193, 161, 115, 0.13)),
+        url("unagi2.png");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .room-placeholder {
+      background:
+        linear-gradient(135deg, rgba(74, 49, 31, 0.08), rgba(193, 161, 115, 0.13)),
+        url("unagi3.png");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .modal-open {
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .vertical-title {
+        writing-mode: horizontal-tb;
+        letter-spacing: 0.08em;
+        line-height: 1.8;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="px-5 md:px-10 pt-6">
+    <div class="max-w-7xl mx-auto flex items-center justify-between border-b border-[#C1A173]/30 pb-5">
+      <div class="serif text-lg md:text-xl tracking-[0.2em]">七宗遊園</div>
+      <a href="tel:0574-00-0000" class="hidden md:inline-flex btn-refined rounded-full px-6 py-3 text-sm tracking-[0.12em]">
+        電話で注文する
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- FV -->
+    <section class="min-h-[88vh] px-5 md:px-10 py-14 md:py-24">
+      <div class="max-w-7xl mx-auto grid md:grid-cols-[0.9fr_1.1fr] gap-10 md:gap-16 items-center">
+        <div class="order-2 md:order-1">
+          <div class="flex gap-8 md:gap-12 items-start">
+            <div class="gold-line h-56 hidden md:block"></div>
+            <div>
+              <p class="text-sm md:text-base tracking-[0.22em] text-[#8B7657] mb-8">
+                七宗町内 配達無料
+              </p>
+
+              <h1 class="vertical-title text-4xl md:text-5xl lg:text-6xl font-semibold mb-8 md:h-[560px]">
+                今夜は<br>お家で<br>外食気分。
+              </h1>
+
+              <p class="text-lg md:text-xl leading-[2] max-w-xl">
+                今日は料理を休みたい日に。<br>
+                最高の家事休息を、ご自宅で。
+              </p>
+
+              <div class="mt-10 grid grid-cols-2 gap-3 max-w-xl text-sm md:text-base">
+                <div class="bg-white/75 border border-[#C1A173]/25 rounded-2xl px-4 py-4">七宗町内 配達無料</div>
+                <div class="bg-white/75 border border-[#C1A173]/25 rounded-2xl px-4 py-4">前日17:00まで</div>
+                <div class="bg-white/75 border border-[#C1A173]/25 rounded-2xl px-4 py-4">木曜・金曜限定</div>
+                <div class="bg-white/75 border border-[#C1A173]/25 rounded-2xl px-4 py-4">2個から配達可能</div>
+              </div>
+
+              <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                <a href="tel:0574-46-1128" class="btn-refined rounded-full px-8 py-4 text-center text-base tracking-[0.12em]">
+                  電話で注文する
+                </a>
+                <button type="button" onclick="openLineModal()" class="btn-refined rounded-full px-8 py-4 text-center text-base tracking-[0.12em] inline-flex justify-center items-center gap-2">
+                  <span class="inline-block w-3 h-3 rounded-sm bg-[#06C755]"></span>
+                  LINEで注文する
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-1 md:order-2">
+          <div class="photo-frame rounded-[2rem] p-3 md:p-5 shadow-[0_30px_80px_rgba(89,70,43,0.08)]">
+            <div class="image-placeholder min-h-[420px] md:min-h-[680px] rounded-[1.5rem]"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 共感 -->
+    <section class="px-5 md:px-10 py-20 md:py-32">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-[220px_1fr] gap-10 md:gap-20 items-start">
+        <h2 class="vertical-title text-3xl md:text-4xl font-semibold">
+          外食に行くほどではない。<br>
+          でも、ちゃんと美味しいものが<br>
+          食べたい夜に。
+        </h2>
+        <div class="bg-white/70 border border-[#C1A173]/25 rounded-[2rem] p-7 md:p-12 shadow-[0_24px_70px_rgba(89,70,43,0.06)]">
+          <p class="text-lg leading-[2]">
+            夜に外へ出るのは、少し面倒。車を出して、移動して、食事をして、また帰ってくる。
+            それなら今日は、家でゆっくりごちそうを楽しみませんか。
+            七宗町内なら、夜専用うなぎ弁当をご自宅までお届けします。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 商品魅力 -->
+    <section class="px-5 md:px-10 py-20 md:py-32">
+      <div class="max-w-7xl mx-auto relative">
+        <div class="unagi-placeholder h-[420px] md:h-[620px] rounded-[2.5rem] border border-[#C1A173]/25 shadow-[0_30px_90px_rgba(89,70,43,0.08)]"></div>
+
+        <div class="md:absolute md:right-10 md:-bottom-20 bg-white/95 border border-[#C1A173]/30 rounded-[2rem] p-7 md:p-12 max-w-2xl mt-[-60px] md:mt-0 mx-4 md:mx-0 shadow-[0_30px_80px_rgba(89,70,43,0.10)]">
+          <div class="flex gap-8">
+            <h2 class="vertical-title text-3xl md:text-4xl font-semibold shrink-0">
+              ふっくら香ばしい、<br>夜のうなぎ弁当。
+            </h2>
+            <div>
+              <p class="text-lg leading-[2]">
+                香ばしく焼き上げたうなぎを、ご飯の上にのせた夜専用のうなぎ弁当です。
+                うなぎは2/3尾使用。自宅にいながら、外食のような満足感を味わっていただけます。
+              </p>
+              <div class="mt-8 border-t border-[#C1A173]/30 pt-6">
+                <p class="serif text-3xl md:text-4xl tracking-[0.08em]">税込 2,500円</p>
+                <p class="mt-2 text-sm text-[#7B6A52]">三河産うなぎ使用 / うなぎ2/3尾</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ラクな理由 -->
+    <section class="px-5 md:px-10 py-28 md:py-40">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-[1fr_260px] gap-12 md:gap-20 items-start">
+          <div>
+            <p class="text-sm tracking-[0.22em] text-[#8B7657] mb-5">REASON</p>
+            <p class="text-lg leading-[2]">
+              外食に行くと、往復の時間、ガソリン代、運転の負担があります。
+              夜は特に、外へ出るだけでも少し面倒です。
+              夜専用うなぎ弁当なら、ご自宅で待っているだけ。
+              料理を作る手間も少なく、家で落ち着いて外食気分を楽しめます。
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
+              <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center">
+                <div class="serif text-2xl mb-2">一</div>
+                <p>運転不要</p>
+              </div>
+              <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center">
+                <div class="serif text-2xl mb-2">二</div>
+                <p>移動不要</p>
+              </div>
+              <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center">
+                <div class="serif text-2xl mb-2">三</div>
+                <p>料理の手間なし</p>
+              </div>
+              <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center">
+                <div class="serif text-2xl mb-2">四</div>
+                <p>家でゆっくり</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="vertical-title text-3xl md:text-4xl font-semibold">
+            移動なし。<br>運転なし。<br>家で待つだけ。
+          </h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- 高齢夫婦向け -->
+    <section class="px-5 md:px-10 py-20 md:py-32">
+      <div class="max-w-7xl mx-auto grid md:grid-cols-[1fr_0.9fr] gap-8 md:gap-16 items-center">
+        <div class="room-placeholder h-[360px] md:h-[560px] rounded-[2.5rem] border border-[#C1A173]/25 shadow-[0_30px_90px_rgba(89,70,43,0.08)]"></div>
+
+        <div class="bg-white/80 border border-[#C1A173]/25 rounded-[2rem] p-7 md:p-12 md:-ml-28 shadow-[0_30px_80px_rgba(89,70,43,0.09)]">
+          <h2 class="vertical-title text-3xl md:text-4xl font-semibold mb-8 md:h-[420px]">
+            夫婦でゆっくり食べる、<br>
+            少し贅沢な夜ごはん。
+          </h2>
+          <p class="text-lg leading-[2]">
+            特別な日でなくてもいい。「今日は少し楽をしよう」「たまには美味しいものを食べよう」
+            そんな日に選んでもらえる弁当を目指しました。
+            派手な贅沢ではなく、日常の中にある、ちょうどいいごちそう。
+            家の食卓で、ゆっくり味わってください。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- お品書き -->
+    <section class="px-5 md:px-10 py-20 md:py-32">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-start gap-8 md:gap-14 mb-12">
+          <h2 class="vertical-title text-3xl md:text-4xl font-semibold">お品書き</h2>
+          <div class="pt-2">
+            <p class="serif text-2xl md:text-4xl leading-[1.8]">
+              三河産うなぎ弁当<br>
+              <span class="text-xl md:text-2xl">うなぎ2/3尾使用</span>
+            </p>
+            <p class="serif text-4xl mt-5">税込 2,500円</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5">
+          <MenuBox title="お供に" items="追いタレ 150円 / 山椒 150円"></MenuBox>
+          <MenuBox title="汁物" items="お味噌汁 350円 / 肝吸い 350円"></MenuBox>
+          <MenuBox title="お飲み物" items="缶コーラ250ml 150円 / おーいお茶500ml 150円"></MenuBox>
+          <MenuBox title="冷凍ストック" items="豚の角煮 780円 / にじますの刺身 780円"></MenuBox>
+        </div>
+      </div>
+    </section>
+
+    <!-- 配達ルール -->
+    <section class="px-5 md:px-10 py-20 md:py-32">
+      <div class="max-w-6xl mx-auto bg-white/70 border border-[#C1A173]/25 rounded-[2.5rem] p-7 md:p-12">
+        <h2 class="serif text-3xl md:text-4xl tracking-[0.12em] mb-10">配達・ご注文ルール</h2>
+        <div class="grid md:grid-cols-3 gap-4 text-lg">
+          <div class="border-b border-[#C1A173]/25 py-4">完全予約制<br><span class="text-sm text-[#7B6A52]">前日17:00締切</span></div>
+          <div class="border-b border-[#C1A173]/25 py-4">お弁当2個から<br><span class="text-sm text-[#7B6A52]">配達可能</span></div>
+          <div class="border-b border-[#C1A173]/25 py-4">木曜・金曜のみ<br><span class="text-sm text-[#7B6A52]">限定お届け</span></div>
+          <div class="border-b border-[#C1A173]/25 py-4">15:00〜18:00<br><span class="text-sm text-[#7B6A52]">配達予定</span></div>
+          <div class="border-b border-[#C1A173]/25 py-4">七宗町内無料<br><span class="text-sm text-[#7B6A52]">町内配達</span></div>
+          <div class="border-b border-[#C1A173]/25 py-4">現金引き換え<br><span class="text-sm text-[#7B6A52]">配達時のお支払い</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- メッセージ -->
+    <section class="px-5 md:px-10 py-20 md:py-32">
+      <div class="max-w-5xl mx-auto text-center">
+        <h2 class="serif text-3xl md:text-5xl leading-[1.8] tracking-[0.14em] mb-10">
+          夜の食卓に、<br class="md:hidden">少しだけ楽しみを。
+        </h2>
+        <p class="text-lg leading-[2] text-left md:text-center">
+          七宗遊園は、食事を通して地域の方に喜んでもらえる場所でありたいと考えています。
+          外食に出かけるのが大変な日でも、家でゆっくり美味しいものを食べてほしい。
+          そんな思いで、夜専用のうなぎ弁当をお届けします。
+        </p>
+      </div>
+    </section>
+
+    <!-- 最下部注文 -->
+    <section id="order" class="px-5 md:px-10 py-20 md:py-32 pb-40">
+      <div class="max-w-6xl mx-auto bg-white/85 border border-[#C1A173]/30 rounded-[2.5rem] p-7 md:p-14 shadow-[0_30px_90px_rgba(89,70,43,0.08)]">
+        <div class="grid md:grid-cols-[240px_1fr] gap-10 md:gap-16 items-start">
+          <h2 class="vertical-title text-3xl md:text-4xl font-semibold">
+            ご注文は、<br>前日17:00までに。
+          </h2>
+          <div>
+            <p class="text-lg leading-[2]">
+              七宗町内へ配達無料。前日17:00までのご注文で、木曜・金曜の15:00〜18:00にお届けします。
+              ※お弁当2個から。
+            </p>
+
+            <div class="mt-8 bg-[#FCFAF6] border border-[#C1A173]/25 rounded-2xl p-5 text-base leading-[1.9]">
+              電話対応は17:00ごろまで。<br>
+              定休日：第2・第4火曜<br>
+              ※電話に出られない場合があります。
+            </div>
+
+            <div class="mt-10 flex flex-col sm:flex-row gap-4">
+              <a href="tel:0574-00-0000" class="btn-refined rounded-full px-8 py-4 text-center text-base tracking-[0.12em]">
+                電話で注文する
+              </a>
+              <button type="button" onclick="openLineModal()" class="btn-refined rounded-full px-8 py-4 text-center text-base tracking-[0.12em] inline-flex justify-center items-center gap-2">
+                <span class="inline-block w-3 h-3 rounded-sm bg-[#06C755]"></span>
+                LINEで注文する
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating CTA -->
+  <div class="floating-cta fixed left-0 right-0 bottom-0 px-4 pb-4 md:pb-6 z-40">
+    <div class="max-w-xl mx-auto">
+      <div id="floatingPanel" class="hidden mb-3 bg-white/95 backdrop-blur border border-[#C1A173]/30 rounded-3xl p-3 shadow-[0_18px_50px_rgba(89,70,43,0.16)]">
+        <div class="grid grid-cols-2 gap-3">
+          <a href="tel:0574-00-0000" class="btn-refined rounded-2xl py-4 text-center text-sm md:text-base">
+            電話で注文する
+          </a>
+          <button type="button" onclick="openLineModal()" class="btn-refined rounded-2xl py-4 text-center text-sm md:text-base flex justify-center items-center gap-2">
+            <span class="inline-block w-3 h-3 rounded-sm bg-[#06C755]"></span>
+            LINEで注文する
+          </button>
+        </div>
+      </div>
+
+      <button id="floatingToggle" type="button" class="w-full bg-white/95 backdrop-blur border border-[#C1A173]/50 rounded-full py-4 px-5 shadow-[0_18px_50px_rgba(89,70,43,0.16)] serif tracking-[0.12em] text-base md:text-lg">
+        簡単注文 | 簡単1分 | 注文はこちら
+      </button>
+    </div>
+  </div>
+
+  <!-- LINE Modal -->
+  <div id="lineModal" class="modal-layer fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-[#FCFAF6]/80 backdrop-blur-sm" onclick="closeLineModal()"></div>
+
+    <div class="relative min-h-screen flex items-center justify-center px-4 py-8">
+      <div class="w-full max-w-3xl bg-white border border-[#C1A173]/35 rounded-[2rem] shadow-[0_30px_90px_rgba(89,70,43,0.18)] max-h-[92vh] overflow-y-auto">
+        <div class="p-6 md:p-10">
+          <div class="flex justify-between gap-5 items-start mb-8">
+            <div>
+              <p class="text-sm tracking-[0.2em] text-[#8B7657] mb-3">LINE ORDER</p>
+              <h2 class="serif text-2xl md:text-4xl tracking-[0.1em]">LINE注文フォーム</h2>
+            </div>
+            <button onclick="closeLineModal()" class="w-11 h-11 rounded-full border border-[#C1A173]/40 bg-white text-2xl leading-none" aria-label="閉じる">
+              ×
+            </button>
+          </div>
+
+          <div class="bg-[#FCFAF6] border border-[#C1A173]/35 rounded-2xl p-5 mb-6 text-base leading-[1.9]">
+            <p class="mb-3">
+              原則、対面受け渡しの際に現金でのお支払いとなります。ご不在となる場合は「後日銀行振込」での対応も可能です。その際は後ほどLINEにてお知らせください。
+            </p>
+            <p>
+              配達時間は15:00〜18:00を予定しておりますが、状況により前後する可能性がございます。
+            </p>
+          </div>
+
+          <form id="lineOrderForm" class="space-y-5">
+            <div>
+              <label class="block mb-2 font-medium">配達希望日</label>
+              <input required type="date" id="deliveryDate" class="w-full rounded-2xl border border-[#C1A173]/35 bg-white px-4 py-4 text-base focus:outline-none focus:ring-2 focus:ring-[#C1A173]/30">
+            </div>
+
+            <div>
+              <label class="block mb-2 font-medium">お名前</label>
+              <input required type="text" id="customerName" placeholder="例：加藤 祐介" class="w-full rounded-2xl border border-[#C1A173]/35 bg-white px-4 py-4 text-base focus:outline-none focus:ring-2 focus:ring-[#C1A173]/30">
+            </div>
+
+            <div>
+              <label class="block mb-2 font-medium">ご住所（七宗町内）</label>
+              <input required type="text" id="address" placeholder="例：七宗町〇〇 123-4" class="w-full rounded-2xl border border-[#C1A173]/35 bg-white px-4 py-4 text-base focus:outline-none focus:ring-2 focus:ring-[#C1A173]/30">
+            </div>
+
+            <div>
+              <label class="block mb-2 font-medium">電話番号</label>
+              <input required type="tel" id="phone" placeholder="例：090-0000-0000" class="w-full rounded-2xl border border-[#C1A173]/35 bg-white px-4 py-4 text-base focus:outline-none focus:ring-2 focus:ring-[#C1A173]/30">
+            </div>
+
+            <div>
+              <label class="block mb-2 font-medium">ご注文内容</label>
+              <textarea required id="orderDetail" rows="5" placeholder="例：うなぎ弁当 2個、肝吸い 2個" class="w-full rounded-2xl border border-[#C1A173]/35 bg-white px-4 py-4 text-base leading-[1.8] focus:outline-none focus:ring-2 focus:ring-[#C1A173]/30"></textarea>
+            </div>
+
+            <label class="flex gap-3 items-start text-base leading-[1.8]">
+              <input required type="checkbox" id="agreeCancel" class="mt-2 w-5 h-5 accent-[#C1A173]">
+              <span>キャンセルポリシーへの同意</span>
+            </label>
+
+            <label class="flex gap-3 items-start text-base leading-[1.8]">
+              <input required type="checkbox" id="agreePrivacy" class="mt-2 w-5 h-5 accent-[#C1A173]">
+              <span>個人情報取扱ポリシーおよび「お得な情報を受け取る」への同意</span>
+            </label>
+
+            <button type="submit" class="w-full btn-refined rounded-full px-8 py-5 text-base md:text-lg tracking-[0.12em] flex justify-center items-center gap-2">
+              <span class="inline-block w-3 h-3 rounded-sm bg-[#06C755]"></span>
+              LINEで送信内容を作成する
+            </button>
+
+            <p class="text-sm leading-[1.8] text-[#7B6A52]">
+              ※ボタンを押すと、入力内容をまとめたメッセージを作成します。内容をご確認のうえ、LINEで送信してください。
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="px-5 md:px-10 py-10 border-t border-[#C1A173]/25">
+    <div class="max-w-7xl mx-auto text-sm text-[#7B6A52] flex flex-col md:flex-row gap-2 md:justify-between">
+      <p>七宗遊園</p>
+      <p>夜専用うなぎ弁当の宅配</p>
+    </div>
+  </footer>
+
+  <script>
+    // ====== 差し替え箇所 ======
+    const PHONE_NUMBER = "0574-00-0000";
+    const LINE_URL = "https://line.me/R/ti/p/@yourlineid";
+    // ========================
+
+    document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+      link.setAttribute("href", `tel:${PHONE_NUMBER}`);
+    });
+
+    const floatingToggle = document.getElementById("floatingToggle");
+    const floatingPanel = document.getElementById("floatingPanel");
+    const lineModal = document.getElementById("lineModal");
+    const form = document.getElementById("lineOrderForm");
+
+    floatingToggle.addEventListener("click", () => {
+      floatingPanel.classList.toggle("hidden");
+    });
+
+    function openLineModal() {
+      lineModal.classList.remove("hidden");
+      document.body.classList.add("modal-open");
+      floatingPanel.classList.add("hidden");
+    }
+
+    function closeLineModal() {
+      lineModal.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeLineModal();
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const deliveryDate = document.getElementById("deliveryDate").value;
+      const customerName = document.getElementById("customerName").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const orderDetail = document.getElementById("orderDetail").value.trim();
+
+      const message =
+`夜専用うなぎ弁当を注文します。
+
+【配達希望日】
+${deliveryDate}
+
+【お名前】
+${customerName}
+
+【ご住所】
+${address}
+
+【電話番号】
+${phone}
+
+【注文内容】
+${orderDetail}
+
+【同意事項】
+キャンセルポリシーに同意しました。
+個人情報取扱ポリシーおよびお得な情報の受け取りに同意しました。`;
+
+      navigator.clipboard?.writeText(message).catch(() => {});
+
+      const encodedMessage = encodeURIComponent(message);
+
+      // LINE公式アカウントURLがある場合は、まずLINEを開く。
+      // 実運用ではLINE公式アカウントのURLに差し替えてください。
+      window.open(`${LINE_URL}?text=${encodedMessage}`, "_blank");
+    });
+
+    // HTML上でカスタムタグ風に書いた MenuBox を通常HTMLへ変換
+    document.querySelectorAll("menubox").forEach(box => {
+      const title = box.getAttribute("title");
+      const items = box.getAttribute("items");
+
+      const div = document.createElement("div");
+      div.className = "bg-white/75 border border-[#C1A173]/25 rounded-3xl p-6 md:p-8";
+      div.innerHTML = `
+        <p class="serif text-xl tracking-[0.12em] mb-4">${title}</p>
+        <p class="text-lg leading-[1.9]">${items}</p>
+      `;
+      box.replaceWith(div);
+    });
+  </script>
+</body>
+</html>
