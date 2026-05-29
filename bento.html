@@ -211,7 +211,7 @@
             <h2 class="vertical-title text-3xl md:text-4xl font-semibold shrink-0">ふっくら香ばしい、<br>夜のうなぎ弁当。</h2>
             <div>
               <p class="text-lg leading-[2]">
-                ふっくら香ばしいうなぎを、食べやすいお弁当に。<br>三河産うなぎを2/3尾使用。<br>ご夫婦でゆっくり楽しむ夜にどうぞ。
+                ふっくら香ばしいうなぎを、食べやすいお弁当に。<br>三河産うなぎを2/3尾使用。<br>ご家族でゆっくり楽しむ夜にどうぞ。
               </p>
               <div class="mt-8 border-t border-[#C1A173]/30 pt-6">
                 <p class="serif text-3xl md:text-4xl tracking-[0.08em]">税込 2,500円</p>
@@ -230,11 +230,11 @@
           <div>
             <p class="text-sm tracking-[0.22em] text-[#8B7657] mb-5">SCENE</p>
             <p class="text-lg leading-[2]">
-              毎日のごはんを大切にしながら、たまには少し気分を変えて。<br>木曜・金曜の夜に、うなぎを囲む時間をお届けします。
+              毎日のごはんを大切にしながら、たまには少し気分を変えて。木曜・金曜の夜に、うなぎを囲む時間をお届けします。
             </p>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
-              <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center"><div class="serif text-2xl mb-2">一</div><p>夫婦の夕食に</p></div>
+              <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center"><div class="serif text-2xl mb-2">一</div><p>家族の夕食に</p></div>
               <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center"><div class="serif text-2xl mb-2">二</div><p>金曜の楽しみに</p></div>
               <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center"><div class="serif text-2xl mb-2">三</div><p>ご実家への差し入れに</p></div>
               <div class="bg-white/75 border border-[#C1A173]/25 rounded-3xl p-5 text-center"><div class="serif text-2xl mb-2">四</div><p>家族が集まる日に</p></div>
@@ -373,7 +373,7 @@
   <div class="floating-cta fixed left-0 right-0 bottom-0 px-4 pb-4 md:pb-6 z-40">
     <div class="max-w-xl mx-auto bg-white/95 backdrop-blur border border-[#C1A173]/40 rounded-[28px] p-3 shadow-[0_18px_50px_rgba(89,70,43,0.16)]">
       <button type="button" onclick="openLineModal()" class="btn-line w-full rounded-full py-4 px-5 serif tracking-[0.08em] text-base md:text-lg font-bold">
-        今週の弁当を予約する
+        LINEでかんたん予約
       </button>
       <div class="mt-2 flex justify-center gap-4 text-xs text-[#7B6A52]">
         <span>予約は簡単</span>
@@ -546,11 +546,11 @@
             </label>
 
             <button type="submit" class="w-full btn-line rounded-full px-8 py-5 text-base md:text-lg tracking-[0.08em] font-bold flex justify-center items-center gap-2">
-              LINEで予約内容を作成する
+              LINEを開いて予約する
             </button>
 
             <p class="text-sm leading-[1.8] text-[#7B6A52]">
-              ※ボタンを押すと予約内容をコピーし、LINE公式アカウントを開きます。LINE画面で貼り付けて送信してください。<br>
+              ※ボタンを押すと予約内容をコピーして、LINE公式アカウントを開きます。<br>
               LINE ID：@602nbqce
             </p>
           </form>
@@ -569,7 +569,9 @@
   <script>
     const PHONE_NUMBER = "0574-46-1128";
     const LINE_ID = "@602nbqce";
-    const LINE_URL = `https://line.me/R/ti/p/${encodeURIComponent(LINE_ID)}`;
+    function buildLineOaMessageUrl(message) {
+      return `https://line.me/R/oaMessage/${encodeURIComponent(LINE_ID)}/?${encodeURIComponent(message)}`;
+    }
 
     document.querySelectorAll('a[href^="tel:"]').forEach(link => {
       link.setAttribute("href", `tel:${PHONE_NUMBER.replaceAll("-", "")}`);
@@ -809,14 +811,10 @@ ${note || "なし"}
 【確認事項】
 予約内容を確認しました。`;
 
-      try {
-        await navigator.clipboard.writeText(message);
-        alert("予約内容をコピーしました。LINEが開いたら、貼り付けて送信してください。");
-      } catch (error) {
-        alert("LINEが開きます。予約内容はこの画面でご確認ください。");
-      }
-
-      window.open(LINE_URL, "_blank");
+      // 余計な確認アラートを出さず、予約内容をコピーしてそのままLINEを開く。
+      // LINE公式アカウントのトーク画面へ、ブラウザから本文を自動入力することはできないため、
+      // 送信文はクリップボードへ保存し、LINE側で貼り付けてもらう方式にする。
+      window.location.href = buildLineOaMessageUrl(message);
     });
   </script>
 </body>
