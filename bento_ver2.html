@@ -422,7 +422,7 @@
 
     .quote-section {
       background:
-        linear-gradient(180deg, rgba(74,47,27,.50), rgba(52,32,17,.50)),
+        linear-gradient(180deg, rgba(0,0,0,.50), rgba(0,0,0,.50)),
         url("unagi3.png");
       background-size: cover;
       background-position: center;
@@ -1118,7 +1118,7 @@
         <div class="container">
           <h2>今週の<br>うなぎ弁当を<br>予約する。</h2>
           <p class="lead">
-            必要事項を入力するだけで予約できます。<br>前日17:00までのご予約で、木曜・金曜の15:00〜18:00に七宗町内へお届けします。
+            必要事項を入力するだけ。<br>木曜・金曜の15:00〜18:00にお届けします。
           </p>
 
           <div class="notice">
@@ -1129,7 +1129,7 @@
           <a class="btn btn-tel" href="tel:0574461128" style="margin-top:10px;">電話で予約したい方はこちら</a>
 
           <div class="tel-info">
-            電話対応は17:00まで<br>
+            電話対応は10:00~17:00<br>
             電話番号：0574-46-1128<br>
             定休日：第2・第4火曜
           </div>
@@ -1163,7 +1163,6 @@
       <div class="modal-header">
         <div class="modal-headline">
           <div>
-            <div class="eyebrow" style="margin-bottom:4px;">LINE RESERVATION</div>
             <div class="modal-title" id="modalTitle">LINEでかんたん予約</div>
           </div>
           <button class="close-btn js-close-modal" type="button" aria-label="閉じる">×</button>
@@ -1188,12 +1187,12 @@
             <div class="form-title">2. お客様情報</div>
             <div class="field">
               <label for="customerName">お名前<span class="required">必須</span></label>
-              <input id="customerName" type="text" placeholder="例：加藤 祐介" required autocomplete="name" />
+              <input id="customerName" type="text" placeholder="例：七宗　太郎" required autocomplete="name" />
             </div>
 
             <div class="field">
               <label for="phone">電話番号<span class="required">必須</span></label>
-              <input id="phone" type="tel" placeholder="例：090-0000-0000" required autocomplete="tel" />
+              <input id="phone" type="tel" placeholder="例：090-1234-5678" required autocomplete="tel" />
             </div>
 
             <div class="field">
@@ -1207,7 +1206,7 @@
 
             <div class="field">
               <label for="address">ご住所（番地までご入力ください）<span class="required">必須</span></label>
-              <input id="address" type="text" placeholder="例：七宗町〇〇 123-4" required autocomplete="street-address" />
+              <input id="address" type="text" placeholder="例：岐阜県七宗町神渕4183-4番地" required autocomplete="street-address" />
             </div>
           </div>
 
@@ -1291,7 +1290,7 @@
 
           <button class="btn btn-line" type="submit">LINEを開いて予約する</button>
           <div class="submit-help">
-            ※ボタンを押すと予約内容をコピーして、LINE公式アカウントを開きます。<br>
+            ※ボタンを押すとLINEが開き、入力欄に予約内容が入ります。<br>
             LINE ID：@602nbqce
           </div>
         </form>
@@ -1300,8 +1299,7 @@
   </div>
 
   <script>
-    const LINE_ID = "@602nbqce";
-    const LINE_URL = "https://line.me/R/ti/p/%40602nbqce";
+    const LINE_ACCOUNT_ID = "@602nbqce";
     const modal = document.getElementById("reservationModal");
     const form = document.getElementById("reservationForm");
     const deliveryDate = document.getElementById("deliveryDate");
@@ -1448,25 +1446,40 @@ ${itemText}
       }
     });
 
-    async function copyText(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        return true;
-      } catch (error) {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-        const result = document.execCommand("copy");
-        document.body.removeChild(textarea);
-        return result;
-      }
+    function buildLineMessage() {
+      updateSummary();
+
+      const items = getQuantities().filter(item => item.qty > 0);
+      const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+      const name = document.getElementById("customerName").value || "未入力";
+      const phone = document.getElementById("phone").value || "未入力";
+      const zip = document.getElementById("zip").value || "未入力";
+      const address = document.getElementById("address").value || "未入力";
+      const dateText = deliveryDate.options[deliveryDate.selectedIndex]?.text || "未選択";
+      const note = document.getElementById("note").value || "なし";
+
+      const itemText = items.length
+        ? items.map(item => `■ ${item.item}: ${item.qty}個`).join("\n")
+        : "■ 注文内容: 未選択";
+
+      return `【七宗遊園 夜専用弁当 予約リクエスト】
+■ 配達希望日: ${dateText}
+■ 代表者名: ${name} 様
+■ 電話番号: ${phone}
+■ 郵便番号: ${zip}
+■ ご住所: ${address}
+
+【ご注文内容】
+${itemText}
+
+■ 合計金額: ${total.toLocaleString()}円
+■ 備考・ご希望: ${note}
+------------------------
+※上記の内容で予約をお願いします。`;
     }
 
-    form.addEventListener("submit", async (event) => {
+    form.addEventListener("submit", (event) => {
       event.preventDefault();
 
       const bentoCount = getQuantities()
@@ -1481,11 +1494,11 @@ ${itemText}
 
       if (!form.reportValidity()) return;
 
-      updateSummary();
-      const message = summaryBox.textContent;
+      const textMessage = buildLineMessage();
+      const encodedText = encodeURIComponent(textMessage);
+      const lineUrl = `https://line.me/R/oaMessage/${LINE_ACCOUNT_ID}/?${encodedText}`;
 
-      await copyText(message);
-      window.location.href = LINE_URL;
+      window.open(lineUrl, "_blank");
     });
   </script>
 </body>
