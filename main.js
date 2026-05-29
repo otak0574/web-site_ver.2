@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <li><a href="story">こだわりとストーリー</a></li>
                     <li><a href="access">アクセス</a></li>
                     <li><a href="bento">夜専用うなぎ弁当</a></li>
-                    <li><a href="bento_var2>夜専用うなぎ弁当ver_2</a><li>
+                    <li><a href="bento_ver2>夜専用うなぎ弁当ver_2</a><li>
                     <li style="margin-top: 24px; border-top: 1px dashed var(--color-main); padding-top: 24px;"><a href="simulation.html" style="color: var(--color-accent); font-weight: bold;">料金シミュレーション</a></li>
                 </ul>
             </nav>
