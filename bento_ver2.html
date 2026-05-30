@@ -93,8 +93,8 @@
       min-height: 64px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      justify-content: center;
+      text-align: center;
     }
 
     .brand {
@@ -139,8 +139,8 @@
       overflow: hidden;
       border-radius: 0 0 34px 34px;
       background:
-        linear-gradient(180deg, rgba(37, 23, 12, .22), rgba(37, 23, 12, .72)),
-        url("unagi1.png");
+        linear-gradient(180deg, rgba(37, 23, 12, .55), rgba(37, 23, 12, .72)),
+        url("lunchbox_images/unagi1.png");
       background-size: cover;
       background-position: center;
       min-height: 610px;
@@ -184,7 +184,7 @@
 
     .hero-title {
       font-family: "Noto Serif JP", serif;
-      font-size: clamp(42px, 13vw, 60px);
+      font-size: clamp(42px, 13vw, 45px);
       line-height: 1.14;
       letter-spacing: .04em;
       margin: 18px 0 18px;
@@ -193,7 +193,7 @@
 
     .hero-lead {
       font-size: 17px;
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1.9;
       margin: 0 0 20px;
       text-shadow: 0 4px 18px rgba(0,0,0,.4);
@@ -227,14 +227,13 @@
     }
 
     .btn-line {
-      background: var(--line);
+      background: rgba(6, 199, 85, 0.75);
       color: white;
       box-shadow: 0 10px 26px rgba(6, 199, 85, .32);
     }
 
     .btn-tel {
-      background: #fff7e8;
-      color: var(--brown);
+      background: rgba(247, 232, 208, 0.55);
       box-shadow: 0 8px 20px rgba(0,0,0,.14);
     }
 
@@ -246,13 +245,15 @@
     }
 
     .condition {
-      background: rgba(255, 248, 235, .95);
+      background: rgba(0, 0, 0, .26);
+      color: #ffffff;
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(6px);
+      text-shadow: 0 2px 5px rgba(0,0,0,.72);
       border: 1px solid rgba(255,255,255,.58);
       border-radius: 15px;
       padding: 11px 9px;
-      color: var(--brown);
       text-align: center;
-      font-weight: 900;
       font-size: 14px;
       line-height: 1.45;
       box-shadow: 0 8px 24px rgba(0,0,0,.1);
@@ -328,7 +329,7 @@
       overflow: hidden;
       min-height: 260px;
       background:
-      url("unagi2.png");
+      url("lunchbox_images/unagi2.png");
       background-size: cover;
       background-position: center;
       box-shadow: var(--shadow);
@@ -423,7 +424,7 @@
     .quote-section {
       background:
         linear-gradient(180deg, rgba(0,0,0,.50), rgba(0,0,0,.50)),
-        url("unagi3.png");
+        url("lunchbox_images/unagi3.png");
       background-size: cover;
       background-position: center;
       color: #fff7e8;
@@ -431,7 +432,7 @@
 
     .quote-section h2 {
       color: #fff7e8;
-      font-size: 32px;
+      font-size: 28px;
     }
 
     .quote-section .lead {
@@ -590,6 +591,13 @@
       border-radius: 22px;
       padding: 10px;
       backdrop-filter: blur(14px);
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .floating-cta.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-50%) translateY(14px);
     }
 
     .floating-main {
@@ -915,7 +923,7 @@
       }
 
       .hero-title {
-        font-size: 39px;
+        font-size: 30px;
       }
 
       h2 {
@@ -941,24 +949,24 @@
           <span class="brand-main">七宗遊園</span>
           <span class="brand-sub">夜専用弁当の宅配</span>
         </a>
-        <button class="header-cta js-open-modal" type="button">LINEで予約</button>
       </div>
     </header>
 
     <main>
+      <!--セクション１-->
       <section class="hero-card" aria-label="ファーストビュー">
         <div class="hero-content">
           <span class="label">七宗町内 配達無料</span>
-          <h1 class="hero-title">たまには、<br>家で<br>うなぎを。</h1>
+          <h1 class="hero-title">たまには、<br>うなぎを<br>食べたい夜もある。</h1>
           <p class="hero-lead">
-            木曜・金曜の夕方、<br>
+            そんな夜に<br>
             七宗遊園がご自宅まで<br>
             夜専用うなぎ弁当をお届けします。
           </p>
 
           <div class="hero-actions">
-            <button class="btn btn-line js-open-modal" type="button">LINEで予約する</button>
-            <a class="btn btn-tel" href="tel:0574461128">電話で予約する</a>
+            <button class="btn btn-line js-open-modal page-cta" type="button">LINEで予約する</button>
+            <a class="btn btn-tel page-cta" href="tel:0574461128">電話で予約する</a>
           </div>
 
           <div class="conditions" aria-label="注文条件">
@@ -970,19 +978,21 @@
         </div>
       </section>
 
+      <!--セクション２-->
       <section class="section-tight">
         <div class="container">
           <div class="card story-card">
             <h2>最後に、<br>うなぎを食べたのは。</h2>
             <p class="lead">
-              食べたいと思っても、わざわざ出かけるほどではない。<br>
+              食べたいと思っても、<br>わざわざ出かけるほどではない。<br>
               でも、家に届くなら話は別です。<br><br>
-              いつもの食卓に、少し楽しみな夜を。七宗遊園が、七宗町内のご自宅までお届けします。
+              いつもの食卓に、少し楽しみな夜を。<br>七宗遊園が、ご自宅までお届けします。
             </p>
           </div>
         </div>
       </section>
 
+      <!--セクション３-->
       <section class="product">
         <div class="container">
           <div class="product-photo" role="img" aria-label="うなぎ弁当の写真"></div>
@@ -991,7 +1001,7 @@
             <span class="badge">三河産うなぎ使用</span>
             <h2>ふっくら香ばしい、<br>夜のうなぎ弁当。</h2>
             <p class="lead">
-              ふっくら香ばしいうなぎを、食べやすいお弁当に。三河産うなぎを2/3尾使用。ご家族でゆっくり楽しむ夜にどうぞ。
+              ふっくら香ばしいうなぎを、お弁当に。<br>三河産うなぎを2/3尾使用。<br>ご家族でゆっくり楽しむ夜にどうぞ。
             </p>
 
             <div class="price-row">
@@ -1005,36 +1015,58 @@
         </div>
       </section>
 
-      <section>
+        <!--セクション4-->
+        <section>
         <div class="container">
-          <div class="eyebrow">SCENE</div>
-          <h2>木曜・金曜に、<br>うなぎの日を。</h2>
+          <h2>月一回<br>うなぎの日を。</h2>
           <p class="lead">
-            毎日のごはんを大切にしながら、たまには少し気分を変えて。木曜・金曜の夜に、うなぎを囲む時間をお届けします。
+            毎日のごはんを大切にしながら、たまには少し気分を変えて。<br>毎週木曜・金曜の夜に、うなぎを囲む時間をお届けします。
           </p>
 
-          <div class="scene-grid">
-            <div class="scene-item"><span class="scene-num">一</span>家族の夕食に</div>
-            <div class="scene-item"><span class="scene-num">二</span>金曜の楽しみに</div>
-            <div class="scene-item"><span class="scene-num">三</span>ご実家への差し入れに</div>
-            <div class="scene-item"><span class="scene-num">四</span>家族が集まる日に</div>
+          <div class="scene-item">
+            <span class="scene-num">
+              <img src="lunchbox_images/dinner.png" alt="家族の夕食">
+            </span>
+            <span>家族の夕食に</span>
+          </div>
+
+          <div class="scene-item">
+            <span class="scene-num">
+              <img src="lunchbox_images/friday.png" alt="月に一度の楽しみ">
+            </span>
+            <span>金曜の楽しみに</span>
+          </div>
+
+          <div class="scene-item">
+            <span class="scene-num">
+              <img src="lunchbox_images/gift.png" alt="差し入れ">
+            </span>
+            <span>ご実家への差し入れに</span>
+          </div>
+
+          <div class="scene-item">
+            <span class="scene-num">
+              <img src="lunchbox_images/family.png" alt="家族が集まる日">
+            </span>
+            <span>家族が集まる日に</span>
           </div>
         </div>
       </section>
 
+      <!--セクション5-->
       <section class="quote-section">
         <div class="container">
-          <h2>「今日はうなぎが<br>届く日だね。」</h2>
+          <h2>「今日はうなぎが届く日だね。」</h2><br><br>
           <p class="lead">
-            そんな一言があるだけで、いつもの夕飯が少し楽しみになります。<br><br>
+            そんな一言があるだけで、いつもの夕飯が少し楽しみになります。<br>
             いつもの食卓に、少しだけ特別感を添えるための夜専用弁当です。
           </p>
         </div>
       </section>
 
+      <!--セクション6-->
       <section>
         <div class="container">
-          <div class="eyebrow">MENU</div>
           <h2>お品書き</h2>
           <p class="lead">
             うなぎ弁当を中心に、飛騨牛サーロイン弁当や汁物もご用意しています。
@@ -1042,37 +1074,51 @@
 
           <div class="menu-list">
             <div class="menu-item">
-              <div class="menu-thumb"><img src="unagibento.png" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
+              <div class="menu-thumb"><img src="lunchbox_images/unagibento.png" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
               <div>
                 <div class="menu-name">うなぎ弁当</div>
                 <div class="menu-desc">税込 2,500円 / 三河産うなぎ使用</div>
               </div>
             </div>
             <div class="menu-item">
-              <div class="menu-thumb"><img src="hidagyuubento.png" alt="" onerror="this.remove(); this.parentElement.textContent='飛騨牛';"></div>
+              <div class="menu-thumb"><img src="lunchbox_images/hidagyuubento.png" alt="" onerror="this.remove(); this.parentElement.textContent='飛騨牛';"></div>
               <div>
                 <div class="menu-name">飛騨牛サーロイン弁当</div>
                 <div class="menu-desc">税込 2,500円 / 飛騨牛サーロイン使用</div>
               </div>
             </div>
             <div class="menu-item">
-              <div class="menu-thumb"><img src="soup.png" alt="" onerror="this.remove(); this.parentElement.textContent='汁物';"></div>
+              <div class="menu-thumb"><img src="lunchbox_images/soup.png" alt="" onerror="this.remove(); this.parentElement.textContent='汁物';"></div>
               <div>
-                <div class="menu-name">汁物</div>
-                <div class="menu-desc">お味噌汁 350円 / 肝吸い 350円</div>
+                <div class="menu-name">お味噌汁</div>
+                <div class="menu-desc">350円</div>
               </div>
             </div>
             <div class="menu-item">
-              <div class="menu-thumb"><img src="ocha.png" alt="" onerror="this.remove(); this.parentElement.textContent='飲み物';"></div>
+              <div class="menu-thumb"><img src="lunchbox_images/soup.png" alt="" onerror="this.remove(); this.parentElement.textContent='汁物';"></div>
               <div>
-                <div class="menu-name">お飲み物</div>
-                <div class="menu-desc">缶コーラ250ml 200円 / おーいお茶 200円</div>
+                <div class="menu-name">肝吸い</div>
+                <div class="menu-desc">350円</div>
               </div>
             </div>
             <div class="menu-item">
-              <div class="menu-thumb"><img src="source.png" alt="" onerror="this.remove(); this.parentElement.textContent='追加';"></div>
+              <div class="menu-thumb"><img src="lunchbox_images/cola.png" alt="" onerror="this.remove(); this.parentElement.textContent='飲み物';"></div>
               <div>
-                <div class="menu-name">さらに美味しく</div>
+                <div class="menu-name">缶コーラ</div>
+                <div class="menu-desc">250ml 200円</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-thumb"><img src="lunchbox_images/ocha.png" alt="" onerror="this.remove(); this.parentElement.textContent='飲み物';"></div>
+              <div>
+                <div class="menu-name">おーいお茶</div>
+                <div class="menu-desc">500ml 200円</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-thumb"><img src="lunchbox_images/source.png" alt="" onerror="this.remove(); this.parentElement.textContent='追加';"></div>
+              <div>
+                <div class="menu-name">さらに美味しく</div><small>※タレは付属しています。追加で欲しい方はご注文ください。</small>
                 <div class="menu-desc">うなぎタレ 150円 / 山椒 150円</div>
               </div>
             </div>
@@ -1080,40 +1126,75 @@
         </div>
       </section>
 
+      <!--セクション7-->
       <section class="section-tight">
         <div class="container">
           <div class="eyebrow">ORDER RULE</div>
           <h2>配達・ご注文ルール</h2>
 
-          <div class="rules">
-            <div class="rule">
-              <div class="rule-icon">予</div>
-              <div><div class="rule-title">完全予約制</div><div class="rule-sub">前日17:00締切</div></div>
-            </div>
-            <div class="rule">
-              <div class="rule-icon">2</div>
-              <div><div class="rule-title">お弁当2個から</div><div class="rule-sub">合計2個以上</div></div>
-            </div>
-            <div class="rule">
-              <div class="rule-icon">木金</div>
-              <div><div class="rule-title">木曜・金曜のみ</div><div class="rule-sub">限定お届け</div></div>
-            </div>
-            <div class="rule">
-              <div class="rule-icon">時</div>
-              <div><div class="rule-title">15:00〜18:00</div><div class="rule-sub">配達予定</div></div>
-            </div>
-            <div class="rule">
-              <div class="rule-icon">町</div>
-              <div><div class="rule-title">七宗町内無料</div><div class="rule-sub">町内配達</div></div>
-            </div>
-            <div class="rule">
-              <div class="rule-icon">現</div>
-              <div><div class="rule-title">現金引き換え</div><div class="rule-sub">配達時のお支払い</div></div>
-            </div>
+          <div class="rule">
+              <div class="rule-icon">
+                <img src="lunchbox_images/calendar.png" alt="完全予約制">
+              </div>
+              <div>
+                <div class="rule-title">完全予約制</div>
+                <div class="rule-sub">前日17:00締切</div>
+              </div>
           </div>
+
+          <div class="rule">
+              <div class="rule-icon">
+                <img src="lunchbox_images/two.png" alt="2個から">
+              </div>
+              <div>
+                <div class="rule-title">お弁当2個から</div>
+                <div class="rule-sub">合計2個以上</div>
+              </div>
+          </div>
+
+            <div class="rule">
+              <div class="rule-icon">
+                <img src="lunchbox_images/week.png" alt="木曜金曜のみ">
+              </div>
+              <div>
+                <div class="rule-title">木曜・金曜のみ</div>
+                <div class="rule-sub">限定お届け</div>
+              </div>
+            </div>
+
+            <div class="rule">
+              <div class="rule-icon">
+                <img src="lunchbox_images/time.png" alt="配達時間">
+              </div>
+              <div>
+                <div class="rule-title">15:00〜18:00</div>
+                <div class="rule-sub">配達予定</div>
+              </div>
+            </div>
+
+            <div class="rule">
+              <div class="rule-icon">
+                <img src="lunchbox_images/free.png" alt="七宗町内無料">
+              </div>
+              <div>
+                <div class="rule-title">七宗町内無料</div>
+                <div class="rule-sub">町内配達</div>
+              </div>
+            </div>
+
+            <div class="rule">
+              <div class="rule-icon">
+                <img src="lunchbox_images/cash.png" alt="現金引き換え">
+              </div>
+              <div>
+                <div class="rule-title">安心の現金引き換え</div>
+                <div class="rule-sub">配達時のお支払い</div>
+              </div>
+            </div>
         </div>
       </section>
 
+      <!--CTA-->
       <section class="final-cta">
         <div class="container">
           <h2>今週の<br>うなぎ弁当を<br>予約する。</h2>
@@ -1125,8 +1206,8 @@
             ※お弁当は合計2個から。LINEが難しい方は、お電話でもご注文いただけます。
           </div>
 
-          <button class="btn btn-line js-open-modal" type="button">LINEでかんたん予約</button>
-          <a class="btn btn-tel" href="tel:0574461128" style="margin-top:10px;">電話で予約したい方はこちら</a>
+          <button class="btn btn-line js-open-modal page-cta" type="button">LINEでかんたん予約</button>
+          <a class="btn btn-tel page-cta" href="tel:0574461128" style="margin-top:10px;">電話で予約したい方はこちら</a>
 
           <div class="tel-info">
             電話対応は10:00~17:00<br>
@@ -1142,7 +1223,6 @@
         <div class="footer-name">七宗遊園</div>
         <div class="footer-info">
           夜専用弁当の宅配<br>
-          LINE ID：@602nbqce<br>
           電話：0574-46-1128
         </div>
       </div>
@@ -1290,8 +1370,7 @@
 
           <button class="btn btn-line" type="submit">LINEを開いて予約する</button>
           <div class="submit-help">
-            ※ボタンを押すとLINEが開き、入力欄に予約内容が入ります。<br>
-            LINE ID：@602nbqce
+            アカウント名：七宗遊園【弁当配達】
           </div>
         </form>
       </div>
@@ -1305,6 +1384,7 @@
     const deliveryDate = document.getElementById("deliveryDate");
     const summaryBox = document.getElementById("summaryBox");
     const bentoError = document.getElementById("bentoError");
+    
 
     function openModal() {
       modal.classList.add("is-open");
@@ -1500,6 +1580,31 @@ ${itemText}
 
       window.open(lineUrl, "_blank");
     });
+
+    const floatingCta = document.querySelector(".floating-cta");
+    const pageCtas = document.querySelectorAll(".page-cta");
+
+    if (floatingCta && pageCtas.length) {
+      const visibleCtas = new Set();
+
+      const ctaObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            visibleCtas.add(entry.target);
+          } else {
+            visibleCtas.delete(entry.target);
+          }
+        });
+
+        floatingCta.classList.toggle("is-hidden", visibleCtas.size > 0);
+      }, {
+        threshold: 0.18,
+        rootMargin: "0px 0px -80px 0px"
+      });
+
+      pageCtas.forEach(cta => ctaObserver.observe(cta));
+    }
+
   </script>
 </body>
 </html>
