@@ -329,9 +329,9 @@
       overflow: hidden;
       min-height: 260px;
       background:
-      url("lunchbox_images/unagi2.png");
+      url("lunchbox_images/unagiup.jpg");
       background-size: cover;
-      background-position: center;
+      background-position:10% center;
       box-shadow: var(--shadow);
       position: relative;
     }
@@ -350,6 +350,14 @@
       letter-spacing: .03em;
       z-index: -1;
     }
+
+    .product-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
 
     .price-row {
       display: flex;
@@ -432,7 +440,7 @@
 
     .quote-section h2 {
       color: #fff7e8;
-      font-size: 28px;
+      font-size: 26px;
     }
 
     .quote-section .lead {
@@ -939,7 +947,7 @@
       }
 
       h2 {
-        font-size: 27px;
+        font-size: 20px;
       }
 
       .conditions {
@@ -969,7 +977,7 @@
       <section class="hero-card" aria-label="ファーストビュー">
         <div class="hero-content">
           <span class="label">七宗町内 配達無料</span>
-          <h1 class="hero-title">たまには、<br>うなぎを<br>食べたい夜もある。</h1>
+          <h1 class="hero-title">たまには、<br>うなぎを<br>食べたい夜<br>もある。</h1>
           <p class="hero-lead">
             そんな夜に<br>
             七宗遊園がご自宅まで<br>
@@ -1032,14 +1040,14 @@
         <div class="container">
           <h2>月一回<br>うなぎの日を。</h2>
           <p class="lead">
-            毎日のごはんを大切にしながら、たまには少し気分を変えて。<br>毎週木曜・金曜の夜に、うなぎを囲む時間をお届けします。
+            毎日のごはんを大切にしながら、<br>たまには少し気分を変えて。<br>毎週木曜・金曜の夜に<br>うなぎを囲む時間をお届けします。
           </p>
 
           <div class="scene-item">
             <span class="scene-num">
               <img src="lunchbox_images/dinner.png" alt="家族の夕食">
             </span>
-            <span>家族の夕食に</span>
+            <span>ご家族との夕食に</span>
           </div>
 
           <div class="scene-item">
@@ -1068,10 +1076,10 @@
       <!--セクション5-->
       <section class="quote-section">
         <div class="container">
-          <h2>「今日はうなぎが届く日だね。」</h2><br><br>
+          <h2>今日はうなぎが届く日だね。</h2><br><br>
           <p class="lead">
-            そんな一言があるだけで、いつもの夕飯が少し楽しみになります。<br>
-            いつもの食卓に、少しだけ特別感を添えるための夜専用弁当です。
+            そんな一言があるだけで、<br>いつもの夕飯が少し楽しみになります。<br><br>
+            いつもの食卓に少しだけの特別感を。<br>
           </p>
         </div>
       </section>
@@ -1081,19 +1089,19 @@
         <div class="container">
           <h2>お品書き</h2>
           <p class="lead">
-            うなぎ弁当を中心に、飛騨牛サーロイン弁当や汁物もご用意しています。
+            うなぎ弁当を中心に飛騨牛サーロイン弁当や<br>汁物もご用意しています。
           </p>
 
           <div class="menu-list">
             <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/unagibento.png" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
+              <div class="menu-thumb"><img src="lunchbox_images/unagi.png" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
               <div>
                 <div class="menu-name">うなぎ弁当</div>
                 <div class="menu-desc">税込 2,500円 / 三河産うなぎ使用</div>
               </div>
             </div>
             <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/hidagyuubento.png" alt="" onerror="this.remove(); this.parentElement.textContent='飛騨牛';"></div>
+              <div class="menu-thumb"><img src="lunchbox_images/hidagyuu.png" alt="" onerror="this.remove(); this.parentElement.textContent='飛騨牛';"></div>
               <div>
                 <div class="menu-name">飛騨牛サーロイン弁当</div>
                 <div class="menu-desc">税込 2,500円 / 飛騨牛サーロイン使用</div>
@@ -1213,10 +1221,6 @@
           <p class="lead">
             必要事項を入力するだけ。<br>木曜・金曜の15:00〜18:00にお届けします。
           </p>
-
-          <div class="notice">
-            ※お弁当は合計2個から。LINEが難しい方は、お電話でもご注文いただけます。
-          </div>
 
           <button class="btn btn-line js-open-modal page-cta" type="button">LINEでかんたん予約</button>
           <a class="btn btn-tel page-cta" href="tel:0574461128" style="margin-top:10px;">電話で予約したい方はこちら</a>
