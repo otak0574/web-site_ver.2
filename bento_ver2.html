@@ -580,41 +580,53 @@
 
     .floating-cta {
       position: fixed;
-      left: 50%;
-      bottom: calc(12px + var(--safe-bottom));
-      transform: translateX(-50%);
+      right: 14px;
+      bottom: calc(18px + var(--safe-bottom));
       z-index: 100;
-      width: min(calc(100% - 24px), 456px);
-      background: rgba(255, 250, 240, .96);
-      border: 1px solid rgba(107, 68, 35, .15);
-      box-shadow: 0 16px 42px rgba(40, 25, 13, .24);
-      border-radius: 22px;
-      padding: 10px;
-      backdrop-filter: blur(14px);
+      width: 132px;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      border-radius: 999px;
+      padding: 0;
       transition: opacity .22s ease, transform .22s ease;
     }
 
     .floating-cta.is-hidden {
       opacity: 0;
       pointer-events: none;
-      transform: translateX(-50%) translateY(14px);
+      transform: translateY(14px);
     }
 
     .floating-main {
+      width: 132px;
       min-height: 58px;
-      border-radius: 15px;
-      font-size: 18px;
+      border-radius: 999px;
+      font-size: 15px;
+      line-height: 1.15;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 10px 26px rgba(6, 199, 85, .34);
+      border: 1px solid rgba(255,255,255,.45);
+    }
+
+    .floating-small {
+      display: block;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      opacity: .95;
+    }
+
+    .floating-main-text {
+      display: block;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.1;
     }
 
     .floating-sub {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 7px;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 900;
-      line-height: 1.2;
+      display: none;
     }
 
     .floating-sub a {
@@ -1230,7 +1242,10 @@
   </div>
 
   <div class="floating-cta">
-    <button class="btn btn-line floating-main js-open-modal" type="button">LINEでかんたん予約</button>
+    <button class="btn btn-line floating-main js-open-modal" type="button">
+      <span class="floating-small">簡単1分</span>
+      <span class="floating-main-text">予約する</span>
+    </button>
     <div class="floating-sub">
       <span>前日17時まで</span>
       <span>2個から</span>
