@@ -927,6 +927,75 @@
       margin-top: 10px;
     }
 
+    .faq-section {
+      background: #fffaf0;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .faq-item {
+      background: rgba(255, 250, 240, .96);
+      border: 1px solid rgba(107, 68, 35, .14);
+      border-radius: 18px;
+      box-shadow: 0 8px 22px rgba(59, 37, 21, .08);
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 17px 46px 17px 16px;
+      font-weight: 900;
+      color: var(--brown);
+      line-height: 1.55;
+      position: relative;
+      font-size: 16px;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: "＋";
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #efe1c3;
+      color: var(--brown);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .faq-item[open] summary::after {
+      content: "−";
+    }
+
+    .faq-answer {
+      padding: 0 16px 17px;
+      color: #342316;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.8;
+      border-top: 1px solid rgba(107, 68, 35, .10);
+      margin-top: -1px;
+    }
+
+    .faq-answer p {
+      margin: 14px 0 0;
+    }
+
     @media (min-width: 520px) {
       body {
         background-color: #ead7bd;
@@ -1094,7 +1163,7 @@
 
           <div class="menu-list">
             <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/unagi.png" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
+              <div class="menu-thumb"><img src="lunchbox_images/una.JPG" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
               <div>
                 <div class="menu-name">うなぎ弁当</div>
                 <div class="menu-desc">税込 2,500円 / 三河産うなぎ使用</div>
@@ -1105,6 +1174,13 @@
               <div>
                 <div class="menu-name">飛騨牛サーロイン弁当</div>
                 <div class="menu-desc">税込 2,500円 / 飛騨牛サーロイン使用</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-thumb"><img src="lunchbox_images/una.JPG" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
+              <div>
+                <div class="menu-name">飛騨牛サーロイン＆うなぎ弁当</div>
+                <div class="menu-desc">税込 2,800円 / 特別な夜にどうぞ</div>
               </div>
             </div>
             <div class="menu-item">
@@ -1211,6 +1287,57 @@
                 <div class="rule-sub">配達時のお支払い</div>
               </div>
             </div>
+        </div>
+      </section>
+
+      <!--FAQ-->
+      <section class="faq-section">
+        <div class="container">
+          <h2>よくあるご質問</h2>
+
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>Q. 当日注文はできないの？</summary>
+              <div class="faq-answer">
+                <p>申し訳ありません。配達時間やご注文内容の間違いを防ぐため、まずは前日17:00までのご予約制とさせていただいております。</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Q. 1個だけ配達できないの？</summary>
+              <div class="faq-answer">
+                <p>配達の都合上、申し訳ありませんが、お弁当は合計2個からお願いしています。</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Q. 何時ごろ届くの？</summary>
+              <div class="faq-answer">
+                <p>15時〜18時の間で順番にお届けします。ご希望時間があれば、できる範囲で調整します。</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Q. 6月18日・19日以外も頼めるの？</summary>
+              <div class="faq-answer">
+                <p>はい、木曜・金曜限定でご予約いただけます。ただし、2,500円の記念価格とお茶サービスは6月18日・19日のご注文分限定です。</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Q. 飛騨牛弁当もお茶サービスつくの？</summary>
+              <div class="faq-answer">
+                <p>はい。6月18日・19日のご注文分は、お弁当1個につきおーいお茶を1本サービスします。</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Q. 配達料はかかるの？</summary>
+              <div class="faq-answer">
+                <p>七宗町内は配達無料です。</p>
+              </div>
+            </details>
+          </div>
         </div>
       </section>
 
