@@ -329,7 +329,7 @@
       overflow: hidden;
       min-height: 260px;
       background:
-      url("lunchbox_images/unagibento.jpg");
+      url("lunchbox_images/hitumabusi.jpg");
       background-size: cover;
       background-position:10% center;
       box-shadow: var(--shadow);
@@ -499,6 +499,73 @@
       font-size: 11px;
       color: rgba(255,247,232,.62);
       letter-spacing: .04em;
+    }
+
+
+    .commitment-section {
+      background:
+        linear-gradient(180deg, rgba(255,250,240,.96), rgba(248,234,208,.92));
+    }
+
+    .commitment-intro {
+      margin-bottom: 22px;
+    }
+
+    .commitment-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .commitment-item {
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(107, 68, 35, .13);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(59, 37, 21, .08);
+    }
+
+    .commitment-number {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--brown);
+      color: #fff7e8;
+      font-family: "Noto Serif JP", serif;
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .commitment-title {
+      font-family: "Noto Serif JP", serif;
+      color: var(--brown);
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+
+    .commitment-text {
+      margin: 0;
+      color: #342316;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.85;
+    }
+
+    .commitment-note {
+      margin-top: 18px;
+      background: var(--brown);
+      color: #fff7e8;
+      border-radius: 16px;
+      padding: 15px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.8;
+      text-align: center;
     }
 
     .scene-grid {
@@ -731,7 +798,9 @@
       z-index: 200;
       display: none;
       align-items: flex-end;
+      justify-content: center;
       background: rgba(23, 16, 11, .58);
+      padding-top: max(56px, env(safe-area-inset-top, 0px));
     }
 
     .modal.is-open {
@@ -739,12 +808,13 @@
     }
 
     .modal-panel {
-      width: min(100%, 480px);
-      max-height: 92vh;
-      margin: 0 auto;
+      width: min(calc(100% - 20px), 480px);
+      max-height: calc(100vh - max(72px, env(safe-area-inset-top, 0px)));
+      margin: 0 auto 10px;
       overflow: auto;
+      overscroll-behavior: contain;
       background: var(--bg-soft);
-      border-radius: 28px 28px 0 0;
+      border-radius: 28px;
       box-shadow: 0 -20px 60px rgba(0,0,0,.25);
       padding-bottom: calc(22px + var(--safe-bottom));
     }
@@ -753,10 +823,11 @@
       position: sticky;
       top: 0;
       z-index: 2;
-      background: rgba(255, 250, 240, .96);
+      background: rgba(255, 250, 240, .98);
       border-bottom: 1px solid rgba(107, 68, 35, .12);
-      padding: 16px;
+      padding: 18px 16px;
       backdrop-filter: blur(14px);
+      border-radius: 28px 28px 0 0;
     }
 
     .modal-headline {
@@ -775,15 +846,26 @@
     }
 
     .close-btn {
-      width: 44px;
-      height: 44px;
-      border: 0;
+      width: 52px;
+      height: 52px;
+      flex: 0 0 52px;
+      border: 2px solid rgba(107, 68, 35, .14);
       border-radius: 50%;
       background: #efe1c3;
       color: var(--brown);
-      font-size: 24px;
+      font-size: 30px;
+      line-height: 1;
       font-weight: 900;
       cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 16px rgba(59, 37, 21, .14);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .close-btn:active {
+      transform: scale(.96);
     }
 
     .modal-body {
@@ -1177,21 +1259,83 @@
 
             <div class="price-row">
               <div>
-                <div class="price-label">三河産 うなぎ弁当</div>
+                <div class="price-label">三河産 うな重弁当</div>
                 <div class="price-label">七宗町内 配達無料</div>
               </div>
               <div class="price-offer">
                 <div class="regular-price">通常 <s>3300円</s></div>
                 <span class="special-label">期間限定価格</span>
-                <div class="price"><small>税込</small>2700円</div>
+                <div class="price"><small>税込</small>2700円〜</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-        <!--セクション4-->
-        <section>
+
+      <!--こだわりセクション-->
+      <section class="commitment-section">
+        <div class="container">
+          <div class="eyebrow">OUR COMMITMENT</div>
+
+          <div class="commitment-intro">
+            <h2>70年、魚に<br>向き合ってきた<br>私たちだから。</h2>
+            <p class="lead">
+              素材の良さだけでなく、<br>
+              魚を扱ってきた経験と<br>
+              地元の水や食材を生かして、<br>
+              一つずつ丁寧に仕上げます。
+            </p>
+          </div>
+
+          <div class="commitment-list">
+            <div class="commitment-item">
+              <span class="commitment-number">1</span>
+              <div class="commitment-title">七宗の水で泥抜き</div>
+              <p class="commitment-text">
+                三河産うなぎを、<br>
+                七宗の清らかな水で<br>
+                丁寧に泥抜きします。<br>
+                臭みを抑え、<br>
+                香ばしく焼き上げます。
+              </p>
+            </div>
+
+            <div class="commitment-item">
+              <span class="commitment-number">2</span>
+              <div class="commitment-title">注文日の朝に捌く</div>
+              <p class="commitment-text">
+                作り置きではなく、<br>
+                ご注文日の朝に<br>
+                店内でうなぎを捌きます。<br>
+                鮮度を大切にした<br>
+                夜専用のお弁当です。
+              </p>
+            </div>
+
+            <div class="commitment-item">
+              <span class="commitment-number">3</span>
+              <div class="commitment-title">地元の味で仕上げる</div>
+              <p class="commitment-text">
+                神渕産のお米と、<br>
+                白扇酒造の本みりん・料理酒。<br>
+                それらを使った<br>
+                自家製タレで<br>
+                ふっくら香ばしく仕上げます。
+              </p>
+            </div>
+          </div>
+
+          <div class="commitment-note">
+            三河産うなぎを使用し、<br>
+            七宗遊園ならではの<br>
+            地元の味に仕上げています。
+          </div>
+        </div>
+      </section>
+
+      <!--セクション4-->
+      <section>
         <div class="container">
           <h2>月一回<br>うなぎの日を。</h2>
           <p class="lead">
@@ -1253,7 +1397,7 @@
                 <img src="lunchbox_images/unagibento.jpg" alt="三河産うなぎ弁当" onerror="this.remove(); this.parentElement.textContent='うなぎ';">
               </div>
               <div>
-                <div class="menu-name">三河産 うなぎ弁当</div>
+                <div class="menu-name">三河産 うな重弁当</div>
                 <div class="menu-price-wrap">
                   <span class="menu-old-price">通常 <s>3300円</s>　→</span>
                   <span class="menu-sale-price">税込 2700円</span>
