@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>感動さかき｜榊がすぐ枯れる原因は鮮度かもしれません。天然国産本榊 注文後採取・当日発送</title>
+  <meta name="description" content="榊がすぐ枯れる原因は、水換えだけでなく「買った時点の鮮度」にあるかもしれません。感動さかきは注文を受けてから山で採取し、その日のうちに束ねて発送。天然国産本榊をお試し980円から、送料無料でお届けします。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --green-deep:#1E4A2C;
+      --green-mid:#2C6040;
+      --green-bright:#3D7A50;
+      --green-pale:#D8EBE0;
+      --green-tint:#EDF5EF;
+      --gold:#A8894A;
+      --gold-pale:#F2E8D0;
+      --ivory:#F6F3ED;
+      --paper:#EDE8DF;
+      --ink:#18180F;
+      --ink-soft:#3A3A30;
+      --muted:#7A7A6A;
+      --border:#C8C4B4;
+      --white:#FFFFFF;
+      --f-serif:'Noto Serif JP',serif;
+      --f-sans:'Noto Sans JP',sans-serif;
+      --r:8px;
+      --r-lg:16px;
+    }
+
+    html{scroll-behavior:smooth}
+    body{
+      font-family:var(--f-sans);
+      background:var(--ivory);
+      color:var(--ink);
+      font-size:15px;
+      line-height:1.85;
+      padding-bottom:72px;
+    }
+
+    /* ── SHARED ── */
+    .serif{font-family:var(--f-serif)}
+    h1,h2,h3,h4{font-family:var(--f-serif);line-height:1.4}
+
+    /* ── PHOTO SCENE (full-bleed section with image bg) ── */
+    .photo-scene{
+      position:relative;
+      width:100%;
+      overflow:hidden;
+    }
+    .photo-scene .bg-img{
+      position:absolute;inset:0;
+      width:100%;height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .photo-scene .bg-overlay{
+      position:absolute;inset:0;
+    }
+    .photo-scene .scene-body{
+      position:relative;
+      z-index:2;
+      padding:0 22px;
+    }
+
+    /* ── CTA BUTTON ── */
+    .btn{
+      display:block;width:100%;
+      padding:17px 20px;
+      font-family:var(--f-serif);
+      font-size:16px;font-weight:600;
+      letter-spacing:.07em;
+      text-align:center;text-decoration:none;
+      border:none;cursor:pointer;
+      border-radius:var(--r);
+      transition:filter .2s,transform .15s;
+    }
+    .btn:active{transform:scale(.98)}
+    .btn-primary{background:var(--green-deep);color:var(--white)}
+    .btn-primary:hover{filter:brightness(1.12)}
+    .btn-outline{background:transparent;border:1.5px solid var(--green-deep);color:var(--green-deep)}
+    .btn-outline:hover{background:var(--green-tint)}
+    .btn-white{background:var(--white);color:var(--green-deep)}
+    .btn-white:hover{background:var(--ivory)}
+    .price-note{text-align:center;font-size:12px;color:var(--muted);margin-top:9px;letter-spacing:.03em}
+
+    /* ── EYEBROW ── */
+    .eyebrow{
+      display:inline-block;
+      font-size:10px;letter-spacing:.22em;
+      font-family:var(--f-sans);font-weight:500;
+      color:var(--gold);
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .eyebrow-light{color:rgba(255,255,255,.6)}
+
+    /* ── EMPHASIS ── */
+    .em-line{
+      border-left:3px solid var(--gold);
+      padding:14px 16px;
+      font-family:var(--f-serif);
+      font-size:clamp(15px,4vw,17px);
+      font-weight:500;
+      color:var(--green-deep);
+      line-height:1.65;
+      background:var(--green-tint);
+      border-radius:0 var(--r) var(--r) 0;
+    }
+
+    /* ── GLASS CARD (on dark/photo backgrounds) ── */
+    .glass-card{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:var(--r-lg);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      padding:22px 20px;
+    }
+    .glass-card-dark{
+      background:rgba(20,40,28,.55);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--r-lg);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      padding:22px 20px;
+    }
+
+    /* ── IMAGE PLACEHOLDER ── */
+    .img-wrap{width:100%;position:relative;overflow:hidden}
+    .img-wrap img{
+      display:block;width:100%;height:100%;
+      object-fit:cover;position:absolute;inset:0;
+    }
+    .img-ph-label{
+      position:absolute;inset:0;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      gap:6px;color:var(--muted);
+      font-size:12px;letter-spacing:.04em;
+      background:var(--paper);
+      z-index:0;
+    }
+    .img-ph-label span:first-child{font-size:30px;opacity:.4}
+
+    /* ── BADGE ROW ── */
+    .badge-row{display:flex;flex-wrap:wrap;gap:8px}
+    .badge{
+      font-size:11px;letter-spacing:.08em;
+      padding:5px 13px;
+      border-radius:20px;
+      font-family:var(--f-sans);font-weight:500;
+      white-space:nowrap;
+    }
+    .badge-light{
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.35);
+      color:var(--white);
+    }
+    .badge-gold{
+      background:var(--gold-pale);
+      border:1px solid var(--gold);
+      color:var(--gold);
+    }
+    .badge-green{
+      background:var(--green-tint);
+      border:1px solid var(--green-pale);
+      color:var(--green-mid);
+    }
+
+    /* ── THIN RULE ── */
+    .rule{width:36px;height:2px;background:var(--gold);margin:14px 0 20px}
+    .rule-light{background:rgba(255,255,255,.45)}
+
+    /* ── CARD SURFACE ── */
+    .card{
+      background:var(--white);
+      border:1px solid var(--border);
+      border-radius:var(--r-lg);
+      padding:24px 20px;
+    }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow-v{display:flex;flex-direction:column;align-items:stretch;gap:0}
+    .flow-box{
+      background:var(--white);
+      border:1px solid var(--border);
+      border-radius:var(--r);
+      padding:11px 14px;
+      display:flex;align-items:center;gap:12px;
+    }
+    .flow-box-icon{font-size:20px;flex-shrink:0;width:28px;text-align:center}
+    .flow-box-text{font-size:13px;font-weight:500;color:var(--ink-soft)}
+    .flow-arrow{
+      text-align:center;
+      font-size:15px;color:var(--muted);
+      padding:3px 0;
+    }
+
+    /* ── KANDO STEP CARDS ── */
+    .ksteps{display:flex;flex-direction:column;align-items:center;gap:0;margin:28px 0 6px}
+    .kstep{width:100%}
+    .kstep-card{
+      border-radius:var(--r-lg);
+      padding:22px 18px;
+      text-align:center;
+    }
+    .kstep-card.side{
+      background:var(--paper);
+      border:1px solid var(--border);
+    }
+    .kstep-card.center{
+      background:var(--green-deep);
+      border:none;
+    }
+    .kstep-label-pill{
+      display:inline-block;
+      background:var(--gold);
+      color:var(--white);
+      font-size:10px;letter-spacing:.12em;font-weight:700;
+      padding:3px 14px;border-radius:20px;
+      margin-bottom:10px;
+    }
+    .kstep-num{
+      font-size:10px;letter-spacing:.18em;
+      font-weight:500;margin-bottom:5px;
+    }
+    .kstep-card.side .kstep-num{color:var(--muted)}
+    .kstep-card.center .kstep-num{color:rgba(255,255,255,.6)}
+    .kstep-title{
+      font-family:var(--f-serif);
+      font-size:clamp(15px,4vw,18px);
+      font-weight:600;margin-bottom:7px;
+    }
+    .kstep-card.center .kstep-title{color:var(--white)}
+    .kstep-card.side .kstep-title{color:var(--ink)}
+    .kstep-desc{font-size:12px;line-height:1.7}
+    .kstep-card.center .kstep-desc{color:rgba(255,255,255,.8)}
+    .kstep-card.side .kstep-desc{color:var(--muted)}
+    .kstep-icons{display:flex;justify-content:center;gap:16px;margin-top:14px}
+    .kstep-icon-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+    .kstep-icon-item .ico{font-size:22px}
+    .kstep-icon-item .ico-lbl{font-size:10px;color:rgba(255,255,255,.7)}
+    .kstep-arrow{text-align:center;font-size:20px;color:var(--green-bright);padding:5px 0}
+
+    /* ── QUALITY GRID ── */
+    .q-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+    .q-item{
+      background:var(--ivory);
+      border:1px solid var(--border);
+      border-radius:var(--r);
+      padding:14px 12px;
+      text-align:center;
+    }
+    .q-item-ico{font-size:22px;margin-bottom:6px}
+    .q-item-txt{font-size:12px;color:var(--ink-soft);line-height:1.55}
+
+    /* ── PRICE TABLE ── */
+    .price-tbl{width:100%;border-collapse:collapse;margin-bottom:14px}
+    .price-tbl th,.price-tbl td{
+      padding:10px 12px;
+      text-align:left;font-size:13px;
+      border-bottom:1px solid var(--border);
+    }
+    .price-tbl th{
+      background:var(--ivory);
+      font-family:var(--f-serif);font-weight:500;
+      color:var(--muted);font-size:11px;letter-spacing:.06em;
+    }
+    .price-tbl td:last-child{
+      text-align:right;font-family:var(--f-serif);
+      font-size:17px;font-weight:600;color:var(--green-deep);
+    }
+    .free-badge{
+      display:inline-flex;align-items:center;gap:5px;
+      background:var(--gold-pale);color:var(--gold);
+      font-size:12px;font-weight:700;
+      padding:5px 14px;border-radius:20px;margin-bottom:14px;
+    }
+    .product-note{
+      font-size:11px;color:var(--muted);
+      line-height:1.7;margin-bottom:18px;
+      padding-top:10px;border-top:1px solid var(--border);
+    }
+
+    /* ── FAQ ── */
+    .faq-list{display:flex;flex-direction:column}
+    .faq-item{border-bottom:1px solid var(--border)}
+    .faq-item:first-child{border-top:1px solid var(--border)}
+    .faq-q{
+      width:100%;background:transparent;border:none;
+      cursor:pointer;padding:17px 0;
+      display:flex;align-items:flex-start;justify-content:space-between;
+      gap:12px;text-align:left;
+    }
+    .faq-q-text{
+      font-family:var(--f-serif);
+      font-size:clamp(14px,3.5vw,15px);
+      color:var(--ink);font-weight:500;
+      line-height:1.55;flex:1;
+    }
+    .faq-ico{
+      width:22px;height:22px;border-radius:50%;
+      background:var(--green-deep);color:var(--white);
+      display:flex;align-items:center;justify-content:center;
+      font-size:16px;flex-shrink:0;
+      transition:transform .25s;margin-top:1px;
+    }
+    .faq-item.open .faq-ico{transform:rotate(45deg)}
+    .faq-ans{max-height:0;overflow:hidden;transition:max-height .3s ease}
+    .faq-item.open .faq-ans{max-height:220px}
+    .faq-ans-inner{
+      padding-bottom:17px;
+      font-size:13px;color:var(--muted);line-height:1.8;
+    }
+
+    /* ── FIXED BAR ── */
+    .fixed-bar{
+      position:fixed;bottom:0;left:0;right:0;
+      background:var(--white);
+      border-top:1px solid var(--border);
+      z-index:200;
+      transition:opacity .3s;
+    }
+    .fixed-bar-inner{
+      display:flex;align-items:center;gap:10px;
+      max-width:680px;margin:0 auto;
+      padding:10px 16px;
+    }
+    .fixed-bar-copy{
+      flex-shrink:0;
+      font-size:11px;color:var(--muted);
+      line-height:1.4;
+    }
+    .fixed-bar-copy strong{display:block;font-size:12px;color:var(--ink);font-weight:500}
+    .fixed-bar .btn{flex:1;padding:13px 10px;font-size:13px;margin:0;max-width:none}
+
+    /* ── FOOTER ── */
+    footer{
+      background:#111;
+      color:rgba(255,255,255,.45);
+      padding:32px 20px;
+      text-align:center;
+      font-size:12px;
+    }
+    .footer-links{
+      display:flex;justify-content:center;flex-wrap:wrap;
+      gap:6px 18px;margin-bottom:18px;
+    }
+    .footer-links a{color:rgba(255,255,255,.45);text-decoration:none}
+    .footer-links a:hover{color:rgba(255,255,255,.8)}
+    .footer-brand{
+      font-family:var(--f-serif);font-size:15px;
+      color:rgba(255,255,255,.65);
+      margin-bottom:10px;letter-spacing:.12em;
+    }
+
+    /* ── HIGHLIGHT LIST ── */
+    .hi-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:18px}
+    .hi-list li{
+      display:flex;align-items:flex-start;gap:10px;
+      font-family:var(--f-serif);
+      font-size:clamp(14px,3.5vw,16px);
+      font-weight:500;color:var(--green-deep);
+    }
+    .hi-list li::before{
+      content:'✦';color:var(--gold);
+      font-size:11px;margin-top:4px;flex-shrink:0;
+    }
+
+    /* ── NOTE ── */
+    .note{
+      font-size:11px;color:var(--muted);
+      line-height:1.7;margin-top:16px;
+      padding-left:12px;
+      border-left:2px solid var(--border);
+    }
+
+    /* ── SUPPLEMENT BOX ── */
+    .supp-box{
+      background:var(--green-tint);
+      border-radius:var(--r);
+      padding:14px 18px;
+      text-align:center;
+      font-family:var(--f-serif);
+      font-size:clamp(13px,3.3vw,15px);
+      color:var(--green-deep);font-weight:600;
+      margin-top:18px;
+    }
+
+    /* ── SUBSCRIPTION NOTE ── */
+    .sub-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.65}
+
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  </style>
+</head>
+<body>
+
+
+<!-- ════════════════════════════════════════
+  §1  FIRST VIEW — full-bleed photo hero
+════════════════════════════════════════ -->
+<section class="photo-scene" style="min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;">
+
+  <!-- bg photo -->
+  <div class="img-ph-label" style="position:absolute;inset:0;z-index:0;">
+    <span>🌿</span>
+    <span>神棚に飾られた感動さかきの写真</span>
+  </div>
+  <img src="sakaki_images/Proto_1.png"
+       alt="神棚に青々とした感動さかきが飾られている写真"
+       class="bg-img" style="z-index:1;">
+
+  <!-- gradient overlay: bottom-heavy, top transparent -->
+  <div class="bg-overlay" style="z-index:2;
+    background:linear-gradient(to bottom,
+      rgba(10,30,18,0) 0%,
+      rgba(10,30,18,.25) 40%,
+      rgba(10,30,18,.78) 75%,
+      rgba(10,30,18,.93) 100%);">
+  </div>
+
+  <!-- content -->
+  <div class="scene-body" style="padding-bottom:52px;padding-top:60px;max-width:680px;margin:0 auto;width:100%;">
+
+    <div class="badge-row" style="margin-bottom:24px;">
+      <span class="badge badge-light">注文後採取</span>
+      <span class="badge badge-light">天然国産本榊</span>
+      <span class="badge badge-light">月8,000束出荷</span>
+      <span class="badge badge-light">送料無料</span>
+    </div>
+
+    <p class="eyebrow eyebrow-light">KANDO SAKAKI</p>
+
+    <h1 style="color:var(--white);font-size:clamp(24px,7vw,36px);
+      text-shadow:0 2px 16px rgba(0,0,0,.35);margin-bottom:20px;">
+      榊がすぐ枯れる原因は、<br>鮮度かもしれません。
+    </h1>
+
+    <p style="color:rgba(255,255,255,.82);font-size:clamp(13px,3.4vw,15px);
+      line-height:1.9;margin-bottom:34px;">
+      水換えや置き場所も大切です。<br>
+      でも、買った時点で採取から時間が経っている榊は、<br>
+      どうしても長持ちしにくくなります。<br>
+      感動さかきは、注文を受けてから山で採取し、<br>
+      その日のうちに束ねて発送します。
+    </p>
+
+    <a href="#purchase" class="btn btn-white" style="max-width:360px;display:block;margin:0 auto 10px;">
+      まずはお試し購入する
+    </a>
+    <p class="price-note" style="color:rgba(255,255,255,.5);">
+      35cm一対 <span style="text-decoration:line-through;opacity:.6;">通常1,580円</span>
+      → 期間限定 税込980円 / 送料無料
+    </p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §2  EMPATHY — ivory section + compare photo
+════════════════════════════════════════ -->
+<section style="background:var(--ivory);padding:64px 0 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 22px;">
+
+    <span class="eyebrow">よくある悩み</span>
+    <h2 style="font-size:clamp(19px,5vw,26px);margin-bottom:6px;">
+      榊がすぐ枯れると、<br>「何が悪いんだろう」と気になります。
+    </h2>
+    <div class="rule"></div>
+
+    <p style="color:var(--ink-soft);margin-bottom:12px;">
+      水を替えているのに枯れる。置き場所を変えても元気がない。<br>
+      神棚の榊がすぐ傷むと、気持ちまで落ち着かなくなるものです。
+    </p>
+    <p style="color:var(--ink-soft);margin-bottom:24px;">
+      榊を長持ちさせるには、こまめな水換え、清潔な花器、高温や直射日光を避けることが大切です。しかし、それだけではありません。
+    </p>
+
+    <div class="em-line" style="margin-bottom:32px;">
+      実は、榊の持ちは「買った時点の鮮度」にも<br>大きく左右されます。
+    </div>
+  </div>
+
+  <!-- compare photo — full width, bleeds to edge -->
+  <div class="img-wrap" style="aspect-ratio:16/9;border-radius:0;">
+    <div class="img-ph-label">
+      <span>🌿</span>
+      <span>元気のない榊と青々とした感動さかきの比較写真</span>
+    </div>
+    <img src="sakaki_images/proto_2.png"
+         alt="元気のない榊（左）と青々とした感動さかき（右）の比較写真">
+    <!-- caption overlay -->
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:3;
+      background:linear-gradient(transparent,rgba(10,30,18,.72));
+      padding:20px 22px 18px;display:flex;gap:0;justify-content:space-around;">
+      <span style="color:rgba(255,255,255,.7);font-size:12px;letter-spacing:.05em;">一般的な榊</span>
+      <span style="color:rgba(255,255,255,.7);font-size:12px;letter-spacing:.05em;">感動さかき</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §3  FRESHNESS — dark green photo scene
+════════════════════════════════════════ -->
+<section class="photo-scene" style="min-height:auto;">
+
+  <!-- tinted bg (uses CSS gradient as "photo tint"; real photo goes here) -->
+  <div class="img-ph-label" style="position:absolute;inset:0;z-index:0;background:var(--green-deep);">
+    <span style="opacity:.25;font-size:40px;">🌲</span>
+  </div>
+  <img src="sakaki_images/proto_3.png"
+       alt="山に自生する天然の本榊の写真"
+       class="bg-img" style="z-index:1;">
+  <div class="bg-overlay" style="z-index:2;
+    background:linear-gradient(160deg,rgba(10,30,18,.88) 0%,rgba(10,30,18,.75) 100%);">
+  </div>
+
+  <div class="scene-body" style="padding:56px 0;max-width:680px;margin:0 auto;width:100%;">
+
+    <span class="eyebrow eyebrow-light">流通の仕組み</span>
+    <h2 style="color:var(--white);font-size:clamp(18px,5vw,25px);margin-bottom:12px;">
+      その榊、買った時点で<br>採取から時間が経っているかもしれません。
+    </h2>
+    <div class="rule rule-light"></div>
+
+    <p style="color:rgba(255,255,255,.78);font-size:clamp(13px,3.4vw,14px);
+      line-height:1.9;margin-bottom:28px;">
+      一般的に、店頭で販売される榊は、採取、束ね作業、市場、卸、店舗陳列を経て、お客様の手元に届きます。購入した時点ですでに採取から日数が経っている場合があります。<br><br>
+      通販であっても、あらかじめ採取・束ね作業を行い、在庫として保管してから発送される場合があります。
+    </p>
+
+    <!-- Flow on dark -->
+    <div style="margin-bottom:24px;">
+      <p style="font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.45);margin-bottom:12px;font-weight:500;">一般的な流通の工程例</p>
+      <div class="flow-v">
+        <div class="flow-box" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);">
+          <div class="flow-box-icon">🌳</div>
+          <div class="flow-box-text" style="color:rgba(255,255,255,.85);">採取</div>
+        </div>
+        <div class="flow-arrow" style="color:rgba(255,255,255,.4);">↓</div>
+        <div class="flow-box" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);">
+          <div class="flow-box-icon">🤲</div>
+          <div class="flow-box-text" style="color:rgba(255,255,255,.85);">束ね作業</div>
+        </div>
+        <div class="flow-arrow" style="color:rgba(255,255,255,.4);">↓</div>
+        <div class="flow-box" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);">
+          <div class="flow-box-icon">🏢</div>
+          <div class="flow-box-text" style="color:rgba(255,255,255,.85);">市場</div>
+        </div>
+        <div class="flow-arrow" style="color:rgba(255,255,255,.4);">↓</div>
+        <div class="flow-box" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);">
+          <div class="flow-box-icon">🚚</div>
+          <div class="flow-box-text" style="color:rgba(255,255,255,.85);">卸・配送</div>
+        </div>
+        <div class="flow-arrow" style="color:rgba(255,255,255,.4);">↓</div>
+        <div class="flow-box" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);">
+          <div class="flow-box-icon">🏪</div>
+          <div class="flow-box-text" style="color:rgba(255,255,255,.85);">店舗陳列</div>
+        </div>
+        <div class="flow-arrow" style="color:rgba(255,255,255,.4);">↓</div>
+        <div class="flow-box" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.25);">
+          <div class="flow-box-icon">🛒</div>
+          <div class="flow-box-text" style="color:rgba(255,255,255,.6);">お客様が購入</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:rgba(255,255,255,.38);margin-top:10px;">
+        ※採取から購入まで複数の工程を経るため、時間がかかる場合があります
+      </p>
+    </div>
+
+    <div class="glass-card-dark">
+      <p style="color:rgba(255,255,255,.9);font-family:var(--f-serif);
+        font-size:clamp(14px,3.8vw,17px);font-weight:500;line-height:1.65;">
+        だから、榊は「どこで買うか」だけでなく、<br>「いつ採ったか」が大切です。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §4  SOLUTION — ivory + 3-step cards
+════════════════════════════════════════ -->
+<section style="background:var(--ivory);padding:64px 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 22px;">
+
+    <span class="eyebrow">感動さかきの取り組み</span>
+    <h2 style="font-size:clamp(18px,5vw,25px);margin-bottom:6px;">
+      注文を受けてから、<br>その日のうちに採取・束ね・発送。
+    </h2>
+    <div class="rule"></div>
+
+    <p style="color:var(--ink-soft);margin-bottom:10px;">
+      感動さかきは、あらかじめ大量に採って保管しておくのではなく、ご注文を受けてから山で榊を採取し、その日のうちに束ね作業を行い、発送します。
+    </p>
+    <p style="color:var(--ink-soft);margin-bottom:28px;">
+      採取から神棚に届くまでの時間をできるだけ短くすることで、青々とした葉の張り、艶、清々しさを感じていただける榊をお届けします。
+    </p>
+
+    <!-- 3-step -->
+    <div class="ksteps">
+      <div class="kstep">
+        <div class="kstep-card side">
+          <p class="kstep-num">STEP 1</p>
+          <p class="kstep-title">ご注文</p>
+          <p class="kstep-desc">お客様からご注文</p>
+        </div>
+      </div>
+      <div class="kstep-arrow">↓</div>
+
+      <div class="kstep">
+        <div class="kstep-card center">
+          <span class="kstep-label-pill">その日のうちに完了</span>
+          <p class="kstep-num">STEP 2</p>
+          <p class="kstep-title">採取・束ね・発送</p>
+          <p class="kstep-desc">ご注文後、山で採取し、手作業で束ねて、そのまま発送</p>
+          <div class="kstep-icons">
+            <div class="kstep-icon-item"><span class="ico">🌲</span><span class="ico-lbl">採取</span></div>
+            <div class="kstep-icon-item"><span class="ico">🤲</span><span class="ico-lbl">束ね</span></div>
+            <div class="kstep-icon-item"><span class="ico">📦</span><span class="ico-lbl">箱詰め</span></div>
+            <div class="kstep-icon-item"><span class="ico">🚚</span><span class="ico-lbl">発送</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="kstep-arrow">↓</div>
+
+      <div class="kstep">
+        <div class="kstep-card side">
+          <p class="kstep-num">STEP 3</p>
+          <p class="kstep-title">ご自宅に到着</p>
+          <p class="kstep-desc">できるだけ新鮮な状態でお届け</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="supp-box">採取・束ね・発送を1日で行うから、鮮度が違います。</div>
+    <p class="note">※天候悪化により採取ができない状況の場合、発送が遅れる可能性があります。</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §5  HARVEST PHOTO — full-bleed with copy overlay
+════════════════════════════════════════ -->
+<section class="photo-scene" style="aspect-ratio:4/3;min-height:300px;">
+  <div class="img-ph-label" style="position:absolute;inset:0;z-index:0;">
+    <span>🏔️</span><span>山で榊を採取している写真</span>
+  </div>
+  <img src="sakaki_images/proto_4.png"
+       alt="山で榊を採取しているスタッフの写真"
+       class="bg-img" style="z-index:1;">
+  <div class="bg-overlay" style="z-index:2;
+    background:linear-gradient(to top,
+      rgba(10,30,18,.82) 0%,
+      rgba(10,30,18,.2) 55%,
+      rgba(10,30,18,0) 100%);">
+  </div>
+  <div class="scene-body" style="position:absolute;bottom:0;left:0;right:0;
+    padding:0 22px 32px;max-width:680px;margin:0 auto;">
+    <p style="color:rgba(255,255,255,.65);font-size:11px;letter-spacing:.18em;
+      font-weight:500;margin-bottom:8px;">HARVEST</p>
+    <p style="color:var(--white);font-family:var(--f-serif);
+      font-size:clamp(17px,4.5vw,22px);font-weight:500;line-height:1.5;">
+      山に自生する、<br>天然の本榊。
+    </p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §5b  NATURAL — paper bg
+════════════════════════════════════════ -->
+<section style="background:var(--paper);padding:56px 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 22px;">
+
+    <span class="eyebrow">素材へのこだわり</span>
+    <h2 style="font-size:clamp(18px,5vw,24px);margin-bottom:6px;">山に自生する、天然の本榊。</h2>
+    <div class="rule"></div>
+
+    <p style="color:var(--ink-soft);margin-bottom:8px;">
+      感動さかきで扱うのは、昔から山に自生している天然の本榊です。
+    </p>
+    <p style="color:var(--ink-soft);margin-bottom:20px;">
+      国産榊の中にも、畑や施設で栽培された榊がありますが、私たちは自然の山で育った、枝ぶりと葉の力強さを持つ榊を大切にしています。
+    </p>
+
+    <ul class="hi-list">
+      <li>神棚に飾ったときの存在感。</li>
+      <li>青々とした葉の美しさ。</li>
+      <li>自然の中で育った榊ならではの清々しさ。</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §6  CRAFT — bundle photo scene + quality cards
+════════════════════════════════════════ -->
+<section class="photo-scene" style="aspect-ratio:4/3;min-height:280px;">
+  <div class="img-ph-label" style="position:absolute;inset:0;z-index:0;">
+    <span>🤲</span><span>榊を手作業で束ねている手元写真</span>
+  </div>
+  <img src="sakaki_images/proto_5.png"
+       alt="榊を手作業で束ねているスタッフの手元写真"
+       class="bg-img" style="z-index:1;">
+  <div class="bg-overlay" style="z-index:2;
+    background:linear-gradient(to top,
+      rgba(10,20,14,.85) 0%,
+      rgba(10,20,14,.15) 55%,
+      rgba(10,20,14,0) 100%);">
+  </div>
+  <div class="scene-body" style="position:absolute;bottom:0;left:0;right:0;
+    padding:0 22px 30px;max-width:680px;margin:0 auto;">
+    <p style="color:rgba(255,255,255,.6);font-size:11px;letter-spacing:.18em;
+      font-weight:500;margin-bottom:8px;">CRAFTSMANSHIP</p>
+    <p style="color:var(--white);font-family:var(--f-serif);
+      font-size:clamp(17px,4.5vw,22px);font-weight:500;line-height:1.5;">
+      月8,000束を出荷する、<br>榊専門の手仕事。
+    </p>
+  </div>
+</section>
+
+<section style="background:var(--ivory);padding:40px 0 64px;">
+  <div style="max-width:680px;margin:0 auto;padding:0 22px;">
+    <p style="color:var(--ink-soft);margin-bottom:8px;">
+      榊は、ただ枝を束ねればよいものではありません。葉の向き、枝の長さ、左右のバランス、神棚に飾ったときの見え方。その一つひとつで、印象は大きく変わります。
+    </p>
+    <p style="color:var(--ink-soft);margin-bottom:4px;">私たちは月8,000束を出荷しています。そこで選別と束ね作業を積み重ねてきました。</p>
+
+    <div class="q-grid">
+      <div class="q-item">
+        <div class="q-item-ico">🍃</div>
+        <div class="q-item-txt">葉の向きをそろえる</div>
+      </div>
+      <div class="q-item">
+        <div class="q-item-ico">📏</div>
+        <div class="q-item-txt">枝の長さを整える</div>
+      </div>
+      <div class="q-item">
+        <div class="q-item-ico">⚖️</div>
+        <div class="q-item-txt">左右のバランスを整える</div>
+      </div>
+      <div class="q-item">
+        <div class="q-item-ico">⛩️</div>
+        <div class="q-item-txt">神棚に飾った姿を美しくする</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §7  PRODUCT — product photo scene + card
+════════════════════════════════════════ -->
+<section style="background:var(--paper);padding:64px 0 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 22px 36px;">
+
+    <span class="eyebrow">お試し購入</span>
+    <h2 style="font-size:clamp(18px,5vw,24px);margin-bottom:6px;">
+      まずは一度、スーパーの榊との<br>違いをお試しください。
+    </h2>
+    <div class="rule"></div>
+  </div>
+
+  <!-- product photo full-width -->
+  <div class="img-wrap" style="aspect-ratio:3/2;">
+    <div class="img-ph-label">
+      <span>🌿</span><span>感動さかき 榊一対の商品写真</span>
+    </div>
+    <img src="sakaki_images/proto_6.png"
+         alt="感動さかき 天然国産本榊 一対の商品写真">
+    <div style="position:absolute;inset:0;z-index:3;
+      background:linear-gradient(to bottom,rgba(10,30,18,0) 50%,rgba(10,30,18,.5) 100%);">
+    </div>
+  </div>
+
+  <!-- price card -->
+  <div style="max-width:680px;margin:-32px auto 0;padding:0 22px 64px;position:relative;z-index:5;">
+    <div class="card" id="purchase">
+      <p style="font-family:var(--f-serif);font-size:17px;font-weight:600;
+        color:var(--green-deep);margin-bottom:14px;">感動さかき お試しセット</p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;">
+        <span class="badge badge-green">天然国産本榊</span>
+        <span class="badge badge-green">注文後採取</span>
+        <span class="badge badge-green">当日束ね発送</span>
+        <span class="badge badge-green">神棚用1対</span>
+      </div>
+
+      <!-- period-limited badge -->
+      <div style="display:inline-flex;align-items:center;gap:6px;
+        background:#FFF3E0;border:1px solid #E8A020;border-radius:20px;
+        padding:4px 14px;margin-bottom:16px;">
+        <span style="font-size:11px;color:#B56A00;font-weight:700;letter-spacing:.06em;">⏰ 期間限定価格</span>
+      </div>
+
+      <!-- price display -->
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px;">
+        <span style="font-size:13px;color:var(--muted);text-decoration:line-through;">通常 ¥1,580</span>
+        <span style="font-size:28px;font-family:var(--f-serif);font-weight:600;color:var(--green-deep);">¥980</span>
+        <span style="font-size:12px;color:var(--muted);">税込 / 一対</span>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:20px;">
+        35cm 一対（左右2本）
+      </p>
+
+      <span class="free-badge">🎁 送料：無料</span>
+
+      <p class="product-note">
+        発送目安：購入から2営業日以内<br>
+        ※天候により採取・発送が前後する場合があります
+      </p>
+
+      <a href="#purchase" class="btn btn-primary">お試し購入する</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §8  SHIPPING PHOTO + SUBSCRIPTION
+════════════════════════════════════════ -->
+<section class="photo-scene" style="aspect-ratio:4/3;min-height:260px;">
+  <div class="img-ph-label" style="position:absolute;inset:0;z-index:0;">
+    <span>📦</span><span>梱包・発送イメージ写真</span>
+  </div>
+  <img src="sakaki_images/proto_7.png"
+       alt="感動さかきの梱包・発送イメージ写真"
+       class="bg-img" style="z-index:1;">
+  <div class="bg-overlay" style="z-index:2;
+    background:linear-gradient(to top,
+      rgba(10,20,14,.8) 0%,
+      rgba(10,20,14,.1) 60%,
+      rgba(10,20,14,0) 100%);">
+  </div>
+  <div class="scene-body" style="position:absolute;bottom:0;left:0;right:0;
+    padding:0 22px 28px;max-width:680px;margin:0 auto;">
+    <p style="color:var(--white);font-family:var(--f-serif);
+      font-size:clamp(15px,4vw,19px);font-weight:500;line-height:1.55;">
+      新鮮なうちに、丁寧に梱包してお届けします。
+    </p>
+  </div>
+</section>
+
+<!-- subscription -->
+<section style="background:var(--ivory);padding:64px 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 22px;">
+
+    <span class="eyebrow">定期便</span>
+    <h2 style="font-size:clamp(18px,5vw,24px);margin-bottom:6px;">
+      気に入った方には、<br>月1回の定期便もご用意しています。
+    </h2>
+    <div class="rule"></div>
+
+    <p style="color:var(--ink-soft);margin-bottom:24px;">
+      毎月、榊を買いに行かなくても、必要なときに新鮮な榊がご自宅に届きます。
+    </p>
+
+    <!-- sub box photo -->
+    <div class="img-wrap" style="aspect-ratio:4/3;border-radius:var(--r-lg);margin-bottom:24px;">
+      <div class="img-ph-label" style="border-radius:var(--r-lg);">
+        <span>📬</span><span>定期便の箱イメージ写真</span>
+      </div>
+      <img src="sakaki_images/proto_7.png"
+           alt="感動さかき 定期便の箱イメージ写真"
+           style="border-radius:var(--r-lg);">
+    </div>
+
+    <div class="card">
+      <p style="font-family:var(--f-serif);font-size:17px;font-weight:600;
+        color:var(--green-deep);margin-bottom:14px;">定期便プラン</p>
+
+      <table class="price-tbl">
+        <thead>
+          <tr><th>サイズ</th><th>内容</th><th>価格（税込）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>35cm</td><td>一対</td><td>¥1,280</td></tr>
+        </tbody>
+      </table>
+
+      <span class="free-badge">🎁 送料：無料</span>
+
+      <p class="product-note">
+        発送目安：購入から2営業日以内<br>
+        ※天候により採取・発送が前後する場合があります
+      </p>
+
+      <a href="#purchase" class="btn btn-outline">定期便を申し込む</a>
+    </div>
+
+    <p class="sub-note">
+      お試し購入後には、商品同封のチラシとメールで<br>定期便のご案内をお届けします。
+    </p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §9  FAQ
+════════════════════════════════════════ -->
+<section style="background:var(--paper);padding:64px 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 22px;">
+
+    <span class="eyebrow">よくある質問</span>
+    <h2 style="font-size:clamp(18px,5vw,24px);margin-bottom:6px;">FAQ</h2>
+    <div class="rule"></div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">水換えをしても榊が枯れるのはなぜですか？</span>
+          <span class="faq-ico">+</span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">水換えや置き場所も大切ですが、購入時点で採取から日数が経っている場合、日持ちしにくいことがあります。感動さかきは注文後に採取してお届けするため、鮮度を保った状態でご自宅に届きます。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">どれくらい長持ちしますか？</span>
+          <span class="faq-ico">+</span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">設置環境や季節によって異なりますが、できるだけ新鮮な状態で届くよう、注文後に採取して発送しています。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">届いたらすぐ飾れますか？</span>
+          <span class="faq-ico">+</span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">はい。神棚に飾りやすいよう、手作業で束ねた状態でお届けします。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">本当に国産ですか？</span>
+          <span class="faq-ico">+</span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">はい。山に自生する天然の本榊を扱っています。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">定期便はありますか？</span>
+          <span class="faq-ico">+</span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">はい。月1回の定期便をご用意しています。お試し購入後に、商品同封のチラシとメールでご案内します。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">送料はいくらですか？</span>
+          <span class="faq-ico">+</span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">お試し購入・定期便ともに送料無料です。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">いつ発送されますか？</span>
+          <span class="faq-ico">+</span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">購入から2営業日以内に発送します。ただし、天候により前後する場合があります。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+  §10  FINAL CTA — full-bleed dark photo
+════════════════════════════════════════ -->
+<section class="photo-scene" style="min-height:100svh;display:flex;
+  flex-direction:column;justify-content:center;">
+
+  <div class="img-ph-label" style="position:absolute;inset:0;z-index:0;background:var(--green-deep);">
+    <span style="font-size:40px;opacity:.2;">⛩️</span>
+  </div>
+  <img src="sakaki_images/Proto_1.png"
+       alt="神棚に青々とした感動さかきが飾られている写真"
+       class="bg-img" style="z-index:1;">
+  <div class="bg-overlay" style="z-index:2;
+    background:linear-gradient(160deg,rgba(10,30,18,.9) 0%,rgba(10,30,18,.75) 100%);">
+  </div>
+
+  <div class="scene-body" style="max-width:680px;margin:0 auto;width:100%;
+    padding:64px 22px;text-align:center;">
+
+    <p class="eyebrow eyebrow-light">FINAL MESSAGE</p>
+    <h2 style="color:var(--white);font-size:clamp(20px,5.5vw,28px);
+      margin-bottom:16px;text-shadow:0 2px 12px rgba(0,0,0,.3);">
+      榊がきれいだと、<br>毎日、気持ちまで整います。
+    </h2>
+    <div class="rule rule-light" style="margin:16px auto 24px;"></div>
+
+    <p style="color:rgba(255,255,255,.78);font-size:clamp(13px,3.4vw,15px);
+      line-height:1.9;margin-bottom:36px;">
+      水換えをしてもすぐ枯れる。<br>
+      買ったばかりなのに葉に張りがない。<br>
+      そんな方は、まずは一度、<br>注文後採取の天然本榊をお試しください。
+    </p>
+
+    <a href="#purchase" class="btn btn-white" style="max-width:340px;margin:0 auto 10px;">
+      まずはお試し購入する
+    </a>
+    <p style="color:rgba(255,255,255,.45);font-size:12px;margin-top:10px;">
+      35cm一対 <span style="text-decoration:line-through;opacity:.7;">通常1,580円</span> → 期間限定 税込980円 / 送料無料
+    </p>
+  </div>
+</section>
+
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p class="footer-brand">感動さかき</p>
+  <div class="footer-links">
+    <a href="#">特定商取引法に基づく表記</a>
+    <a href="#">プライバシーポリシー</a>
+    <a href="#">返品・交換について</a>
+    <a href="#">お問い合わせ</a>
+  </div>
+  <p style="font-size:11px;opacity:.4;">© 感動さかき All Rights Reserved.</p>
+</footer>
+
+
+<!-- ─── FIXED BOTTOM BAR ─── -->
+<div class="fixed-bar" id="fixedBar">
+  <div class="fixed-bar-inner">
+    <div class="fixed-bar-copy">
+      <strong>期間限定価格</strong>
+      35cm一対 ¥980（送料無料）
+    </div>
+    <a href="#purchase" class="btn btn-primary">お試し購入する</a>
+  </div>
+</div>
+
+
+<script>
+  /* FAQ accordion */
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var item=btn.closest('.faq-item');
+      var wasOpen=item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(el){
+        el.classList.remove('open');
+        el.querySelector('.faq-q').setAttribute('aria-expanded','false');
+      });
+      if(!wasOpen){
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+      }
+    });
+  });
+
+  /* Fixed bar visibility */
+  var fixedBar=document.getElementById('fixedBar');
+  var hero=document.querySelector('.photo-scene');
+  var footer=document.querySelector('footer');
+  function updateBar(){
+    var heroBottom=hero.getBoundingClientRect().bottom;
+    var footerTop=footer.getBoundingClientRect().top;
+    var show=(heroBottom<60)&&(footerTop>window.innerHeight);
+    fixedBar.style.opacity=show?'1':'0';
+    fixedBar.style.pointerEvents=show?'auto':'none';
+  }
+  fixedBar.style.transition='opacity .3s';
+  window.addEventListener('scroll',updateBar,{passive:true});
+  updateBar();
+</script>
+
+</body>
+</html>

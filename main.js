@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <li><a href="bbq">BBQ（プレミアム）</a></li>
                     <li><a href="dogrun">ドッグラン</a></li>
                     <li><a href="story">こだわりとストーリー</a></li>
+                    <li><a href="sakaki">感動さかき</a></li>
                     <li><a href="access">アクセス</a></li>
                     <li style="margin-top: 24px; border-top: 1px dashed var(--color-main); padding-top: 24px;"><a href="simulation.html" style="color: var(--color-accent); font-weight: bold;">料金シミュレーション</a></li>
                 </ul>
