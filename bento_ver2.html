@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>夜専用うなぎ弁当の宅配｜七宗遊園</title>
-  <meta name="description" content="七宗町内配達無料。たまには家でうなぎを。三河産うなぎを使った夜専用うなぎ弁当を木曜・金曜の夕方にお届けします。前日17:00までの完全予約制。" />
+  <meta name="description" content="七宗町内配達無料。三河産うなぎを使った夜専用弁当を金曜・土曜・日曜にお届けします。前日17:00までの完全予約制です。" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600;700;900&display=swap" rel="stylesheet">
@@ -399,6 +399,108 @@
       margin-bottom: 14px;
     }
 
+
+    .price-offer {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .regular-price {
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .regular-price s {
+      text-decoration-thickness: 2px;
+      text-decoration-color: var(--brown-3);
+    }
+
+    .special-label {
+      display: inline-block;
+      color: var(--brown-3);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .menu-price-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 10px;
+      margin-top: 5px;
+    }
+
+    .menu-old-price {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .menu-old-price s {
+      text-decoration-thickness: 2px;
+      text-decoration-color: var(--brown-3);
+    }
+
+    .menu-sale-price {
+      color: var(--brown-3);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .footer {
+      position: relative;
+      padding: 44px 0 36px;
+      background:
+        radial-gradient(circle at top center, rgba(196,154,69,.18), transparent 18rem),
+        linear-gradient(180deg, #4a2f1b 0%, #2f1d12 100%);
+      color: #fff7e8;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    .footer::before {
+      content: "";
+      display: block;
+      width: 54px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 22px;
+    }
+
+    .footer-copy {
+      margin-top: 8px;
+      color: #ead9bf;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .footer-contact {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      font-size: 13px;
+      color: #f3e5cf;
+      line-height: 1.9;
+    }
+
+    .footer-contact a {
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      font-size: 11px;
+      color: rgba(255,247,232,.62);
+      letter-spacing: .04em;
+    }
+
     .scene-grid {
       display: grid;
       gap: 10px;
@@ -565,26 +667,6 @@
       font-weight: 700;
     }
 
-    .footer {
-      padding: 32px 0;
-      background: var(--brown);
-      color: #fff7e8;
-      text-align: center;
-    }
-
-    .footer-name {
-      font-family: "Noto Serif JP", serif;
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: .08em;
-    }
-
-    .footer-info {
-      font-size: 13px;
-      color: #ead9bf;
-      margin-top: 8px;
-      line-height: 1.8;
-    }
 
     .floating-cta {
       position: fixed;
@@ -1061,7 +1143,7 @@
           <div class="conditions" aria-label="注文条件">
             <div class="condition">七宗町内<br>配達無料</div>
             <div class="condition">前日17:00<br>まで</div>
-            <div class="condition">木曜・金曜<br>限定</div>
+            <div class="condition">金・土・日<br>限定</div>
             <div class="condition">お弁当<br>2個から</div>
           </div>
         </div>
@@ -1084,7 +1166,7 @@
       <!--セクション３-->
       <section class="product">
         <div class="container">
-          <div class="product-photo" role="img" aria-label="うなぎ弁当の写真"></div>
+          <div class="product-photo" role="img" aria-label="三河産 うなぎ弁当の写真"></div>
 
           <div class="card">
             <span class="badge">三河産うなぎ使用</span>
@@ -1095,10 +1177,14 @@
 
             <div class="price-row">
               <div>
-                <div class="price-label">うなぎ弁当</div>
+                <div class="price-label">三河産 うなぎ弁当</div>
                 <div class="price-label">七宗町内 配達無料</div>
               </div>
-              <div class="price"><small>税込</small>2,500円</div>
+              <div class="price-offer">
+                <div class="regular-price">通常 <s>3,300円</s></div>
+                <span class="special-label">期間限定価格</span>
+                <div class="price"><small>税込</small>2,700円</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1109,7 +1195,7 @@
         <div class="container">
           <h2>月一回<br>うなぎの日を。</h2>
           <p class="lead">
-            毎日のごはんを大切にしながら、<br>たまには少し気分を変えて。<br>毎週木曜・金曜の夜に<br>うなぎを囲む時間をお届けします。
+            毎日のごはんを大切にしながら、<br>たまには少し気分を変えて。<br>毎週金・土・日の夜に<br>うなぎを囲む時間をお届けします。
           </p>
 
           <div class="scene-item">
@@ -1158,64 +1244,48 @@
         <div class="container">
           <h2>お品書き</h2>
           <p class="lead">
-            うなぎ弁当を中心に飛騨牛サーロイン弁当や<br>汁物もご用意しています。
+            三河産うなぎを使った<br>三つのお弁当をご用意しています。
           </p>
 
           <div class="menu-list">
             <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/una.JPG" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
+              <div class="menu-thumb">
+                <img src="lunchbox_images/una.JPG" alt="三河産うなぎ弁当" onerror="this.remove(); this.parentElement.textContent='うなぎ';">
+              </div>
               <div>
-                <div class="menu-name">うなぎ弁当</div>
-                <div class="menu-desc">税込 2,500円 / 三河産うなぎ使用</div>
+                <div class="menu-name">三河産 うなぎ弁当</div>
+                <div class="menu-price-wrap">
+                  <span class="menu-old-price">通常 <s>3,300円</s></span>
+                  <span class="menu-sale-price">税込 2,700円</span>
+                </div>
+                <div class="menu-desc">三河産うなぎ使用</div>
               </div>
             </div>
+
             <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/hidagyuu.png" alt="" onerror="this.remove(); this.parentElement.textContent='飛騨牛';"></div>
+              <div class="menu-thumb">
+                <img src="lunchbox_images/una.JPG" alt="三河産ひつまぶし弁当" onerror="this.remove(); this.parentElement.textContent='ひつまぶし';">
+              </div>
               <div>
-                <div class="menu-name">飛騨牛サーロイン弁当</div>
-                <div class="menu-desc">税込 2,500円 / 飛騨牛サーロイン使用</div>
+                <div class="menu-name">三河産 ひつまぶし弁当</div>
+                <div class="menu-price-wrap">
+                  <span class="menu-old-price">通常 <s>3,500円</s></span>
+                  <span class="menu-sale-price">税込 2,900円</span>
+                </div>
+                <div class="menu-desc">薬味とだしで味わう一品</div>
               </div>
             </div>
+
             <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/una.JPG" alt="" onerror="this.remove(); this.parentElement.textContent='うなぎ';"></div>
-              <div>
-                <div class="menu-name">飛騨牛サーロイン＆うなぎ弁当</div>
-                <div class="menu-desc">税込 2,800円 / 特別な夜にどうぞ</div>
+              <div class="menu-thumb">
+                <img src="lunchbox_images/hidagyuu.png" alt="極み うな牛まぶし弁当" onerror="this.remove(); this.parentElement.textContent='うな牛';">
               </div>
-            </div>
-            <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/soup.png" alt="" onerror="this.remove(); this.parentElement.textContent='汁物';"></div>
               <div>
-                <div class="menu-name">お味噌汁</div>
-                <div class="menu-desc">350円</div>
-              </div>
-            </div>
-            <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/soup.png" alt="" onerror="this.remove(); this.parentElement.textContent='汁物';"></div>
-              <div>
-                <div class="menu-name">肝吸い</div>
-                <div class="menu-desc">350円</div>
-              </div>
-            </div>
-            <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/cola.png" alt="" onerror="this.remove(); this.parentElement.textContent='飲み物';"></div>
-              <div>
-                <div class="menu-name">缶コーラ</div>
-                <div class="menu-desc">250ml 200円</div>
-              </div>
-            </div>
-            <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/ocha.png" alt="" onerror="this.remove(); this.parentElement.textContent='飲み物';"></div>
-              <div>
-                <div class="menu-name">おーいお茶</div>
-                <div class="menu-desc">500ml 200円</div>
-              </div>
-            </div>
-            <div class="menu-item">
-              <div class="menu-thumb"><img src="lunchbox_images/source.png" alt="" onerror="this.remove(); this.parentElement.textContent='追加';"></div>
-              <div>
-                <div class="menu-name">さらに美味しく</div><small>※タレは付属しています。追加で欲しい方はご注文ください。</small>
-                <div class="menu-desc">うなぎタレ 150円 / 山椒 150円</div>
+                <div class="menu-name">極み うな牛まぶし弁当</div>
+                <div class="menu-price-wrap">
+                  <span class="menu-sale-price">税込 3,500円</span>
+                </div>
+                <div class="menu-desc">うなぎと飛騨牛のごちそう弁当</div>
               </div>
             </div>
           </div>
@@ -1250,10 +1320,10 @@
 
             <div class="rule">
               <div class="rule-icon">
-                <img src="lunchbox_images/week.png" alt="木曜金曜のみ">
+                <img src="lunchbox_images/week.png" alt="金土日のみ">
               </div>
               <div>
-                <div class="rule-title">木曜・金曜のみ</div>
+                <div class="rule-title">金・土・日限定</div>
                 <div class="rule-sub">限定お届け</div>
               </div>
             </div>
@@ -1283,8 +1353,8 @@
                 <img src="lunchbox_images/cash.png" alt="現金引き換え">
               </div>
               <div>
-                <div class="rule-title">安心の現金引き換え</div>
-                <div class="rule-sub">配達時のお支払い</div>
+                <div class="rule-title">受け取り時に現金支払い</div>
+                <div class="rule-sub">商品受け取り時</div>
               </div>
             </div>
         </div>
@@ -1317,19 +1387,7 @@
               </div>
             </details>
 
-            <details class="faq-item">
-              <summary>Q. 6月18日・19日以外も頼めるの？</summary>
-              <div class="faq-answer">
-                <p>はい、木曜・金曜限定でご予約いただけます。ただし、2,500円の記念価格とお茶サービスは6月18日・19日のご注文分限定です。</p>
-              </div>
-            </details>
 
-            <details class="faq-item">
-              <summary>Q. 飛騨牛弁当もお茶サービスつくの？</summary>
-              <div class="faq-answer">
-                <p>はい。6月18日・19日のご注文分は、お弁当1個につきおーいお茶を1本サービスします。</p>
-              </div>
-            </details>
 
             <details class="faq-item">
               <summary>Q. 配達料はかかるの？</summary>
@@ -1346,7 +1404,7 @@
         <div class="container">
           <h2>今週の<br>うなぎ弁当を<br>予約する。</h2>
           <p class="lead">
-            必要事項を入力するだけ。<br>木曜・金曜の15:00〜18:00にお届けします。
+            必要事項を入力するだけ。<br>金・土・日の15:00〜18:00にお届けします。
           </p>
 
           <button class="btn btn-line js-open-modal page-cta" type="button">LINEでかんたん予約</button>
@@ -1364,9 +1422,18 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-name">七宗遊園</div>
-        <div class="footer-info">
-          夜専用弁当の宅配<br>
-          電話：0574-46-1128
+        <div class="footer-copy">夜の食卓に、少し特別なひとときを。</div>
+
+        <div class="footer-contact">
+          <div>夜専用弁当の宅配</div>
+          <div>ご予約・お問い合わせ</div>
+          <a href="tel:0574461128">TEL 0574-46-1128</a><br>
+          <span>受付時間 10:00〜17:00</span><br>
+          <span>定休日 第2・第4火曜日</span>
+        </div>
+
+        <div class="footer-note">
+          © 七宗遊園 All Rights Reserved.
         </div>
       </div>
     </footer>
@@ -1405,7 +1472,7 @@
               <select id="deliveryDate" required>
                 <option value="">配達日を選択してください</option>
               </select>
-              <div class="help">毎週木曜・金曜のみ表示されます。</div>
+              <div class="help">毎週金・土・日のみ表示されます。</div>
             </div>
           </div>
 
@@ -1438,10 +1505,11 @@
 
           <div class="form-block">
             <div class="form-title">3. お弁当の数</div>
-            <div class="qty-row" data-item="うなぎ弁当" data-price="2500" data-category="bento">
+
+            <div class="qty-row" data-item="三河産 うなぎ弁当" data-price="2700" data-category="bento">
               <div>
-                <div class="qty-name">うなぎ弁当</div>
-                <div class="qty-price">税込 2,500円</div>
+                <div class="qty-name">三河産 うなぎ弁当</div>
+                <div class="qty-price">通常3,300円 → 税込2,700円</div>
               </div>
               <div class="qty-control">
                 <button class="qty-btn" type="button" data-action="minus">−</button>
@@ -1450,10 +1518,22 @@
               </div>
             </div>
 
-            <div class="qty-row" data-item="飛騨牛サーロイン弁当" data-price="2500" data-category="bento">
+            <div class="qty-row" data-item="三河産 ひつまぶし弁当" data-price="2900" data-category="bento">
               <div>
-                <div class="qty-name">飛騨牛サーロイン弁当</div>
-                <div class="qty-price">税込 2,500円</div>
+                <div class="qty-name">三河産 ひつまぶし弁当</div>
+                <div class="qty-price">通常3,500円 → 税込2,900円</div>
+              </div>
+              <div class="qty-control">
+                <button class="qty-btn" type="button" data-action="minus">−</button>
+                <div class="qty-num">0</div>
+                <button class="qty-btn" type="button" data-action="plus">＋</button>
+              </div>
+            </div>
+
+            <div class="qty-row" data-item="極み うな牛まぶし弁当" data-price="3500" data-category="bento">
+              <div>
+                <div class="qty-name">極み うな牛まぶし弁当</div>
+                <div class="qty-price">税込3,500円</div>
               </div>
               <div class="qty-control">
                 <button class="qty-btn" type="button" data-action="minus">−</button>
@@ -1466,41 +1546,7 @@
           </div>
 
           <div class="form-block">
-            <div class="form-title">4. 追加注文</div>
-
-            <div class="qty-row" data-item="肝吸い" data-price="350">
-              <div><div class="qty-name">肝吸い</div><div class="qty-price">350円</div></div>
-              <div class="qty-control"><button class="qty-btn" type="button" data-action="minus">−</button><div class="qty-num">0</div><button class="qty-btn" type="button" data-action="plus">＋</button></div>
-            </div>
-
-            <div class="qty-row" data-item="お味噌汁" data-price="350">
-              <div><div class="qty-name">お味噌汁</div><div class="qty-price">350円</div></div>
-              <div class="qty-control"><button class="qty-btn" type="button" data-action="minus">−</button><div class="qty-num">0</div><button class="qty-btn" type="button" data-action="plus">＋</button></div>
-            </div>
-
-            <div class="qty-row" data-item="追加タレ" data-price="150">
-              <div><div class="qty-name">追加タレ</div><div class="qty-price">150円</div></div>
-              <div class="qty-control"><button class="qty-btn" type="button" data-action="minus">−</button><div class="qty-num">0</div><button class="qty-btn" type="button" data-action="plus">＋</button></div>
-            </div>
-
-            <div class="qty-row" data-item="山椒" data-price="150">
-              <div><div class="qty-name">山椒</div><div class="qty-price">150円</div></div>
-              <div class="qty-control"><button class="qty-btn" type="button" data-action="minus">−</button><div class="qty-num">0</div><button class="qty-btn" type="button" data-action="plus">＋</button></div>
-            </div>
-
-            <div class="qty-row" data-item="缶コーラ250ml" data-price="200">
-              <div><div class="qty-name">缶コーラ250ml</div><div class="qty-price">200円</div></div>
-              <div class="qty-control"><button class="qty-btn" type="button" data-action="minus">−</button><div class="qty-num">0</div><button class="qty-btn" type="button" data-action="plus">＋</button></div>
-            </div>
-
-            <div class="qty-row" data-item="おーいお茶" data-price="200">
-              <div><div class="qty-name">おーいお茶</div><div class="qty-price">200円</div></div>
-              <div class="qty-control"><button class="qty-btn" type="button" data-action="minus">−</button><div class="qty-num">0</div><button class="qty-btn" type="button" data-action="plus">＋</button></div>
-            </div>
-          </div>
-
-          <div class="form-block">
-            <div class="form-title">5. 備考</div>
+            <div class="form-title">4. 備考</div>
             <div class="field">
               <label for="note">備考・ご希望</label>
               <textarea id="note" placeholder="例：18時前だと助かります"></textarea>
@@ -1576,7 +1622,7 @@
         const date = new Date(now);
         date.setDate(now.getDate() + i);
         const day = date.getDay();
-        if (day !== 4 && day !== 5) continue;
+        if (day !== 5 && day !== 6 && day !== 0) continue;
 
         const value = date.toISOString().split("T")[0];
         options.push({ value, label: formatDateLabel(date) });
