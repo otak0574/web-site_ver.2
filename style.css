@@ -1567,3 +1567,496 @@ section:not(.page-hero):not(.dogrun-hero) .hero-text p {
   0% { opacity: 0.3; transform: scale(0.8); }
   100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px rgba(168, 230, 207, 0.8); }
 }
+
+/* ==========================================
+   鮎のつかみ取り
+========================================== */
+
+:root {
+  --ayu-navy: #173c46;
+  --ayu-blue: #2d8294;
+  --ayu-light-blue: #eaf7f8;
+  --ayu-yellow: #f3b83f;
+  --ayu-orange: #e97931;
+  --ayu-white: #ffffff;
+  --ayu-text: #283638;
+  --ayu-muted: #647476;
+  --ayu-border: #d9e4e5;
+  --ayu-radius: 18px;
+  --ayu-shadow: 0 12px 35px rgba(23, 60, 70, 0.12);
+}
+
+.ayu-container {
+  width: min(1100px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+.ayu-section-label {
+  margin: 0 0 8px;
+  color: var(--ayu-blue);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.ayu-page h2 {
+  margin: 0 0 28px;
+  color: var(--ayu-navy);
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.4;
+}
+
+.ayu-page p {
+  color: var(--ayu-text);
+  line-height: 1.9;
+}
+
+/* トップページ用 */
+
+.ayu-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  width: min(1180px, calc(100% - 40px));
+  margin: 60px auto;
+  overflow: hidden;
+  background: var(--ayu-white);
+  border-radius: 24px;
+  box-shadow: var(--ayu-shadow);
+}
+
+.ayu-top__image {
+  position: relative;
+  min-height: 500px;
+}
+
+.ayu-top__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ayu-top__badge {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  padding: 10px 18px;
+  color: var(--ayu-white);
+  background: var(--ayu-orange);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.ayu-top__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(34px, 5vw, 68px);
+}
+
+.ayu-top__eyecatch {
+  margin: 0 0 8px;
+  color: var(--ayu-blue);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.ayu-top__title {
+  margin: 0 0 22px;
+  color: var(--ayu-navy);
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.35;
+}
+
+.ayu-top__title span {
+  display: block;
+  color: var(--ayu-orange);
+  font-size: 0.75em;
+}
+
+.ayu-top__description {
+  margin: 0 0 25px;
+  color: var(--ayu-text);
+  line-height: 1.9;
+}
+
+.ayu-top__info {
+  padding: 0;
+  margin: 0 0 30px;
+  list-style: none;
+  border-top: 1px solid var(--ayu-border);
+}
+
+.ayu-top__info li {
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  gap: 15px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--ayu-border);
+}
+
+.ayu-top__info strong {
+  color: var(--ayu-blue);
+}
+
+.ayu-top__info span {
+  color: var(--ayu-text);
+}
+
+/* ボタン */
+
+.ayu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 58px;
+  padding: 14px 26px;
+  color: var(--ayu-white);
+  background: var(--ayu-orange);
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(233, 121, 49, 0.24);
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.ayu-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* 詳細ページメインビジュアル */
+
+.ayu-page-hero {
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+}
+
+.ayu-page-hero__image {
+  position: absolute;
+  inset: 0;
+}
+
+.ayu-page-hero__image::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(
+      90deg,
+      rgba(10, 42, 49, 0.8) 0%,
+      rgba(10, 42, 49, 0.4) 55%,
+      rgba(10, 42, 49, 0.08) 100%
+    );
+}
+
+.ayu-page-hero__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ayu-page-hero__overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(1100px, calc(100% - 40px));
+  min-height: 620px;
+  margin-inline: auto;
+}
+
+.ayu-page-hero__badge {
+  align-self: flex-start;
+  margin: 0 0 20px;
+  padding: 10px 18px;
+  color: var(--ayu-white) !important;
+  background: var(--ayu-orange);
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.ayu-page-hero h1 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--ayu-white);
+  font-size: clamp(38px, 7vw, 72px);
+  line-height: 1.25;
+}
+
+.ayu-page-hero h1 span {
+  display: block;
+  margin-top: 12px;
+  color: #fff2c8;
+  font-size: 0.62em;
+}
+
+.ayu-page-hero__overlay > p:last-child {
+  margin-top: 25px;
+  color: var(--ayu-white);
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 700;
+}
+
+/* 導入 */
+
+.ayu-introduction {
+  padding-block: 90px;
+  text-align: center;
+}
+
+.ayu-introduction p:not(.ayu-section-label) {
+  max-width: 760px;
+  margin: 0 auto 12px;
+}
+
+/* 体験の流れ */
+
+.ayu-flow {
+  padding-block: 90px;
+  background: var(--ayu-light-blue);
+}
+
+.ayu-flow__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.ayu-flow-card {
+  position: relative;
+  padding: 42px 30px 34px;
+  background: var(--ayu-white);
+  border-radius: var(--ayu-radius);
+  box-shadow: 0 8px 24px rgba(23, 60, 70, 0.08);
+}
+
+.ayu-flow-card__number {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--ayu-orange);
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.ayu-flow-card h3 {
+  margin: 0 0 12px;
+  color: var(--ayu-navy);
+  font-size: 22px;
+}
+
+/* 開催概要 */
+
+.ayu-details {
+  padding-block: 90px;
+}
+
+.ayu-details__list {
+  margin: 0;
+  border-top: 1px solid var(--ayu-border);
+}
+
+.ayu-details__list > div {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  border-bottom: 1px solid var(--ayu-border);
+}
+
+.ayu-details dt,
+.ayu-details dd {
+  padding: 22px 24px;
+}
+
+.ayu-details dt {
+  color: var(--ayu-navy);
+  background: #f3f8f8;
+  font-weight: 700;
+}
+
+.ayu-details dd {
+  margin: 0;
+  color: var(--ayu-text);
+}
+
+.ayu-details dd strong {
+  color: var(--ayu-orange);
+  font-size: 21px;
+}
+
+.ayu-details dd small {
+  display: block;
+  margin-top: 7px;
+  color: var(--ayu-muted);
+  line-height: 1.7;
+}
+
+/* 持ち物 */
+
+.ayu-preparation {
+  padding-block: 90px;
+  background: #fff9ed;
+}
+
+.ayu-preparation__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.ayu-preparation__item {
+  padding: 32px 26px;
+  text-align: center;
+  background: var(--ayu-white);
+  border-radius: var(--ayu-radius);
+}
+
+.ayu-preparation__item > span {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 38px;
+}
+
+.ayu-preparation__item h3 {
+  margin: 0 0 10px;
+  color: var(--ayu-navy);
+}
+
+/* 注意事項 */
+
+.ayu-notes {
+  padding-block: 75px;
+}
+
+.ayu-notes h2 {
+  font-size: clamp(25px, 3vw, 34px);
+}
+
+.ayu-notes ul {
+  padding: 24px 24px 24px 48px;
+  margin: 0;
+  background: #f6f8f8;
+  border-radius: var(--ayu-radius);
+}
+
+.ayu-notes li {
+  margin-bottom: 10px;
+  color: var(--ayu-text);
+  line-height: 1.8;
+}
+
+.ayu-notes li:last-child {
+  margin-bottom: 0;
+}
+
+/* 予約 */
+
+.ayu-reservation {
+  padding-block: 90px;
+  text-align: center;
+  background: var(--ayu-navy);
+}
+
+.ayu-reservation h2,
+.ayu-reservation p {
+  color: var(--ayu-white);
+}
+
+.ayu-reservation__label {
+  margin-bottom: 10px;
+  color: #fff2c8 !important;
+  font-weight: 700;
+}
+
+.ayu-reservation__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.ayu-button--phone {
+  background: var(--ayu-orange);
+}
+
+.ayu-reservation__notice {
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* スマートフォン */
+
+@media (max-width: 800px) {
+  .ayu-container {
+    width: min(100% - 28px, 1100px);
+  }
+
+  .ayu-top {
+    grid-template-columns: 1fr;
+    width: min(100% - 28px, 1180px);
+    margin-block: 35px;
+  }
+
+  .ayu-top__image {
+    min-height: 300px;
+  }
+
+  .ayu-top__content {
+    padding: 34px 24px;
+  }
+
+  .ayu-page-hero,
+  .ayu-page-hero__overlay {
+    min-height: 520px;
+  }
+
+  .ayu-page-hero__image::after {
+    background: rgba(10, 42, 49, 0.55);
+  }
+
+  .ayu-flow__grid,
+  .ayu-preparation__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ayu-details__list > div {
+    grid-template-columns: 1fr;
+  }
+
+  .ayu-details dt,
+  .ayu-details dd {
+    padding: 15px 18px;
+  }
+
+  .ayu-details dt {
+    padding-bottom: 8px;
+  }
+
+  .ayu-details dd {
+    padding-top: 8px;
+  }
+
+  .ayu-reservation__buttons {
+    flex-direction: column;
+  }
+
+  .ayu-button {
+    width: 100%;
+  }
+
+  .ayu-introduction,
+  .ayu-flow,
+  .ayu-details,
+  .ayu-preparation,
+  .ayu-reservation {
+    padding-block: 60px;
+  }
+}
