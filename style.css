@@ -2202,15 +2202,15 @@ body.ayu-detail-page .ayu-page > section.ayu-reservation .ayu-reservation__label
 
 /* 各カードの背景画像 */
 .ayu-flow-card--01 {
-  background-image: url("/images/ayu/2026ayu_3.JPG");
+  background-image: url("images/ayu/2026ayu_3.JPG");
 }
 
 .ayu-flow-card--02 {
-  background-image: url("/images/food1.jpg");
+  background-image: url("images/food1.jpg");
 }
 
 .ayu-flow-card--03 {
-  background-image: url("/images/restaurant/restaurant.jpeg");
+  background-image: url("images/restaurant/restaurant.jpeg");
 }
 
 /* 番号 */
