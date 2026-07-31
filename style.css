@@ -873,7 +873,7 @@ a {
 ======================================== */
 
 /* 1. ヒーロー以外の全セクションを独立したカードにする（HTML構造に依存しない最強の書き方） */
-body:not(.ayu-detail-page) section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero) {
+body:not(.ayu-detail-page) section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero):not(.aug-price-section) {
   margin: 24px 16px !important; 
   border-radius: 16px !important; 
   width: auto !important; 
@@ -882,13 +882,13 @@ body:not(.ayu-detail-page) section:not(.page-hero):not(.bbq-hero):not(.restauran
 }
 
 /* 2. 背景色を白にする（元から色が付いている特殊なセクションは除外） */
-body:not(.ayu-detail-page) section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero):not(.top-commitment):not(.story-closing) {
+body:not(.ayu-detail-page) section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero):not(.aug-price-section):not(.top-commitment):not(.story-closing) {
   background-color: #ffffff !important;
 }
 
 /* 3. PC向けの余白と幅の調整 */
 @media screen and (min-width: 768px) {
-  body:not(.ayu-detail-page) section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero) {
+  body:not(.ayu-detail-page) section:not(.page-hero):not(.bbq-hero):not(.restaurant-hero):not(.access-hero):not(.story-hero):not(.dogrun-hero):not(.top-hero):not(.aug-price-section) {
       margin: 40px auto !important;
       max-width: 1000px; 
   }
@@ -2279,4 +2279,432 @@ body.ayu-detail-page .ayu-page > section.ayu-reservation .ayu-reservation__label
   .ayu-flow-card .ayu-flow-card__content h3 {
     font-size: 22px;
   }
+}
+
+/* ========================================
+   8月限定プラン・料金案内
+======================================== */
+
+/* =========================================================
+   8月限定プラン・料金案内
+   このCSSを style.css の末尾に追加してください。
+
+   ・下記のカラーカスタム変数を変更すると全体を調整できます
+========================================================= */
+
+.aug-price-section {
+    --aug-color-text: #34433f;
+    --aug-color-heading: #214f4a;
+    --aug-color-primary: #d75d35;
+    --aug-color-primary-dark: #a94326;
+    --aug-color-secondary: #24736f;
+    --aug-color-border: #d8e5df;
+    --aug-color-surface: #ffffff;
+    --aug-color-background: #f2f8f5;
+    --aug-color-highlight: #fff0cf;
+
+    padding: 56px 20px;
+    color: var(--aug-color-text);
+    background:
+        radial-gradient(circle at top left, rgba(91, 164, 151, .13), transparent 34%),
+        linear-gradient(180deg, #f3faf7 0%, #fff9ef 100%);
+}
+
+.aug-price-section--white {
+    background: #ffffff;
+}
+
+.aug-price-inner {
+    width: min(1080px, 100%);
+    margin: 0 auto;
+}
+
+.aug-price-badge {
+    display: table;
+    margin: 0 auto 14px;
+    padding: 7px 17px;
+    border: 1px solid rgba(255, 255, 255, .34);
+    border-radius: 999px;
+    color: #ffffff;
+    background: var(--aug-color-secondary);
+    box-shadow: 0 5px 14px rgba(36, 115, 111, .18);
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.aug-price-section .aug-price-title {
+    margin: 0 0 16px;
+    color: var(--aug-color-heading);
+    text-align: center;
+    font-size: clamp(1.55rem, 5vw, 2.15rem);
+    line-height: 1.5;
+}
+
+.aug-price-lead {
+    max-width: 760px;
+    margin: 0 auto 28px;
+    color: var(--aug-color-text);
+    text-align: center;
+    line-height: 1.9;
+}
+
+/* 8月8日〜17日の＋300円案内 */
+.aug-price-lead .aug-price-emphasis {
+    display: block;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 12px 16px;
+    border: 1px solid #efc979;
+    border-left: 5px solid var(--aug-color-primary);
+    border-radius: 10px;
+    color: #8b3e25;
+    background: var(--aug-color-highlight);
+    box-shadow: 0 4px 12px rgba(130, 82, 34, .08);
+    font-weight: 700;
+    line-height: 1.65;
+}
+
+.aug-price-emphasis {
+    color: var(--aug-color-primary-dark);
+    font-weight: 700;
+}
+
+.aug-price-cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.aug-price-card {
+    position: relative;
+    overflow: hidden;
+    padding: 20px 15px 18px;
+    border: 1px solid var(--card-border, #d8e5df);
+    border-top: 5px solid var(--card-accent, var(--aug-color-secondary));
+    border-radius: 15px;
+    background: var(--card-background, #ffffff);
+    box-shadow: 0 7px 18px rgba(50, 75, 68, .08);
+}
+
+.aug-price-card::after {
+    content: "";
+    position: absolute;
+    right: -26px;
+    bottom: -30px;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background: var(--card-decoration, rgba(36, 115, 111, .08));
+    pointer-events: none;
+}
+
+/* カードごとの色分け */
+.aug-price-card:nth-child(1) {
+    --card-accent: #287a73;
+    --card-border: #bfddd7;
+    --card-background: #f3fbf9;
+    --card-decoration: rgba(40, 122, 115, .10);
+}
+
+.aug-price-card:nth-child(2) {
+    --card-accent: #3e78a3;
+    --card-border: #c7dcec;
+    --card-background: #f4f9fd;
+    --card-decoration: rgba(62, 120, 163, .10);
+}
+
+.aug-price-card:nth-child(3) {
+    --card-accent: #d36a3d;
+    --card-border: #edd0c2;
+    --card-background: #fff7f2;
+    --card-decoration: rgba(211, 106, 61, .10);
+}
+
+.aug-price-card:nth-child(4) {
+    --card-accent: #b0882d;
+    --card-border: #e7d8aa;
+    --card-background: #fffbef;
+    --card-decoration: rgba(176, 136, 45, .10);
+}
+
+.aug-price-card:nth-child(5) {
+    --card-accent: #7c668b;
+    --card-border: #ddd2e4;
+    --card-background: #faf7fc;
+    --card-decoration: rgba(124, 102, 139, .10);
+}
+
+.aug-price-card__number {
+    display: inline-grid;
+    place-items: center;
+    min-width: 34px;
+    height: 34px;
+    margin-bottom: 10px;
+    padding: 0 8px;
+    border-radius: 999px;
+    color: #ffffff;
+    background: var(--card-accent, var(--aug-color-secondary));
+    font-weight: 700;
+}
+
+.aug-price-card h3,
+.aug-price-card h4 {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 9px;
+    color: #293e39;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.aug-price-card p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #4a5a56;
+    font-size: .91rem;
+    line-height: 1.75;
+}
+
+.aug-price-notice {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 27px 22px;
+    border: 1px solid #efc979;
+    border-top: 5px solid var(--aug-color-primary);
+    border-radius: 16px;
+    color: var(--aug-color-text);
+    background:
+        linear-gradient(135deg, #fffaf0 0%, #ffffff 72%);
+    text-align: center;
+    box-shadow: 0 7px 20px rgba(83, 52, 30, .09);
+}
+
+.aug-price-period {
+    display: table;
+    margin: 0 auto 12px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    color: #ffffff;
+    background: var(--aug-color-primary);
+    font-weight: 700;
+}
+
+.aug-price-notice h3,
+.aug-price-notice h4 {
+    margin: 0 0 10px;
+    color: var(--aug-color-heading);
+    line-height: 1.55;
+}
+
+.aug-price-notice p {
+    margin: 0;
+    color: var(--aug-color-text);
+    line-height: 1.9;
+}
+
+.aug-price-button {
+    display: table;
+    margin: 25px auto 0;
+    padding: 13px 25px;
+    border: 1px solid var(--aug-color-secondary);
+    border-radius: 999px;
+    color: #ffffff;
+    background: var(--aug-color-secondary);
+    box-shadow: 0 6px 15px rgba(36, 115, 111, .18);
+    text-decoration: none;
+    font-weight: 700;
+    transition:
+        transform .2s ease,
+        background-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.aug-price-button:hover {
+    color: #ffffff;
+    background: #195f5c;
+    box-shadow: 0 8px 18px rgba(36, 115, 111, .24);
+    transform: translateY(-2px);
+}
+
+.aug-price-button:focus-visible {
+    outline: 3px solid rgba(215, 93, 53, .32);
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   料金専用ページ
+========================================================= */
+
+.aug-price-page-hero {
+    padding: 70px 20px 56px;
+    color: #ffffff;
+    background:
+        linear-gradient(rgba(24, 67, 63, .68), rgba(78, 45, 25, .60)),
+        url("images/ayu/2025ayu_2.JPG") center / cover no-repeat;
+    text-align: center;
+}
+
+.aug-price-page-hero .aug-price-badge {
+    background: #d75d35;
+}
+
+.aug-price-page-hero h1 {
+    margin: 0 0 14px;
+    color: #ffffff;
+    font-size: clamp(1.8rem, 7vw, 3rem);
+    line-height: 1.4;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .38);
+}
+
+.aug-price-page-hero p {
+    margin: 0;
+    color: #ffffff;
+    line-height: 1.9;
+}
+
+.aug-price-table-box {
+    margin-top: 26px;
+    padding: 23px;
+    border: 1px solid var(--aug-color-border);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(50, 75, 68, .08);
+}
+
+.aug-price-table-box h2,
+.aug-price-table-box h3 {
+    margin: 0 0 15px;
+    color: var(--aug-color-heading);
+    text-align: center;
+    line-height: 1.5;
+}
+
+.aug-price-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.aug-price-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.aug-price-table th,
+.aug-price-table td {
+    padding: 13px 12px;
+    border-right: 1px solid #dce8e3;
+    border-bottom: 1px solid #dce8e3;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.aug-price-table th:first-child,
+.aug-price-table td:first-child {
+    border-left: 1px solid #dce8e3;
+}
+
+.aug-price-table thead th {
+    border-top: 1px solid #dce8e3;
+    color: #ffffff;
+    background: var(--aug-color-secondary);
+}
+
+.aug-price-table thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.aug-price-table thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.aug-price-table tbody tr:nth-child(even) {
+    background: #f5faf8;
+}
+
+.aug-price-table td:first-child,
+.aug-price-table th:first-child {
+    text-align: left;
+    font-weight: 700;
+}
+
+.aug-price-table strong {
+    color: var(--aug-color-primary-dark);
+}
+
+.aug-price-notes {
+    margin: 20px 0 0;
+    padding: 18px 20px 18px 40px;
+    border-left: 5px solid #b0882d;
+    border-radius: 10px;
+    color: #4a534e;
+    background: #fffaf0;
+    line-height: 1.8;
+}
+
+.aug-price-notes li + li {
+    margin-top: 7px;
+}
+
+.aug-price-flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.aug-price-flow__item {
+    padding: 19px;
+    border: 1px solid #c9ded8;
+    border-radius: 14px;
+    color: var(--aug-color-text);
+    background: linear-gradient(180deg, #f3fbf9 0%, #ffffff 100%);
+    text-align: center;
+    box-shadow: 0 5px 16px rgba(50, 75, 68, .07);
+}
+
+.aug-price-flow__item strong {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--aug-color-secondary);
+}
+
+@media (max-width: 900px) {
+    .aug-price-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .aug-price-flow {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .aug-price-section {
+        padding: 46px 16px;
+    }
+
+    .aug-price-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .aug-price-card {
+        padding: 18px 16px;
+    }
+
+    .aug-price-table-box {
+        padding: 16px 12px;
+    }
+
+    .aug-price-notice {
+        padding: 22px 15px;
+    }
+
+    .aug-price-lead .aug-price-emphasis {
+        padding: 11px 13px;
+        text-align: left;
+    }
 }
